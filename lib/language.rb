@@ -1,0 +1,2 @@
+class Sprakd::Language
+end
