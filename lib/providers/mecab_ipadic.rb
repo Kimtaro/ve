@@ -31,9 +31,9 @@ class Sprakd
       end
 
       def works?
-        (["だっ\t助動詞,*,*,*,特殊・ダ,連用タ接続,だ,ダッ,ダッ\n",
-          "た\t助動詞,*,*,*,特殊・タ,基本形,た,タ,タ\n",
-          "EOS\n"] == parse('だった').tokens.collect { |t| t[:raw] })
+        (["だっ\t助動詞,*,*,*,特殊・ダ,連用タ接続,だ,ダッ,ダッ",
+          "た\t助動詞,*,*,*,特殊・タ,基本形,た,タ,タ",
+          "EOS"] == parse('だった').tokens.collect { |t| t[:raw] })
       end
   
       # Talks to the app and returns a parse object
@@ -75,21 +75,44 @@ class Sprakd
       def initialize(text, output)
         @tokens = []
         @text = text
+        position = 0
         
-        output.each do |line|
+        output.each_with_index do |line, index|
+          line.rstrip!
           token = {:raw => line}
+          
+          # Anything unparsed at the end of the text
+          if output.size == index + 1
+            unparsed_md = %r{(.*?) $}x.match(text, position)
+            if unparsed_md[1].length > 0
+              unparsed_token = {:type => :unparsed, :literal => unparsed_md[1], :raw => ''}
+              @tokens << unparsed_token
+            end
+          end
           
           if line =~ %r{^ EOS $}x
             token[:type] = :sentence_split
-          else
-            token[:type] = :token
-            PARSER.match(line) do |md|
-              token[:literal] = md[1]
-              info = md[2].split(',')
-              [:pos, :i1, :i2, :i3, :katsuyougata, :katsuyoukei, :lemma, :yomi, :hatsuon].each_with_index do |attr, i|
-                token[attr] = info[i]
-              end
+            token[:literal] = ''
+          elsif md = PARSER.match(line)
+            # The parsed token
+            token[:type] = :parsed
+            token[:literal] = md[1]
+            info = md[2].split(',')
+            [:pos, :i1, :i2, :i3, :katsuyougata, :katsuyoukei, :lemma, :yomi, :hatsuon].each_with_index do |attr, i|
+              token[attr] = info[i]
             end
+            
+            # Anything unparsed preceding this token
+            unparsed_md = %r{(.*?) #{Regexp.quote(token[:literal])}}x.match(text, position)
+            if unparsed_md[1].length > 0
+              unparsed_token = {:type => :unparsed, :literal => unparsed_md[1]}
+              @tokens << unparsed_token
+              position += unparsed_token[:literal].length
+            end
+            
+            position += token[:literal].length
+          else
+            # C'est une catastrophe
           end
 
           @tokens << token
@@ -98,6 +121,29 @@ class Sprakd
       
       # TODO: Memoize
       def words
+      end
+      
+      def sentences
+        sentences = []
+        current = ''
+        
+        @tokens.each do |token|
+          if token[:type] == :sentence_split
+            sentences << current
+            current = ''
+          elsif token[:literal] == '。'
+            current << token[:literal]
+            sentences << current
+            current = ''
+          else
+            current << token[:literal]
+          end
+        end
+        
+        # In case there is no :sentence_split at the end
+        sentences << current if current.length > 0
+        
+        sentences
       end
         
     end
