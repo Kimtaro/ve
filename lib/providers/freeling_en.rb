@@ -33,12 +33,12 @@ class Sprakd
       end
 
       def works?
-        ([] == parse('Wrote').tokens.collect { |t| t[:raw] })
+        (["Wrote write VBD 1"] == parse('Wrote').tokens.collect { |t| t[:raw] })
       end
   
       # Talks to the app and returns a parse object
       def parse(text)
-        @stdin.puts "#{text} #{BIT_STOP}\n"
+        @stdin.puts "#{text}\n#{BIT_STOP}\n"
         output = []
         
         while line = @stdout.readline
@@ -69,7 +69,6 @@ class Sprakd
   class Parse
     class FreelingEn < Sprakd::Parse
       
-      PARSER = %r{^ (.+?) \t (.+) }x
       attr_reader :tokens, :text
       
       def initialize(text, output)
@@ -79,40 +78,33 @@ class Sprakd
         
         output.each_with_index do |line, index|
           line.rstrip!
+          next if line.size < 1
           token = {:raw => line}
           
-          # Anything unparsed at the end of the text
-          if output.size == index + 1
-            unparsed_md = %r{(.*? \Z\n?)}mx.match(text, position)
-            if unparsed_md[1].length > 0
-              unparsed_token = {:type => :unparsed, :literal => unparsed_md[1], :raw => ''}
-              @tokens << unparsed_token
-            end
+          # The parsed token
+          info = line.split(/\s/)
+          token[:type] = :parsed
+          [:literal, :lemma, :pos, :accuracy].each_with_index do |attr, i|
+            token[attr] = info[i]
           end
           
-          if md = PARSER.match(line)
-            # The parsed token
-            token[:type] = :parsed
-            token[:literal] = md[1]
-            info = md[2].split(',')
-            [:pos, :i1, :i2, :i3, :katsuyougata, :katsuyoukei, :lemma, :yomi, :hatsuon].each_with_index do |attr, i|
-              token[attr] = info[i]
-            end
-            
-            # Anything unparsed preceding this token
-            unparsed_md = %r{(.*?) #{Regexp.quote(token[:literal])}}mx.match(text, position)
-            if unparsed_md[1].length > 0
-              unparsed_token = {:type => :unparsed, :literal => unparsed_md[1]}
-              @tokens << unparsed_token
-              position += unparsed_token[:literal].length
-            end
-            
-            position += token[:literal].length
-          else
-            # C'est une catastrophe
+          # Anything unparsed preceding this token
+          unparsed_md = %r{(.*?) #{Regexp.quote(token[:literal])}}mx.match(text, position)
+          if unparsed_md && unparsed_md[1].length > 0
+            unparsed_token = {:type => :unparsed, :literal => unparsed_md[1]}
+            @tokens << unparsed_token
+            position += unparsed_token[:literal].length
           end
 
+          position += token[:literal].length
           @tokens << token
+        end
+
+        # Anything unparsed at the end of the text
+        unparsed_md = %r{(.*? \Z\n?)}mx.match(text, position)
+        if unparsed_md[1].length > 0
+          unparsed_token = {:type => :unparsed, :literal => unparsed_md[1], :raw => ''}
+          @tokens << unparsed_token
         end
       end
       

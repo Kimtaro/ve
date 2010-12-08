@@ -19,7 +19,7 @@ class FreelingEnTest < Test::Unit::TestCase
   def test_all_literals_should_equal_the_input_text
     text = <<-EOS
     There once was a man from X
-    Who took it upon him to Y
+    Who took it upon himself to Y
     Z
     
     EOS
@@ -31,8 +31,8 @@ class FreelingEnTest < Test::Unit::TestCase
   def test_creates_tokens_from_data_that_is_ignored_in_parsing
     freeling = Sprakd::Provider::FreelingEn.new
     parse = freeling.parse('A   B  ')
-    assert_equal [:parsed, :unparsed, :parsed, :unparsed, :sentence_split], parse.tokens.collect { |t| t[:type] }
-    assert_equal ['A', '   ', 'B', '  ', ''], parse.tokens.collect { |t| t[:literal] }
+    assert_equal [:parsed, :unparsed, :parsed, :unparsed], parse.tokens.collect { |t| t[:type] }
+    assert_equal ['A', '   ', 'B', '  '], parse.tokens.collect { |t| t[:literal] }
   end
   
   def test_can_give_sentences
