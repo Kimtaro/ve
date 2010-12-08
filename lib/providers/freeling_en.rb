@@ -4,19 +4,20 @@ require 'open3'
 
 class Sprakd
   class Provider
-    class MecabIpadic < Sprakd::Provider
+    class FreelingEn < Sprakd::Provider
 
       BIT_STOP = 'SprakdEnd'
   
       def initialize(config = {})
-        # TODO: Make config handling better
-        @config = {:app => 'mecab',
+        @config = {:app => 'analyzer',
                    :path => '',
                    :flags => ''}.merge(config)
     
-        @config[:app] = `which #{@config[:app]}`
-        @is_working = false
+        @config[:app] = `which #{@config[:app]}`.strip!
+        local = @config[:app] =~ /local/ ? '/local' : ''
+        @config[:flags] = "-f /usr#{local}/share/FreeLing/config/en.cfg --flush"
         
+        @is_working = false        
         start!
       end
   
@@ -27,36 +28,34 @@ class Sprakd
       # Interface methods
   
       def provides
-        {:language => :ja,
-         :features => [:words, :sentences, :parts_of_speech, :morphological_info]}
+        {:language => :en,
+         :features => [:words, :sentences, :parts_of_speech]}
       end
 
       def works?
-        (["だっ\t助動詞,*,*,*,特殊・ダ,連用タ接続,だ,ダッ,ダッ",
-          "た\t助動詞,*,*,*,特殊・タ,基本形,た,タ,タ",
-          "EOS"] == parse('だった').tokens.collect { |t| t[:raw] })
+        ([] == parse('Wrote').tokens.collect { |t| t[:raw] })
       end
   
       # Talks to the app and returns a parse object
       def parse(text)
-        @stdin.puts "#{text} #{BIT_STOP}"
+        @stdin.puts "#{text} #{BIT_STOP}\n"
         output = []
         
         while line = @stdout.readline
           if line =~ /#{BIT_STOP}/x
-            output << @stdout.readline # Catch the EOS
+            @stdout.readline
             break
           end
           output << line
         end
         
-        Sprakd::Parse::MecabIpadic.new(text, output)
+        Sprakd::Parse::FreelingEn.new(text, output)
       end
 
       private
   
       def start!
-        @stdin, @stdout, @stderr = Open3.popen3(@config[:app])
+        @stdin, @stdout, @stderr = Open3.popen3("#{@config[:app]} #{@config[:flags]}")
         @is_working = works?
       rescue
         @is_working = false
@@ -68,7 +67,7 @@ end
 
 class Sprakd
   class Parse
-    class MecabIpadic < Sprakd::Parse
+    class FreelingEn < Sprakd::Parse
       
       PARSER = %r{^ (.+?) \t (.+) }x
       attr_reader :tokens, :text
@@ -91,10 +90,7 @@ class Sprakd
             end
           end
           
-          if line =~ %r{^ EOS $}x
-            token[:type] = :sentence_split
-            token[:literal] = ''
-          elsif md = PARSER.match(line)
+          if md = PARSER.match(line)
             # The parsed token
             token[:type] = :parsed
             token[:literal] = md[1]
@@ -130,10 +126,6 @@ class Sprakd
         
         @tokens.each do |token|
           if token[:type] == :sentence_split
-            sentences << current
-            current = ''
-          elsif token[:literal] == '。'
-            current << token[:literal]
             sentences << current
             current = ''
           else
