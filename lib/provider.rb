@@ -17,3 +17,8 @@ class Sprakd
 
   end  
 end
+
+class Sprakd
+  class Parse
+  end
+end
