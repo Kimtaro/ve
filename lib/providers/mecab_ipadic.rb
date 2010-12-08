@@ -83,7 +83,7 @@ class Sprakd
           
           # Anything unparsed at the end of the text
           if output.size == index + 1
-            unparsed_md = %r{(.*?) $}x.match(text, position)
+            unparsed_md = %r{(.*? \Z\n?)}mx.match(text, position)
             if unparsed_md[1].length > 0
               unparsed_token = {:type => :unparsed, :literal => unparsed_md[1], :raw => ''}
               @tokens << unparsed_token
@@ -103,7 +103,7 @@ class Sprakd
             end
             
             # Anything unparsed preceding this token
-            unparsed_md = %r{(.*?) #{Regexp.quote(token[:literal])}}x.match(text, position)
+            unparsed_md = %r{(.*?) #{Regexp.quote(token[:literal])}}mx.match(text, position)
             if unparsed_md[1].length > 0
               unparsed_token = {:type => :unparsed, :literal => unparsed_md[1]}
               @tokens << unparsed_token

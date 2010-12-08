@@ -16,6 +16,18 @@ class MecabIpadicTest < Test::Unit::TestCase
     assert_equal Sprakd::Parse::MecabIpadic, parse.class
   end
   
+  def test_all_literals_should_equal_the_input_text
+    text = <<-EOS
+    古池や
+    蛙飛び込む
+    水の音
+    
+    EOS
+    mecab = Sprakd::Provider::MecabIpadic.new
+    parse = mecab.parse(text)
+    assert_equal text, parse.tokens.collect { |t| t[:literal] }.join
+  end
+  
   def test_creates_tokens_from_data_that_is_ignored_in_parsing
     mecab = Sprakd::Provider::MecabIpadic.new
     parse = mecab.parse('A   B  ')
