@@ -83,7 +83,7 @@ class Sprakd
           token = {:raw => line}
           
           # Anything unparsed at the end of the text
-          if output.size == index + 1
+          if output.size > 1 && output.size == index + 1
             unparsed_md = %r{(.*? \Z\n?)}mx.match(text, position)
             if unparsed_md[1].length > 0
               unparsed_token = {:type => :unparsed, :literal => unparsed_md[1], :raw => ''}

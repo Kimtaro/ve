@@ -33,7 +33,7 @@ class Sprakd
       end
 
       def works?
-        (["Wrote write VBD 1"] == parse('Wrote').tokens.collect { |t| t[:raw] })
+        (["Wrote write VBD 1", ""] == parse('Wrote').tokens.collect { |t| t[:raw] })
       end
   
       # Talks to the app and returns a parse object
@@ -78,8 +78,24 @@ class Sprakd
         
         output.each_with_index do |line, index|
           line.rstrip!
-          next if line.size < 1
           token = {:raw => line}
+
+          # Anything unparsed at the end of the text
+          if output.size > 1 && output.size == index + 1
+            unparsed_md = %r{(.*? \Z\n?)}mx.match(text, position)
+            if unparsed_md[1].length > 0
+              unparsed_token = {:type => :unparsed, :literal => unparsed_md[1], :raw => ''}
+              @tokens << unparsed_token
+            end
+          end
+            
+          # Sentence splits are just empty lines in Freeling
+          if line.size == 0
+            token[:type] = :sentence_split
+            token[:literal] = ''
+            @tokens << token
+            next
+          end
           
           # The parsed token
           info = line.split(/\s/)
@@ -98,13 +114,6 @@ class Sprakd
 
           position += token[:literal].length
           @tokens << token
-        end
-
-        # Anything unparsed at the end of the text
-        unparsed_md = %r{(.*? \Z\n?)}mx.match(text, position)
-        if unparsed_md[1].length > 0
-          unparsed_token = {:type => :unparsed, :literal => unparsed_md[1], :raw => ''}
-          @tokens << unparsed_token
         end
       end
       
@@ -127,7 +136,8 @@ class Sprakd
         
         # In case there is no :sentence_split at the end
         sentences << current if current.length > 0
-        
+
+        sentences.collect { |s| s.strip! }
         sentences
       end
         
