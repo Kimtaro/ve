@@ -41,4 +41,22 @@ class FreelingEnTest < Test::Unit::TestCase
     assert_equal ['This is a sentence.', 'And this was another one'], parse.sentences
   end
   
+  def test_can_give_words
+    freeling = Sprakd::Provider::FreelingEn.new
+    parse = freeling.parse('This is a sentence.')
+    words = parse.words
+    
+    assert_equal ['This', 'is', 'a', 'sentence', '.'], words.collect(&:word)
+    assert_equal [Sprakd::PartOfSpeech::Determiner, Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::Determiner, Sprakd::PartOfSpeech::Noun, Sprakd::PartOfSpeech::Symbol], words.collect(&:part_of_speech)
+  end
+  
+  def test_possessive_endings_must_be_reattached
+    freeling = Sprakd::Provider::FreelingEn.new
+    parse = freeling.parse("This is Jane's sentence.")
+    words = parse.words
+    
+    assert_equal ['This', 'is', "Jane's", 'sentence', '.'], words.collect(&:word)
+    assert_equal [Sprakd::PartOfSpeech::Pronoun, Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::ProperNoun, Sprakd::PartOfSpeech::Noun, Sprakd::PartOfSpeech::Symbol], words.collect(&:part_of_speech)
+  end
+  
 end

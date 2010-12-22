@@ -118,8 +118,64 @@ class Sprakd
         end
       end
       
+      INTERNAL_INFO_FOR_PARSED_POS = {
+        'CC' => [Sprakd::PartOfSpeech::Conjunction, nil],
+        'CD' => [Sprakd::PartOfSpeech::Number, nil],
+        'DT' => [Sprakd::PartOfSpeech::Determiner, nil],
+        'EX' => [Sprakd::PartOfSpeech::Pronoun, nil],
+        'FW' => [Sprakd::PartOfSpeech::Unknown, nil],
+        'Fp' => [Sprakd::PartOfSpeech::Symbol, nil],
+        'IN' => [Sprakd::PartOfSpeech::Preposition, nil],
+        'JJ' => [Sprakd::PartOfSpeech::Adjective, nil],
+        'JJR' => [Sprakd::PartOfSpeech::Conjunction, :comparative],
+        'JJS' => [Sprakd::PartOfSpeech::Conjunction, :superlative],
+        'LS' => [Sprakd::PartOfSpeech::Unknown, nil],
+        'MD' => [Sprakd::PartOfSpeech::Verb, :modal],
+        'NN' => [Sprakd::PartOfSpeech::Noun, nil],
+        'NNS' => [Sprakd::PartOfSpeech::Noun, :plural],
+        'NNP' => [Sprakd::PartOfSpeech::ProperNoun, nil],
+        'NNPS' => [Sprakd::PartOfSpeech::ProperNoun, :plural],
+        'PDT' => [Sprakd::PartOfSpeech::Determiner, nil],
+        'PRP' => [Sprakd::PartOfSpeech::Pronoun, :personal],
+        'PRP$' => [Sprakd::PartOfSpeech::Pronoun, :possessive],
+        'RB' => [Sprakd::PartOfSpeech::Adverb, nil],
+        'RBR' => [Sprakd::PartOfSpeech::Adverb, :comparative],
+        'RBS' => [Sprakd::PartOfSpeech::Adverb, :superlative],
+        'RP' => [Sprakd::PartOfSpeech::Postposition, nil],
+        'SYM' => [Sprakd::PartOfSpeech::Symbol, nil],
+        'TO' => [Sprakd::PartOfSpeech::Preposition, nil],
+        'UH' => [Sprakd::PartOfSpeech::Interjection, nil],
+        'VB' => [Sprakd::PartOfSpeech::Verb, nil],
+        'VBD' => [Sprakd::PartOfSpeech::Verb, :past],
+        'VBG' => [Sprakd::PartOfSpeech::Verb, :present_participle],
+        'VBN' => [Sprakd::PartOfSpeech::Verb, :past_participle],
+        'VBP' => [Sprakd::PartOfSpeech::Verb, nil],
+        'VBZ' => [Sprakd::PartOfSpeech::Verb, nil],
+        'WDT' => [Sprakd::PartOfSpeech::Determiner, nil],
+        'WP' => [Sprakd::PartOfSpeech::Pronoun, nil],
+        'WP$' => [Sprakd::PartOfSpeech::Pronoun, :possessive],
+        'WRB' => [Sprakd::PartOfSpeech::Adverb, nil],
+        'Z' => [Sprakd::PartOfSpeech::Determiner, nil]
+      }
+      
       # TODO: Memoize
       def words
+        words = []
+        
+        @tokens.find_all { |t| t[:type] == :parsed }.each do |token|
+          if token[:pos] == 'POS'
+            # Possessive ending, add to previous token
+            words[-1].word << token[:literal]
+            words[-1].lemma << token[:literal]
+            next
+          else
+            # All other tokens
+            pos, grammar = INTERNAL_INFO_FOR_PARSED_POS[token[:pos]]
+            words << Sprakd::Word.new(token[:literal], token[:lemma], pos, grammar)
+          end
+        end
+        
+        words
       end
       
       def sentences
