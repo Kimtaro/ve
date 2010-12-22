@@ -1,5 +1,8 @@
 # Encoding: UTF-8
 
+# TODO: Retain capitalization in lemmas?
+# TODO: Memoize
+
 require 'open3'
 
 class Sprakd
@@ -15,7 +18,7 @@ class Sprakd
     
         @config[:app] = `which #{@config[:app]}`.strip!
         local = @config[:app] =~ /local/ ? '/local' : ''
-        @config[:flags] = "-f /usr#{local}/share/FreeLing/config/en.cfg --flush"
+        @config[:flags] = "-f /usr#{local}/share/FreeLing/config/en.cfg --flush --nonumb"
         
         @is_working = false        
         start!
@@ -158,7 +161,6 @@ class Sprakd
         'Z' => [Sprakd::PartOfSpeech::Determiner, nil]
       }
       
-      # TODO: Memoize
       def words
         words = []
         
@@ -167,11 +169,13 @@ class Sprakd
             # Possessive ending, add to previous token
             words[-1].word << token[:literal]
             words[-1].lemma << token[:literal]
+            words[-1].tokens << token
             next
           else
             # All other tokens
             pos, grammar = INTERNAL_INFO_FOR_PARSED_POS[token[:pos]]
-            words << Sprakd::Word.new(token[:literal], token[:lemma], pos, grammar)
+            word = Sprakd::Word.new(token[:literal], token[:lemma], pos, [token], grammar)
+            words << word
           end
         end
         

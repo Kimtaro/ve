@@ -43,20 +43,29 @@ class FreelingEnTest < Test::Unit::TestCase
   
   def test_can_give_words
     freeling = Sprakd::Provider::FreelingEn.new
-    parse = freeling.parse('This is a sentence.')
+    parse = freeling.parse('This was a sentence.')
     words = parse.words
+    tokens = parse.tokens
     
-    assert_equal ['This', 'is', 'a', 'sentence', '.'], words.collect(&:word)
-    assert_equal [Sprakd::PartOfSpeech::Determiner, Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::Determiner, Sprakd::PartOfSpeech::Noun, Sprakd::PartOfSpeech::Symbol], words.collect(&:part_of_speech)
+    assert_equal ['This', 'was', 'a', 'sentence', '.'], words.collect(&:word)
+    assert_equal ['this', 'be', 'a', 'sentence', '.'], words.collect(&:lemma)
+    assert_equal [Sprakd::PartOfSpeech::Pronoun, Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::Determiner, Sprakd::PartOfSpeech::Noun, Sprakd::PartOfSpeech::Symbol], words.collect(&:part_of_speech)
+    assert_equal [:personal, :past, nil, nil, nil], words.collect(&:grammar)
+    
+    assert_equal [[tokens[0]], [tokens[2]], [tokens[4]], [tokens[6]], [tokens[7]]], words.collect(&:tokens)
   end
   
   def test_possessive_endings_must_be_reattached
     freeling = Sprakd::Provider::FreelingEn.new
     parse = freeling.parse("This is Jane's sentence.")
     words = parse.words
+    tokens = parse.tokens
     
     assert_equal ['This', 'is', "Jane's", 'sentence', '.'], words.collect(&:word)
+    assert_equal ['this', 'be', "jane's", 'sentence', '.'], words.collect(&:lemma)
     assert_equal [Sprakd::PartOfSpeech::Pronoun, Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::ProperNoun, Sprakd::PartOfSpeech::Noun, Sprakd::PartOfSpeech::Symbol], words.collect(&:part_of_speech)
+    assert_equal [:personal, nil, nil, nil, nil], words.collect(&:grammar)
+    assert_equal [[tokens[0]], [tokens[2]], tokens[4..5], [tokens[7]], [tokens[8]]], words.collect(&:tokens)
   end
   
 end
