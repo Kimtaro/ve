@@ -20,5 +20,10 @@ end
 
 class Sprakd
   class Parse
+    
+    # TODO
+    def as_json
+    end
+    
   end
 end

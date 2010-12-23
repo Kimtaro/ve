@@ -4,11 +4,11 @@ class Sprakd
     attr_accessor :word, :lemma, :part_of_speech, :grammar, :tokens
     
     def initialize(word, lemma, part_of_speech, tokens, grammar = nil)
-      @word = word
-      @lemma = lemma
+      @word = word.dup
+      @lemma = lemma.dup
       @part_of_speech = part_of_speech
-      @grammar = grammar
       @tokens = tokens
+      @grammar = grammar
     end
     
     def base_form

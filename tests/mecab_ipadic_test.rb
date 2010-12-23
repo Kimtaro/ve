@@ -41,4 +41,35 @@ class MecabIpadicTest < Test::Unit::TestCase
     assert_equal ['これは文章である。', 'で、also containing some Englishですね'], parse.sentences
   end
   
+  def test_can_give_words
+    mecab = Sprakd::Provider::MecabIpadic.new
+    parse = mecab.parse('これは文章です')
+    words = parse.words
+    
+    assert_equal ['これ', 'は', '文章', 'です'], words.collect(&:word)
+    assert_equal ['これ', 'は', '文章', 'です'], words.collect(&:lemma)
+    assert_equal [Sprakd::PartOfSpeech::Pronoun, Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::Determiner, Sprakd::PartOfSpeech::Noun, Sprakd::PartOfSpeech::Symbol], words.collect(&:part_of_speech)
+    assert_equal [:personal, :past, nil, nil, nil], words.collect(&:grammar)
+    
+    assert_equal [[tokens[0]], [tokens[2]], [tokens[4]], [tokens[6]]], words.collect(&:tokens)
+  end
+  
+  def test_sahen_setsuzoku_should_eat_the_suru
+    mecab = Sprakd::Provider::MecabIpadic.new
+    parse = mecab.parse('悪化した')
+    words = parse.words
+    tokens = parse.tokens
+    
+    assert_equal ['悪化した'], words.collect(&:word)
+    assert_equal ['悪化する'], words.collect(&:lemma)
+    assert_equal [Sprakd::PartOfSpeech::Verb], words.collect(&:part_of_speech)
+    assert_equal [nil], words.collect(&:grammar)
+    
+    assert_equal [tokens[0..2]], words.collect(&:tokens)
+
+    # Make sure we haven't modified the contents of the tokens
+    assert_equal '悪化', tokens[0][:literal]
+    assert_equal '悪化', tokens[0][:lemma]
+  end
+  
 end

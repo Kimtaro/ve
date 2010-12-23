@@ -1,5 +1,6 @@
 $: << File.expand_path(File.dirname(__FILE__))
 
+require 'misc'
 require 'word'
 require 'part_of_speech'
 require 'languages/english'

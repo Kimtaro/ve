@@ -34,7 +34,7 @@ class Sprakd
       def works?
         (["だっ\t助動詞,*,*,*,特殊・ダ,連用タ接続,だ,ダッ,ダッ",
           "た\t助動詞,*,*,*,特殊・タ,基本形,た,タ,タ",
-          "EOS"] == parse('だった').tokens.collect { |t| t[:raw] })
+          "EOS"] == parse('だった').tokens.collect { |t| t[:raw] } )
       end
   
       # Talks to the app and returns a parse object
@@ -100,7 +100,7 @@ class Sprakd
             token[:type] = :parsed
             token[:literal] = md[1]
             info = md[2].split(',')
-            [:pos, :i1, :i2, :i3, :katsuyougata, :katsuyoukei, :lemma, :yomi, :hatsuon].each_with_index do |attr, i|
+            [:pos, :pos2, :pos3, :pos4, :inflection_type, :inflection_form, :lemma, :reading, :hatsuon].each_with_index do |attr, i|
               token[attr] = info[i]
             end
             
@@ -121,8 +121,69 @@ class Sprakd
         end
       end
       
-      # TODO: Memoize
+      MEISHI = '名詞'
+      KOYUUMEISHI = '固有名詞'
+      DAIMEISHI = '代名詞'
+      JODOUSHI = '助動詞'
+      SAHENSETSUZOKU = 'サ変接続'
+      SAHEN_SURU = 'サ変・スル'
+      TOKUMI_TA = '特殊・タ'
+
       def words
+        words = []
+        tokens = @tokens.find_all { |t| t[:type] == :parsed }
+        tokens = tokens.to_enum
+
+        begin
+          while token = tokens.next
+            pos = nil
+            grammar = nil
+            eat_next = false
+            attach_to_previous = false
+
+            case token[:pos]
+            when MEISHI
+              case token[:pos2]
+              when KOYUUMEISHI
+                pos = Sprakd::PartOfSpeech::ProperNoun
+              when DAIMEISHI
+                pos = Sprakd::PartOfSpeech::Pronoun
+              when SAHENSETSUZOKU
+                if tokens.more? && tokens.peek[:inflection_type] == SAHEN_SURU
+                  pos = Sprakd::PartOfSpeech::Verb
+                  eat_next = true
+                end
+              else
+                pos = Sprakd::PartOfSpeech::Noun
+              end
+            when JODOUSHI
+              if token[:inflection_type] == TOKUMI_TA
+                attach_to_previous = true
+              end
+            else
+              # C'est une catastrophe
+            end
+
+            if attach_to_previous
+              words[-1].tokens << token
+              words[-1].word << token[:literal]
+            else
+              word = Sprakd::Word.new(token[:literal], token[:lemma], pos, [token], grammar)
+
+              if eat_next
+                following = tokens.next
+                word.tokens << following
+                word.word << following[:literal]
+                word.lemma << following[:lemma]
+              end
+
+              words << word
+            end
+          end
+        rescue StopIteration
+        end
+
+        return words
       end
       
       def sentences
@@ -147,7 +208,7 @@ class Sprakd
         
         sentences
       end
-        
+      
     end
   end
 end
