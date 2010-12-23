@@ -41,35 +41,101 @@ class MecabIpadicTest < Test::Unit::TestCase
     assert_equal ['これは文章である。', 'で、also containing some Englishですね'], parse.sentences
   end
   
-  def test_can_give_words
+  def test_tokens_should_not_be_modified_when_attached_to_words
     mecab = Sprakd::Provider::MecabIpadic.new
-    parse = mecab.parse('これは文章です')
-    words = parse.words
-    
-    assert_equal ['これ', 'は', '文章', 'です'], words.collect(&:word)
-    assert_equal ['これ', 'は', '文章', 'です'], words.collect(&:lemma)
-    assert_equal [Sprakd::PartOfSpeech::Pronoun, Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::Determiner, Sprakd::PartOfSpeech::Noun, Sprakd::PartOfSpeech::Symbol], words.collect(&:part_of_speech)
-    assert_equal [:personal, :past, nil, nil, nil], words.collect(&:grammar)
-    
-    assert_equal [[tokens[0]], [tokens[2]], [tokens[4]], [tokens[6]]], words.collect(&:tokens)
+    parse = mecab.parse('悪化する')
+    tokens = parse.tokens
+    assert_equal '悪化', tokens[0][:literal]
+    assert_equal '悪化', tokens[0][:lemma]
   end
-  
-  def test_sahen_setsuzoku_should_eat_the_suru
+
+  # TODO: Test that entire rule tree
+  def test_word_assembly
     mecab = Sprakd::Provider::MecabIpadic.new
-    parse = mecab.parse('悪化した')
+
+    # For kopipe
+    if false
+      assert_parses_into_words({:words => [],
+                                :lemmas => [],
+                                :pos => [],
+                                :grammar => [],
+                                :tokens => []},
+                               '')
+    end
+
+    # Meishi
+    assert_parses_into_words({:words => ['車'],
+                              :lemmas => ['車'],
+                              :pos => [Sprakd::PartOfSpeech::Noun],
+                              :grammar => [nil],
+                              :tokens => [0..0]},
+                             '車')
+    
+    # Koyuumeishi
+    assert_parses_into_words({:words => ['太郎'],
+                              :lemmas => ['太郎'],
+                              :pos => [Sprakd::PartOfSpeech::ProperNoun],
+                              :grammar => [nil],
+                              :tokens => [0..0]},
+                             '太郎')
+
+    # Daimeishi
+    assert_parses_into_words({:words => ['彼'],
+                              :lemmas => ['彼'],
+                              :pos => [Sprakd::PartOfSpeech::Pronoun],
+                              :grammar => [nil],
+                              :tokens => [0..0]},
+                             '彼')
+
+    # Kazu
+    assert_parses_into_words({:words => ['一'],
+                              :lemmas => ['一'],
+                              :pos => [Sprakd::PartOfSpeech::Number],
+                              :grammar => [nil],
+                              :tokens => [0..0]},
+                             '一')
+
+    # Sahensetsuzoku + tokumi ta
+    assert_parses_into_words({:words => ['悪化した'],
+                              :lemmas => ['悪化する'],
+                              :pos => [Sprakd::PartOfSpeech::Verb],
+                              :grammar => [nil],
+                              :tokens => [0..2]},
+                             '悪化した')
+
+    # Keiyoudoushigokan
+    assert_parses_into_words({:words => ['重要な'],
+                              :lemmas => ['重要だ'],
+                              :pos => [Sprakd::PartOfSpeech::Adjective],
+                              :grammar => [nil],
+                              :tokens => [0..1]},
+                             '重要な')
+
+    # Naikeiyoushigokan
+    assert_parses_into_words({:words => ['とんでもない'],
+                              :lemmas => ['とんでもない'],
+                              :pos => [Sprakd::PartOfSpeech::Adjective],
+                              :grammar => [nil],
+                              :tokens => [0..1]},
+                             'とんでもない')
+  end
+
+  private
+
+  def assert_parses_into_words(expected, text)
+    mecab = Sprakd::Provider::MecabIpadic.new
+    parse = mecab.parse(text)
     words = parse.words
     tokens = parse.tokens
     
-    assert_equal ['悪化した'], words.collect(&:word)
-    assert_equal ['悪化する'], words.collect(&:lemma)
-    assert_equal [Sprakd::PartOfSpeech::Verb], words.collect(&:part_of_speech)
-    assert_equal [nil], words.collect(&:grammar)
-    
-    assert_equal [tokens[0..2]], words.collect(&:tokens)
+    assert_equal expected[:words], words.collect(&:word)
+    assert_equal expected[:lemmas], words.collect(&:lemma)
+    assert_equal expected[:pos], words.collect(&:part_of_speech)
+    assert_equal expected[:grammar], words.collect(&:grammar)
 
-    # Make sure we haven't modified the contents of the tokens
-    assert_equal '悪化', tokens[0][:literal]
-    assert_equal '悪化', tokens[0][:lemma]
+    words.each_with_index do |word, i|
+      assert_equal tokens[expected[:tokens][i]], word.tokens
+    end
   end
   
 end

@@ -121,13 +121,21 @@ class Sprakd
         end
       end
       
+      # PoS
       MEISHI = '名詞'
       KOYUUMEISHI = '固有名詞'
       DAIMEISHI = '代名詞'
       JODOUSHI = '助動詞'
+      KAZU = '数'
+
+      # Pos2 and Inflection types
       SAHENSETSUZOKU = 'サ変接続'
+      KEIYOUDOUSHIGOKAN = '形容動詞語幹'
+      NAIKEIYOUSHIGOKAN = 'ナイ形容詞語幹'
       SAHEN_SURU = 'サ変・スル'
       TOKUMI_TA = '特殊・タ'
+      TOKUMI_DA = '特殊・ダ'
+      TOKUMI_NAI = '特殊・ナイ'
 
       def words
         words = []
@@ -143,22 +151,34 @@ class Sprakd
 
             case token[:pos]
             when MEISHI
+              pos = Sprakd::PartOfSpeech::Noun
+
               case token[:pos2]
               when KOYUUMEISHI
                 pos = Sprakd::PartOfSpeech::ProperNoun
               when DAIMEISHI
                 pos = Sprakd::PartOfSpeech::Pronoun
-              when SAHENSETSUZOKU
-                if tokens.more? && tokens.peek[:inflection_type] == SAHEN_SURU
-                  pos = Sprakd::PartOfSpeech::Verb
+              when SAHENSETSUZOKU, KEIYOUDOUSHIGOKAN, NAIKEIYOUSHIGOKAN
+                if tokens.more?
+                  if tokens.peek[:inflection_type] == SAHEN_SURU
+                    pos = Sprakd::PartOfSpeech::Verb
+                  elsif tokens.peek[:inflection_type] == TOKUMI_DA
+                    pos = Sprakd::PartOfSpeech::Adjective
+                  elsif tokens.peek[:inflection_type] == TOKUMI_NAI
+                    pos = Sprakd::PartOfSpeech::Adjective
+                  end
                   eat_next = true
                 end
-              else
-                pos = Sprakd::PartOfSpeech::Noun
+              when KAZU
+                pos = Sprakd::PartOfSpeech::Number
               end
             when JODOUSHI
+              pos = Sprakd::PartOfSpeech::Postposition
+
               if token[:inflection_type] == TOKUMI_TA
-                attach_to_previous = true
+                words[-1].tokens << token
+                words[-1].word << token[:literal]
+                next
               end
             else
               # C'est une catastrophe
@@ -167,6 +187,7 @@ class Sprakd
             if attach_to_previous
               words[-1].tokens << token
               words[-1].word << token[:literal]
+              words[-1].lemma << token[:lemma]
             else
               word = Sprakd::Word.new(token[:literal], token[:lemma], pos, [token], grammar)
 
