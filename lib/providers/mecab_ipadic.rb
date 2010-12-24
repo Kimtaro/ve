@@ -127,8 +127,10 @@ class Sprakd
       DAIMEISHI = '代名詞'
       JODOUSHI = '助動詞'
       KAZU = '数'
+      JOSHI = '助詞'
 
       # Pos2 and Inflection types
+      FUKUSHIKANOU = '副詞可能'
       SAHENSETSUZOKU = 'サ変接続'
       KEIYOUDOUSHIGOKAN = '形容動詞語幹'
       NAIKEIYOUSHIGOKAN = 'ナイ形容詞語幹'
@@ -136,6 +138,9 @@ class Sprakd
       TOKUMI_TA = '特殊・タ'
       TOKUMI_DA = '特殊・ダ'
       TOKUMI_NAI = '特殊・ナイ'
+
+      # Etc
+      NI = 'に'
 
       def words
         words = []
@@ -158,14 +163,17 @@ class Sprakd
                 pos = Sprakd::PartOfSpeech::ProperNoun
               when DAIMEISHI
                 pos = Sprakd::PartOfSpeech::Pronoun
-              when SAHENSETSUZOKU, KEIYOUDOUSHIGOKAN, NAIKEIYOUSHIGOKAN
+              when FUKUSHIKANOU, SAHENSETSUZOKU, KEIYOUDOUSHIGOKAN, NAIKEIYOUSHIGOKAN
                 if tokens.more?
-                  if tokens.peek[:inflection_type] == SAHEN_SURU
+                  following = tokens.peek
+                  if following[:inflection_type] == SAHEN_SURU
                     pos = Sprakd::PartOfSpeech::Verb
-                  elsif tokens.peek[:inflection_type] == TOKUMI_DA
+                  elsif following[:inflection_type] == TOKUMI_DA
                     pos = Sprakd::PartOfSpeech::Adjective
-                  elsif tokens.peek[:inflection_type] == TOKUMI_NAI
+                  elsif following[:inflection_type] == TOKUMI_NAI
                     pos = Sprakd::PartOfSpeech::Adjective
+                  elsif following[:pos] == JOSHI && following[:literal] == NI
+                    pos = Sprakd::PartOfSpeech::Adverb
                   end
                   eat_next = true
                 end

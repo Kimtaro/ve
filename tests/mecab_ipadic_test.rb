@@ -63,6 +63,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                                '')
     end
 
+    # NOUNS
     # Meishi
     assert_parses_into_words({:words => ['車'],
                               :lemmas => ['車'],
@@ -86,6 +87,14 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :grammar => [nil],
                               :tokens => [0..0]},
                              '彼')
+
+    # Fukushikanou
+    assert_parses_into_words({:words => ['午後に'],
+                              :lemmas => ['午後に'],
+                              :pos => [Sprakd::PartOfSpeech::Adverb],
+                              :grammar => [nil],
+                              :tokens => [0..1]},
+                             '午後に')
 
     # Kazu
     assert_parses_into_words({:words => ['一'],
@@ -118,6 +127,103 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :grammar => [nil],
                               :tokens => [0..1]},
                              'とんでもない')
+
+    # TODO: Rest of the noun categories
+    # PREFIXES
+    #
+    # VERBS
+    #
+
+    assert_parses_into_words({:words => [],
+                              :lemmas => [],
+                              :pos => [],
+                              :grammar => [],
+                              :tokens => []},
+                             '')
+    assert_parses_into_words({:words => [],
+                              :lemmas => [],
+                              :pos => [],
+                              :grammar => [],
+                              :tokens => []},
+                             '')
+    assert_parses_into_words({:words => [],
+                              :lemmas => [],
+                              :pos => [],
+                              :grammar => [],
+                              :tokens => []},
+                             '')
+    assert_parses_into_words({:words => [],
+                              :lemmas => [],
+                              :pos => [],
+                              :grammar => [],
+                              :tokens => []},
+                             '')
+    assert_parses_into_words({:words => [],
+                              :lemmas => [],
+                              :pos => [],
+                              :grammar => [],
+                              :tokens => []},
+                             '')
+    assert_parses_into_words({:words => [],
+                              :lemmas => [],
+                              :pos => [],
+                              :grammar => [],
+                              :tokens => []},
+                             '')
+    assert_parses_into_words({:words => [],
+                              :lemmas => [],
+                              :pos => [],
+                              :grammar => [],
+                              :tokens => []},
+                             '')
+    assert_parses_into_words({:words => [],
+                              :lemmas => [],
+                              :pos => [],
+                              :grammar => [],
+                              :tokens => []},
+                             '')
+    assert_parses_into_words({:words => [],
+                              :lemmas => [],
+                              :pos => [],
+                              :grammar => [],
+                              :tokens => []},
+                             '')
+    assert_parses_into_words({:words => [],
+                              :lemmas => [],
+                              :pos => [],
+                              :grammar => [],
+                              :tokens => []},
+                             '')
+    assert_parses_into_words({:words => [],
+                              :lemmas => [],
+                              :pos => [],
+                              :grammar => [],
+                              :tokens => []},
+                             '')
+    assert_parses_into_words({:words => [],
+                              :lemmas => [],
+                              :pos => [],
+                              :grammar => [],
+                              :tokens => []},
+                             '')
+    assert_parses_into_words({:words => [],
+                              :lemmas => [],
+                              :pos => [],
+                              :grammar => [],
+                              :tokens => []},
+                             '')
+    assert_parses_into_words({:words => [],
+                              :lemmas => [],
+                              :pos => [],
+                              :grammar => [],
+                              :tokens => []},
+                             '')
+    assert_parses_into_words({:words => [],
+                              :lemmas => [],
+                              :pos => [],
+                              :grammar => [],
+                              :tokens => []},
+                             '')
   end
 
   private
