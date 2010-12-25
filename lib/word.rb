@@ -18,6 +18,14 @@ class Sprakd
     def inflected?
       @word != @lemma
     end
+
+    def as_json
+      {
+        :word => @word,
+        :lemma => @lemma,
+        :part_of_speech => @part_of_speech.name
+      }
+    end
     
   end
 end

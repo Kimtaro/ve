@@ -1,8 +1,8 @@
 class Sprakd
   class PartOfSpeech
     
-    def name
-      self.class.to_s
+    def self.name
+      self.to_s.split('::').last.downcase
     end
     
     class Noun < PartOfSpeech; end
