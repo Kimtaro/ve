@@ -186,6 +186,7 @@ class Sprakd
               words[-1].word << token[:literal]
               words[-1].lemma << token[:lemma]
             else
+              pos = Sprakd::PartOfSpeech::TBD if pos.nil?
               word = Sprakd::Word.new(token[:literal], token[:lemma], pos, [token], grammar)
 
               if eat_next

@@ -171,6 +171,7 @@ class Sprakd
             # All other tokens
             pp token
             pos, grammar = INTERNAL_INFO_FOR_PARSED_POS[token[:pos]]
+            pos = Sprakd::PartOfSpeech::TBD if pos.nil?
             word = Sprakd::Word.new(token[:literal], token[:lemma], pos, [token], grammar)
             words << word
           end
