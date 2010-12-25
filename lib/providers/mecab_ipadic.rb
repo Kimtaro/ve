@@ -20,17 +20,6 @@ class Sprakd
         start!
       end
   
-      # Provided services
-  
-  
-  
-      # Interface methods
-  
-      def provides
-        {:language => :ja,
-         :features => [:words, :sentences, :parts_of_speech, :morphological_info]}
-      end
-
       def works?
         (["だっ\t助動詞,*,*,*,特殊・ダ,連用タ接続,だ,ダッ,ダッ",
           "た\t助動詞,*,*,*,特殊・タ,基本形,た,タ,タ",
@@ -241,3 +230,6 @@ class Sprakd
     end
   end
 end
+
+Sprakd::Manager.register(Sprakd::Provider::MecabIpadic, :ja, [:words, :sentences])
+
