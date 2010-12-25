@@ -24,17 +24,8 @@ class Sprakd
         start!
       end
   
-      # Provided services
-  
-  
-  
       # Interface methods
   
-      def provides
-        {:language => :en,
-         :features => [:words, :sentences, :parts_of_speech]}
-      end
-
       def works?
         (["Wrote write VBD 1", ""] == parse('Wrote').tokens.collect { |t| t[:raw] })
       end
@@ -127,7 +118,12 @@ class Sprakd
         'DT' => [Sprakd::PartOfSpeech::Determiner, nil],
         'EX' => [Sprakd::PartOfSpeech::Pronoun, nil],
         'FW' => [Sprakd::PartOfSpeech::Unknown, nil],
-        'Fp' => [Sprakd::PartOfSpeech::Symbol, nil],
+        'Fp' => [Sprakd::PartOfSpeech::Symbol, nil], # .
+        'Fc' => [Sprakd::PartOfSpeech::Symbol, nil], # ,
+        'Fd' => [Sprakd::PartOfSpeech::Symbol, nil], # :
+        'Fx' => [Sprakd::PartOfSpeech::Symbol, nil], # ;
+        'Fat' => [Sprakd::PartOfSpeech::Symbol, nil], # !
+        'Fit' => [Sprakd::PartOfSpeech::Symbol, nil], # ?
         'IN' => [Sprakd::PartOfSpeech::Preposition, nil],
         'JJ' => [Sprakd::PartOfSpeech::Adjective, nil],
         'JJR' => [Sprakd::PartOfSpeech::Conjunction, :comparative],
@@ -173,6 +169,7 @@ class Sprakd
             next
           else
             # All other tokens
+            pp token
             pos, grammar = INTERNAL_INFO_FOR_PARSED_POS[token[:pos]]
             word = Sprakd::Word.new(token[:literal], token[:lemma], pos, [token], grammar)
             words << word
@@ -205,3 +202,6 @@ class Sprakd
     end
   end
 end
+
+Sprakd::Manager.register(Sprakd::Provider::FreelingEn, :en, [:words, :sentences])
+
