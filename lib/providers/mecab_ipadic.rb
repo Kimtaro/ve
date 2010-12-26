@@ -128,10 +128,11 @@ class Sprakd
       FUKUSHIKA = '副詞化'
       TAIGENSETSUZOKU = '体言接続'
       RENTAIKA = '連体化'
+      TOKUSHU = '特殊'
       SAHEN_SURU = 'サ変・スル'
-      TOKUMI_TA = '特殊・タ'
-      TOKUMI_DA = '特殊・ダ'
-      TOKUMI_NAI = '特殊・ナイ'
+      TOKUSHU_TA = '特殊・タ'
+      TOKUSHU_DA = '特殊・ダ'
+      TOKUSHU_NAI = '特殊・ナイ'
 
       # Etc
       NI = 'に'
@@ -163,12 +164,12 @@ class Sprakd
                   if following[:inflection_type] == SAHEN_SURU
                     pos = Sprakd::PartOfSpeech::Verb
                     eat_next = true
-                  elsif following[:inflection_type] == TOKUMI_DA
+                  elsif following[:inflection_type] == TOKUSHU_DA
                     pos = Sprakd::PartOfSpeech::Adjective
                     if following[:inflection_form] == TAIGENSETSUZOKU
                       eat_next = true
                     end
-                  elsif following[:inflection_type] == TOKUMI_NAI
+                  elsif following[:inflection_type] == TOKUSHU_NAI
                     pos = Sprakd::PartOfSpeech::Adjective
                     eat_next = true
                   elsif following[:pos] == JOSHI && following[:literal] == NI
@@ -176,7 +177,7 @@ class Sprakd
                     eat_next = true
                   end
                 end
-              when HIJIRITSU
+              when HIJIRITSU, TOKUSHU
                 if tokens.more?
                   following = tokens.peek
                   case token[:pos3]
@@ -186,7 +187,7 @@ class Sprakd
                       eat_next = true
                     end
                   when JODOUSHIGOKAN
-                    if following[:inflection_type] == TOKUMI_DA
+                    if following[:inflection_type] == TOKUSHU_DA
                       pos = Sprakd::PartOfSpeech::Verb
                       grammar = :auxillary
                       if following[:inflection_form] == TAIGENSETSUZOKU
@@ -198,7 +199,7 @@ class Sprakd
                     end
                   when KEIYOUDOUSHIGOKAN
                     pos = Sprakd::PartOfSpeech::Adjective
-                    if (following[:inflection_type] == TOKUMI_DA && following[:inflection_form] == TAIGENSETSUZOKU) || following[:pos2] == RENTAIKA
+                    if (following[:inflection_type] == TOKUSHU_DA && following[:inflection_form] == TAIGENSETSUZOKU) || following[:pos2] == RENTAIKA
                       eat_next = true
                     end
                   end
@@ -210,7 +211,7 @@ class Sprakd
             when JODOUSHI
               pos = Sprakd::PartOfSpeech::Postposition
 
-              if token[:inflection_type] == TOKUMI_TA
+              if token[:inflection_type] == TOKUSHU_TA
                 words[-1].tokens << token
                 words[-1].word << token[:literal]
                 next

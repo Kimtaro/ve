@@ -173,13 +173,14 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :tokens => [0..0, 1..1]},
                              'みたいだ')
 
-    #
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
+    # Meishi tokushu jodoushigokan
+    assert_parses_into_words({:words => ['行く', 'そう', 'だ'],
+                              :lemmas => ['行く', 'そう', 'だ'],
+                              :pos => [Sprakd::PartOfSpeech::TBD, Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::Postposition],
+                              :grammar => [nil, :auxillary, nil],
+                              :tokens => [0..0, 1..1, 2..2]},
+                             '行くそうだ')
+
     assert_parses_into_words({:words => [],
                               :lemmas => [],
                               :pos => [],
