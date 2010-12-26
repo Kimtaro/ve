@@ -181,12 +181,14 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :tokens => [0..0, 1..1, 2..2]},
                              '行くそうだ')
 
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
+    # Meishi setsubi
+    assert_parses_into_words({:words => ['楽し', 'さ'],
+                              :lemmas => ['楽しい', 'さ'],
+                              :pos => [Sprakd::PartOfSpeech::TBD, Sprakd::PartOfSpeech::Suffix],
+                              :grammar => [nil, nil],
+                              :tokens => [0..0, 1..1]},
+                             '楽しさ')
+
     assert_parses_into_words({:words => [],
                               :lemmas => [],
                               :pos => [],

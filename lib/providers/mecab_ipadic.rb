@@ -129,6 +129,7 @@ class Sprakd
       TAIGENSETSUZOKU = '体言接続'
       RENTAIKA = '連体化'
       TOKUSHU = '特殊'
+      SETSUBI = '接尾'
       SAHEN_SURU = 'サ変・スル'
       TOKUSHU_TA = '特殊・タ'
       TOKUSHU_DA = '特殊・ダ'
@@ -207,6 +208,9 @@ class Sprakd
               when KAZU
                 # TODO: recurse and find following numbers and add to this word. Except non-numbers like 幾
                 pos = Sprakd::PartOfSpeech::Number
+              when SETSUBI
+                # TODO: elaborate a bit?
+                pos = Sprakd::PartOfSpeech::Suffix
               end
             when JODOUSHI
               pos = Sprakd::PartOfSpeech::Postposition
