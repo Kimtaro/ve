@@ -132,6 +132,7 @@ class Sprakd
       SETSUBI = '接尾'
       SETSUZOKUSHITEKI = '接続詞的'
       DOUSHIHIJIRITSUTEKI = '動詞非自立的'
+      SETTOUSHI = '接頭詞'
       SAHEN_SURU = 'サ変・スル'
       TOKUSHU_TA = '特殊・タ'
       TOKUSHU_DA = '特殊・ダ'
@@ -219,6 +220,9 @@ class Sprakd
                 pos = Sprakd::PartOfSpeech::Verb
                 grammar = :nominal
               end
+            when SETTOUSHI
+              # TODO: elaborate this when we have the "main part" feature for words?
+              pos = Sprakd::PartOfSpeech::Prefix
             when JODOUSHI
               pos = Sprakd::PartOfSpeech::Postposition
 

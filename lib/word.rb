@@ -12,7 +12,7 @@ class Sprakd
     end
     
     # TODO: the main part of a word, for example 重要 in 重要な
-    def main
+    def main_part
     end
 
     def base_form

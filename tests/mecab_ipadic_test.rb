@@ -205,12 +205,13 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :tokens => [0..0, 1..1, 2..2]},
                              '見てごらん')
 
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
+    # Settoushi
+    assert_parses_into_words({:words => ['お', '座り'],
+                              :lemmas => ['お', '座り'],
+                              :pos => [Sprakd::PartOfSpeech::Prefix, Sprakd::PartOfSpeech::Noun],
+                              :grammar => [nil, nil],
+                              :tokens => [0..0, 1..1]},
+                             'お座り')
     assert_parses_into_words({:words => [],
                               :lemmas => [],
                               :pos => [],
