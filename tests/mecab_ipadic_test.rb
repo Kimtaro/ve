@@ -197,12 +197,14 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :tokens => [0..0, 1..1, 2..2]},
                              '日本対アメリカ')
 
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
+    # Meishi doushihijiritsuteki
+    assert_parses_into_words({:words => ['見', 'て', 'ごらん'],
+                              :lemmas => ['見る', 'て', 'ごらん'],
+                              :pos => [Sprakd::PartOfSpeech::TBD, Sprakd::PartOfSpeech::TBD, Sprakd::PartOfSpeech::Verb],
+                              :grammar => [nil, nil, :nominal],
+                              :tokens => [0..0, 1..1, 2..2]},
+                             '見てごらん')
+
     assert_parses_into_words({:words => [],
                               :lemmas => [],
                               :pos => [],

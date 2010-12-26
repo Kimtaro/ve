@@ -131,6 +131,7 @@ class Sprakd
       TOKUSHU = '特殊'
       SETSUBI = '接尾'
       SETSUZOKUSHITEKI = '接続詞的'
+      DOUSHIHIJIRITSUTEKI = '動詞非自立的'
       SAHEN_SURU = 'サ変・スル'
       TOKUSHU_TA = '特殊・タ'
       TOKUSHU_DA = '特殊・ダ'
@@ -214,6 +215,9 @@ class Sprakd
                 pos = Sprakd::PartOfSpeech::Suffix
               when SETSUZOKUSHITEKI
                 pos = Sprakd::PartOfSpeech::Conjunction
+              when DOUSHIHIJIRITSUTEKI
+                pos = Sprakd::PartOfSpeech::Verb
+                grammar = :nominal
               end
             when JODOUSHI
               pos = Sprakd::PartOfSpeech::Postposition
