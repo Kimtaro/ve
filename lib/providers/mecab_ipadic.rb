@@ -117,6 +117,7 @@ class Sprakd
       JODOUSHI = '助動詞'
       KAZU = '数'
       JOSHI = '助詞'
+      HIJIRITSU = '非自立'
 
       # Pos2 and Inflection types
       FUKUSHIKANOU = '副詞可能'
@@ -166,7 +167,19 @@ class Sprakd
                   end
                   eat_next = true
                 end
+              when HIJIRITSU
+                if tokens.more?
+                  following = tokens.peek
+                  case token[:pos3]
+                  when FUKUSHIKANOU
+                    if following[:pos] == JOSHI && following[:literal] == NI
+                      pos = Sprakd::PartOfSpeech::Adverb
+                    end
+                  end
+                  eat_next = true
+                end
               when KAZU
+                # TODO: recurse and find following numbers and add to this word. Except non-numbers like 幾
                 pos = Sprakd::PartOfSpeech::Number
               end
             when JODOUSHI

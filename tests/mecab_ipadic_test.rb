@@ -128,18 +128,14 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :tokens => [0..1]},
                              'とんでもない')
 
-    # TODO: Rest of the noun categories
-    # PREFIXES
-    #
-    # VERBS
-    #
+    # Meishi hijiritsu fukushikanou
+    assert_parses_into_words({:words => ['の', 'うちに'],
+                              :lemmas => ['の', 'うちに'],
+                              :pos => [Sprakd::PartOfSpeech::TBD, Sprakd::PartOfSpeech::Adverb],
+                              :grammar => [nil, nil],
+                              :tokens => [0..0, 1..2]},
+                             'のうちに')
 
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
     assert_parses_into_words({:words => [],
                               :lemmas => [],
                               :pos => [],
