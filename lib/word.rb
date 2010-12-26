@@ -11,6 +11,10 @@ class Sprakd
       @grammar = grammar
     end
     
+    # TODO: the main part of a word, for example 重要 in 重要な
+    def main
+    end
+
     def base_form
       @lemma
     end

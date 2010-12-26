@@ -124,6 +124,8 @@ class Sprakd
       SAHENSETSUZOKU = 'サ変接続'
       KEIYOUDOUSHIGOKAN = '形容動詞語幹'
       NAIKEIYOUSHIGOKAN = 'ナイ形容詞語幹'
+      JODOUSHIGOKAN = '助動詞語幹'
+      FUKUSHIKA = '副詞化'
       SAHEN_SURU = 'サ変・スル'
       TOKUMI_TA = '特殊・タ'
       TOKUMI_DA = '特殊・ダ'
@@ -173,6 +175,12 @@ class Sprakd
                   case token[:pos3]
                   when FUKUSHIKANOU
                     if following[:pos] == JOSHI && following[:literal] == NI
+                      pos = Sprakd::PartOfSpeech::Adverb
+                    end
+                  when JODOUSHIGOKAN
+                    if following[:inflection_type] == TOKUMI_DA
+                      pos = Sprakd::PartOfSpeech::Verb
+                    elsif following[:pos] == JOSHI && following[:pos2] == FUKUSHIKA
                       pos = Sprakd::PartOfSpeech::Adverb
                     end
                   end
