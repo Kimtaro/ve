@@ -140,7 +140,7 @@ class MecabIpadicTest < Test::Unit::TestCase
     assert_parses_into_words({:words => ['の', 'ような'],
                               :lemmas => ['の', 'ようだ'],
                               :pos => [Sprakd::PartOfSpeech::TBD, Sprakd::PartOfSpeech::Verb],
-                              :grammar => [nil, nil],
+                              :grammar => [nil, :auxillary],
                               :tokens => [0..0, 1..2]},
                              'のような')
 
@@ -151,24 +151,29 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :tokens => [0..0, 1..2]},
                              'のように')
 
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
+    # Meishi hijiritsu keiyoudoushigokan
+    assert_parses_into_words({:words => ['みたいな'],
+                              :lemmas => ['みたいだ'],
+                              :pos => [Sprakd::PartOfSpeech::Adjective],
+                              :grammar => [nil],
+                              :tokens => [0..1]},
+                             'みたいな')
+
+    assert_parses_into_words({:words => ['みたいの'],
+                              :lemmas => ['みたいの'],
+                              :pos => [Sprakd::PartOfSpeech::Adjective],
+                              :grammar => [nil],
+                              :tokens => [0..1]},
+                             'みたいの')
+
+    assert_parses_into_words({:words => ['みたい', 'だ'],
+                              :lemmas => ['みたい', 'だ'],
+                              :pos => [Sprakd::PartOfSpeech::Adjective, Sprakd::PartOfSpeech::Postposition],
+                              :grammar => [nil, nil],
+                              :tokens => [0..0, 1..1]},
+                             'みたいだ')
+
+    #
     assert_parses_into_words({:words => [],
                               :lemmas => [],
                               :pos => [],

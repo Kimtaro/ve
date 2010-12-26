@@ -126,6 +126,8 @@ class Sprakd
       NAIKEIYOUSHIGOKAN = 'ナイ形容詞語幹'
       JODOUSHIGOKAN = '助動詞語幹'
       FUKUSHIKA = '副詞化'
+      TAIGENSETSUZOKU = '体言接続'
+      RENTAIKA = '連体化'
       SAHEN_SURU = 'サ変・スル'
       TOKUMI_TA = '特殊・タ'
       TOKUMI_DA = '特殊・ダ'
@@ -160,14 +162,19 @@ class Sprakd
                   following = tokens.peek
                   if following[:inflection_type] == SAHEN_SURU
                     pos = Sprakd::PartOfSpeech::Verb
+                    eat_next = true
                   elsif following[:inflection_type] == TOKUMI_DA
                     pos = Sprakd::PartOfSpeech::Adjective
+                    if following[:inflection_form] == TAIGENSETSUZOKU
+                      eat_next = true
+                    end
                   elsif following[:inflection_type] == TOKUMI_NAI
                     pos = Sprakd::PartOfSpeech::Adjective
+                    eat_next = true
                   elsif following[:pos] == JOSHI && following[:literal] == NI
                     pos = Sprakd::PartOfSpeech::Adverb
+                    eat_next = true
                   end
-                  eat_next = true
                 end
               when HIJIRITSU
                 if tokens.more?
@@ -176,15 +183,25 @@ class Sprakd
                   when FUKUSHIKANOU
                     if following[:pos] == JOSHI && following[:literal] == NI
                       pos = Sprakd::PartOfSpeech::Adverb
+                      eat_next = true
                     end
                   when JODOUSHIGOKAN
                     if following[:inflection_type] == TOKUMI_DA
                       pos = Sprakd::PartOfSpeech::Verb
+                      grammar = :auxillary
+                      if following[:inflection_form] == TAIGENSETSUZOKU
+                        eat_next = true
+                      end
                     elsif following[:pos] == JOSHI && following[:pos2] == FUKUSHIKA
                       pos = Sprakd::PartOfSpeech::Adverb
+                      eat_next = true
+                    end
+                  when KEIYOUDOUSHIGOKAN
+                    pos = Sprakd::PartOfSpeech::Adjective
+                    if (following[:inflection_type] == TOKUMI_DA && following[:inflection_form] == TAIGENSETSUZOKU) || following[:pos2] == RENTAIKA
+                      eat_next = true
                     end
                   end
-                  eat_next = true
                 end
               when KAZU
                 # TODO: recurse and find following numbers and add to this word. Except non-numbers like 幾
