@@ -189,12 +189,14 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :tokens => [0..0, 1..1]},
                              '楽しさ')
 
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
+    # Meishi setsuzokushiteki
+    assert_parses_into_words({:words => ['日本', '対', 'アメリカ'],
+                              :lemmas => ['日本', '対', 'アメリカ'],
+                              :pos => [Sprakd::PartOfSpeech::ProperNoun, Sprakd::PartOfSpeech::Conjunction, Sprakd::PartOfSpeech::ProperNoun],
+                              :grammar => [nil, nil, nil],
+                              :tokens => [0..0, 1..1, 2..2]},
+                             '日本対アメリカ')
+
     assert_parses_into_words({:words => [],
                               :lemmas => [],
                               :pos => [],

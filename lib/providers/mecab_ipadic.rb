@@ -130,6 +130,7 @@ class Sprakd
       RENTAIKA = '連体化'
       TOKUSHU = '特殊'
       SETSUBI = '接尾'
+      SETSUZOKUSHITEKI = '接続詞的'
       SAHEN_SURU = 'サ変・スル'
       TOKUSHU_TA = '特殊・タ'
       TOKUSHU_DA = '特殊・ダ'
@@ -211,6 +212,8 @@ class Sprakd
               when SETSUBI
                 # TODO: elaborate a bit?
                 pos = Sprakd::PartOfSpeech::Suffix
+              when SETSUZOKUSHITEKI
+                pos = Sprakd::PartOfSpeech::Conjunction
               end
             when JODOUSHI
               pos = Sprakd::PartOfSpeech::Postposition
