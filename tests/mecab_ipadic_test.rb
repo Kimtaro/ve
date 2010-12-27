@@ -237,13 +237,15 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :tokens => [0..0, 1..1]},
                              'だァ')
 
+    # Kandoushi
+    assert_parses_into_words({:words => ['おはよう'],
+                              :lemmas => ['おはよう'],
+                              :pos => [Sprakd::PartOfSpeech::Interjection],
+                              :grammar => [nil],
+                              :tokens => [0..0]},
+                             'おはよう')
+
     # Doushi
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
     assert_parses_into_words({:words => [],
                               :lemmas => [],
                               :pos => [],

@@ -122,6 +122,7 @@ class Sprakd
       KIGOU = '記号'
       FIRAA = 'フィラー'
       SONOTA = 'その他'
+      KANDOUSHI = '感動詞'
 
       # Pos2 and Inflection types
       HIJIRITSU = '非自立'
@@ -239,7 +240,7 @@ class Sprakd
             when DOUSHI
             when KIGOU
               pos = Sprakd::PartOfSpeech::Symbol
-            when FIRAA
+            when FIRAA, KANDOUSHI
               pos = Sprakd::PartOfSpeech::Interjection
             when SONOTA
               pos = Sprakd::PartOfSpeech::Other
