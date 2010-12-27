@@ -261,6 +261,14 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :tokens => [0..0]},
                              'そして')
 
+    # Fukushi
+    assert_parses_into_words({:words => ['多分'],
+                              :lemmas => ['多分'],
+                              :pos => [Sprakd::PartOfSpeech::Adverb],
+                              :grammar => [nil],
+                              :tokens => [0..0]},
+                             '多分')
+
     # Doushi
     assert_parses_into_words({:words => [],
                               :lemmas => [],

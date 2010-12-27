@@ -125,6 +125,7 @@ class Sprakd
       KANDOUSHI = '感動詞'
       RENTAISHI = '連体詞'
       SETSUZOKUSHI = '接続詞'
+      FUKUSHI = '副詞'
 
       # Pos2 and Inflection types
       HIJIRITSU = '非自立'
@@ -244,6 +245,8 @@ class Sprakd
               pos = Sprakd::PartOfSpeech::Determiner
             when SETSUZOKUSHI
               pos = Sprakd::PartOfSpeech::Conjunction
+            when FUKUSHI
+              pos = Sprakd::PartOfSpeech::Adverb
             when KIGOU
               pos = Sprakd::PartOfSpeech::Symbol
             when FIRAA, KANDOUSHI
