@@ -237,7 +237,7 @@ class Sprakd
             when JODOUSHI
               pos = Sprakd::PartOfSpeech::Postposition
 
-              if token[:inflection_type] == TOKUSHU_TA
+              if token[:inflection_type] == TOKUSHU_TA || token[:inflection_type] == TOKUSHU_NAI
                 attach_to_previous = true
               end
             when DOUSHI

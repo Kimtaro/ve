@@ -277,6 +277,13 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :tokens => [0..0]},
                              '行く')
 
+    assert_parses_into_words({:words => ['行かない'],
+                              :lemmas => ['行く'],
+                              :pos => [Sprakd::PartOfSpeech::Verb],
+                              :grammar => [nil],
+                              :tokens => [0..1]},
+                             '行かない')
+
     assert_parses_into_words({:words => ['行って', 'きて'],
                               :lemmas => ['行く', 'くる'],
                               :pos => [Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::Verb],
