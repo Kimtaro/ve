@@ -117,9 +117,14 @@ class Sprakd
       JODOUSHI = '助動詞'
       KAZU = '数'
       JOSHI = '助詞'
-      HIJIRITSU = '非自立'
+      SETTOUSHI = '接頭詞'
+      DOUSHI = '動詞'
+      KIGOU = '記号'
+      FIRAA = 'フィラー'
+      SONOTA = 'その他'
 
       # Pos2 and Inflection types
+      HIJIRITSU = '非自立'
       FUKUSHIKANOU = '副詞可能'
       SAHENSETSUZOKU = 'サ変接続'
       KEIYOUDOUSHIGOKAN = '形容動詞語幹'
@@ -132,7 +137,6 @@ class Sprakd
       SETSUBI = '接尾'
       SETSUZOKUSHITEKI = '接続詞的'
       DOUSHIHIJIRITSUTEKI = '動詞非自立的'
-      SETTOUSHI = '接頭詞'
       SAHEN_SURU = 'サ変・スル'
       TOKUSHU_TA = '特殊・タ'
       TOKUSHU_DA = '特殊・ダ'
@@ -146,6 +150,7 @@ class Sprakd
         tokens = @tokens.find_all { |t| t[:type] == :parsed }
         tokens = tokens.to_enum
 
+        # This is becoming very big
         begin
           while token = tokens.next
             pos = nil
@@ -231,6 +236,9 @@ class Sprakd
                 words[-1].word << token[:literal]
                 next
               end
+            when DOUSHI
+            when KIGOU, FIRAA, SONOTA
+              pos = Sprakd::PartOfSpeech::Symbol
             else
               # C'est une catastrophe
             end
