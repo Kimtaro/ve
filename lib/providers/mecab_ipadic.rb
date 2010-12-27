@@ -123,6 +123,7 @@ class Sprakd
       FIRAA = 'フィラー'
       SONOTA = 'その他'
       KANDOUSHI = '感動詞'
+      RENTAISHI = '連体詞'
 
       # Pos2 and Inflection types
       HIJIRITSU = '非自立'
@@ -238,6 +239,8 @@ class Sprakd
                 next
               end
             when DOUSHI
+            when RENTAISHI
+              pos = Sprakd::PartOfSpeech::Determiner
             when KIGOU
               pos = Sprakd::PartOfSpeech::Symbol
             when FIRAA, KANDOUSHI
