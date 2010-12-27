@@ -163,6 +163,7 @@ class Sprakd
             grammar = nil
             eat_next = false
             attach_to_previous = false
+            also_attach_to_lemma = false
 
             case token[:pos]
             when MEISHI
@@ -222,6 +223,10 @@ class Sprakd
               when KAZU
                 # TODO: recurse and find following numbers and add to this word. Except non-numbers like 幾
                 pos = Sprakd::PartOfSpeech::Number
+                if words.length > 0 && words[-1].part_of_speech == Sprakd::PartOfSpeech::Number
+                  attach_to_previous = true
+                  also_attach_to_lemma = true
+                end
               when SETSUBI
                 # TODO: elaborate a bit?
                 pos = Sprakd::PartOfSpeech::Suffix
@@ -270,6 +275,7 @@ class Sprakd
             if attach_to_previous && words.length > 0
               words[-1].tokens << token
               words[-1].word << token[:literal]
+              words[-1].lemma << token[:lemma] if also_attach_to_lemma
             else
               pos = Sprakd::PartOfSpeech::TBD if pos.nil?
               word = Sprakd::Word.new(token[:literal], token[:lemma], pos, [token], grammar)

@@ -104,6 +104,13 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :tokens => [0..0]},
                              '一')
 
+    assert_parses_into_words({:words => ['１２３'],
+                              :lemmas => ['１２３'],
+                              :pos => [Sprakd::PartOfSpeech::Number],
+                              :grammar => [nil],
+                              :tokens => [0..2]},
+                             '１２３')
+
     # Sahensetsuzoku + tokumi ta
     assert_parses_into_words({:words => ['悪化した'],
                               :lemmas => ['悪化する'],
