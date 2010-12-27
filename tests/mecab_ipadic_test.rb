@@ -176,7 +176,7 @@ class MecabIpadicTest < Test::Unit::TestCase
     # Meishi tokushu jodoushigokan
     assert_parses_into_words({:words => ['行く', 'そう', 'だ'],
                               :lemmas => ['行く', 'そう', 'だ'],
-                              :pos => [Sprakd::PartOfSpeech::TBD, Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::Postposition],
+                              :pos => [Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::Postposition],
                               :grammar => [nil, :auxillary, nil],
                               :tokens => [0..0, 1..1, 2..2]},
                              '行くそうだ')
@@ -198,11 +198,11 @@ class MecabIpadicTest < Test::Unit::TestCase
                              '日本対アメリカ')
 
     # Meishi doushihijiritsuteki
-    assert_parses_into_words({:words => ['見', 'て', 'ごらん'],
-                              :lemmas => ['見る', 'て', 'ごらん'],
-                              :pos => [Sprakd::PartOfSpeech::TBD, Sprakd::PartOfSpeech::TBD, Sprakd::PartOfSpeech::Verb],
-                              :grammar => [nil, nil, :nominal],
-                              :tokens => [0..0, 1..1, 2..2]},
+    assert_parses_into_words({:words => ['見て', 'ごらん'],
+                              :lemmas => ['見る', 'ごらん'],
+                              :pos => [Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::Verb],
+                              :grammar => [nil, :nominal],
+                              :tokens => [0..1, 2..2]},
                              '見てごらん')
 
     # Settoushi
@@ -270,24 +270,29 @@ class MecabIpadicTest < Test::Unit::TestCase
                              '多分')
 
     # Doushi
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
+    assert_parses_into_words({:words => ['行く'],
+                              :lemmas => ['行く'],
+                              :pos => [Sprakd::PartOfSpeech::Verb],
+                              :grammar => [nil],
+                              :tokens => [0..0]},
+                             '行く')
+
+    # Doushi setsubi
+    assert_parses_into_words({:words => ['行かれる'],
+                              :lemmas => ['行く'],
+                              :pos => [Sprakd::PartOfSpeech::Verb],
+                              :grammar => [nil],
+                              :tokens => [0..1]},
+                             '行かれる')
+
+    assert_parses_into_words({:words => ['食べさせられた'],
+                              :lemmas => ['食べる'],
+                              :pos => [Sprakd::PartOfSpeech::Verb],
+                              :grammar => [nil],
+                              :tokens => [0..3]},
+                             '食べさせられた')
+
+    #
     assert_parses_into_words({:words => [],
                               :lemmas => [],
                               :pos => [],

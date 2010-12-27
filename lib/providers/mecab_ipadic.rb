@@ -126,6 +126,7 @@ class Sprakd
       RENTAISHI = '連体詞'
       SETSUZOKUSHI = '接続詞'
       FUKUSHI = '副詞'
+      SETSUZOKUJOSHI = '接続助詞'
 
       # Pos2 and Inflection types
       HIJIRITSU = '非自立'
@@ -148,6 +149,7 @@ class Sprakd
 
       # Etc
       NI = 'に'
+      TE = 'て'
 
       def words
         words = []
@@ -235,12 +237,18 @@ class Sprakd
             when JODOUSHI
               pos = Sprakd::PartOfSpeech::Postposition
 
-              if words.length > 0 && token[:inflection_type] == TOKUSHU_TA
-                words[-1].tokens << token
-                words[-1].word << token[:literal]
-                next
+              if token[:inflection_type] == TOKUSHU_TA
+                attach_to_previous = true
               end
             when DOUSHI
+              pos = Sprakd::PartOfSpeech::Verb
+              if token[:pos2] == SETSUBI
+                attach_to_previous = true
+              end
+            when JOSHI
+              if token[:pos2] == SETSUZOKUJOSHI && token[:literal] == TE
+                attach_to_previous = true
+              end
             when RENTAISHI
               pos = Sprakd::PartOfSpeech::Determiner
             when SETSUZOKUSHI
@@ -257,10 +265,9 @@ class Sprakd
               # C'est une catastrophe
             end
 
-            if attach_to_previous
+            if attach_to_previous && words.length > 0
               words[-1].tokens << token
               words[-1].word << token[:literal]
-              words[-1].lemma << token[:lemma]
             else
               pos = Sprakd::PartOfSpeech::TBD if pos.nil?
               word = Sprakd::Word.new(token[:literal], token[:lemma], pos, [token], grammar)
