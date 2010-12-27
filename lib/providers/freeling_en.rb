@@ -164,12 +164,10 @@ class Sprakd
           if token[:pos] == 'POS'
             # Possessive ending, add to previous token
             words[-1].word << token[:literal]
-            words[-1].lemma << token[:literal]
             words[-1].tokens << token
             next
           else
             # All other tokens
-            pp token
             pos, grammar = INTERNAL_INFO_FOR_PARSED_POS[token[:pos]]
             pos = Sprakd::PartOfSpeech::TBD if pos.nil?
             word = Sprakd::Word.new(token[:literal], token[:lemma], pos, [token], grammar)

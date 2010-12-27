@@ -62,7 +62,7 @@ class FreelingEnTest < Test::Unit::TestCase
     tokens = parse.tokens
     
     assert_equal ['This', 'is', "Jane's", 'sentence', '.'], words.collect(&:word)
-    assert_equal ['this', 'be', "jane's", 'sentence', '.'], words.collect(&:lemma)
+    assert_equal ['this', 'be', "jane", 'sentence', '.'], words.collect(&:lemma)
     assert_equal [Sprakd::PartOfSpeech::Pronoun, Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::ProperNoun, Sprakd::PartOfSpeech::Noun, Sprakd::PartOfSpeech::Symbol], words.collect(&:part_of_speech)
     assert_equal [:personal, nil, nil, nil, nil], words.collect(&:grammar)
     assert_equal [[tokens[0]], [tokens[2]], tokens[4..5], [tokens[7]], [tokens[8]]], words.collect(&:tokens)
