@@ -22,6 +22,7 @@ class Sprakd
     class Unknown < PartOfSpeech; end
     class Symbol < PartOfSpeech; end
     class Determiner < PartOfSpeech; end
+    class Other < PartOfSpeech; end
 
     class TBD < PartOfSpeech; end # Placeholder for provider PoS that haven't had a Sprakd PoS assigned yet
     

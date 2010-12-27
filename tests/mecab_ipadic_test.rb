@@ -213,24 +213,31 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :tokens => [0..0, 1..1]},
                              'お座り')
 
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
+    # Kigou
+    assert_parses_into_words({:words => ['。'],
+                              :lemmas => ['。'],
+                              :pos => [Sprakd::PartOfSpeech::Symbol],
+                              :grammar => [nil],
+                              :tokens => [0..0]},
+                             '。')
+
+    # Firaa
+    assert_parses_into_words({:words => ['えと'],
+                              :lemmas => ['えと'],
+                              :pos => [Sprakd::PartOfSpeech::Interjection],
+                              :grammar => [nil],
+                              :tokens => [0..0]},
+                             'えと')
+
+    # Sonota
+    assert_parses_into_words({:words => ['だ', 'ァ'],
+                              :lemmas => ['だ', 'ァ'],
+                              :pos => [Sprakd::PartOfSpeech::Postposition, Sprakd::PartOfSpeech::Other],
+                              :grammar => [nil, nil],
+                              :tokens => [0..0, 1..1]},
+                             'だァ')
+
+    # Doushi
     assert_parses_into_words({:words => [],
                               :lemmas => [],
                               :pos => [],

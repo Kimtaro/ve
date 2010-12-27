@@ -231,14 +231,18 @@ class Sprakd
             when JODOUSHI
               pos = Sprakd::PartOfSpeech::Postposition
 
-              if token[:inflection_type] == TOKUSHU_TA
+              if words.length > 0 && token[:inflection_type] == TOKUSHU_TA
                 words[-1].tokens << token
                 words[-1].word << token[:literal]
                 next
               end
             when DOUSHI
-            when KIGOU, FIRAA, SONOTA
+            when KIGOU
               pos = Sprakd::PartOfSpeech::Symbol
+            when FIRAA
+              pos = Sprakd::PartOfSpeech::Interjection
+            when SONOTA
+              pos = Sprakd::PartOfSpeech::Other
             else
               # C'est une catastrophe
             end
