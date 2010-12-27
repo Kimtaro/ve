@@ -244,6 +244,8 @@ class Sprakd
               pos = Sprakd::PartOfSpeech::Verb
               if token[:pos2] == SETSUBI
                 attach_to_previous = true
+              elsif token[:pos2] == HIJIRITSU
+                grammar = :auxillary
               end
             when JOSHI
               if token[:pos2] == SETSUZOKUJOSHI && token[:literal] == TE
