@@ -124,6 +124,7 @@ class Sprakd
       SONOTA = 'その他'
       KANDOUSHI = '感動詞'
       RENTAISHI = '連体詞'
+      SETSUZOKUSHI = '接続詞'
 
       # Pos2 and Inflection types
       HIJIRITSU = '非自立'
@@ -241,6 +242,8 @@ class Sprakd
             when DOUSHI
             when RENTAISHI
               pos = Sprakd::PartOfSpeech::Determiner
+            when SETSUZOKUSHI
+              pos = Sprakd::PartOfSpeech::Conjunction
             when KIGOU
               pos = Sprakd::PartOfSpeech::Symbol
             when FIRAA, KANDOUSHI

@@ -253,6 +253,14 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :tokens => [0..0]},
                              'この')
 
+    # Setsuzokushi
+    assert_parses_into_words({:words => ['そして'],
+                              :lemmas => ['そして'],
+                              :pos => [Sprakd::PartOfSpeech::Conjunction],
+                              :grammar => [nil],
+                              :tokens => [0..0]},
+                             'そして')
+
     # Doushi
     assert_parses_into_words({:words => [],
                               :lemmas => [],
