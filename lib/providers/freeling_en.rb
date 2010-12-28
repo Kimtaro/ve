@@ -76,16 +76,18 @@ class Sprakd
 
           # Anything unparsed at the end of the text
           # This must happen before sentence splits are detected to avoid funny ordering
-          if output.size > 1 && output.size == index + 1
+          if output.length > 1 && output.length == index + 1
             unparsed_md = %r{(.*? \Z\n?)}mx.match(text, position)
             if unparsed_md[1].length > 0
-              unparsed_token = {:type => :unparsed, :literal => unparsed_md[1], :raw => ''}
+              unparsed_token = {:type => :unparsed,
+                                :literal => unparsed_md[1],
+                                :raw => ''}
               @tokens << unparsed_token
             end
           end
             
           # Sentence splits are just empty lines in Freeling
-          if line.size == 0
+          if line.length == 0
             token[:type] = :sentence_split
             token[:literal] = ''
             @tokens << token
@@ -93,20 +95,28 @@ class Sprakd
           end
           
           # The parsed token
-          info = line.split(/\s/)
+          info = line.split(/\s+/)
           token[:type] = :parsed
           [:literal, :lemma, :pos, :accuracy].each_with_index do |attr, i|
             token[attr] = info[i]
           end
           
-          # Anything unparsed preceding this token
-          unparsed_md = %r{(.*?) #{Regexp.quote(token[:literal])}}mx.match(text, position)
+          # Anything unparsed preceding this token.
+          # We need to do this complicated dance with _ since Freeling replaces spaces with it.
+          # And so we need to be able to find the token with both spaces and _ in it since
+          # we don't know what the original in the text actually is.
+          # Once we have the location in the text we can figure out if it should be with spaces or _.
+          unparsed_re = %r{(.*?) #{Regexp.quote(token[:literal])}}mx
+          unparsed_re = %r{#{unparsed_re.to_s.gsub('_', '[\s_]')}}
+          unparsed_md = unparsed_re.match(text, position)
           if unparsed_md && unparsed_md[1].length > 0
             unparsed_token = {:type => :unparsed, :literal => unparsed_md[1]}
+            unparsed_token[:characters] = (position..(position+unparsed_token[:literal].length-1))
             @tokens << unparsed_token
             position += unparsed_token[:literal].length
           end
 
+          token[:characters] = (position..(position+token[:literal].length-1))
           position += token[:literal].length
           @tokens << token
         end
