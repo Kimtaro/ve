@@ -74,24 +74,23 @@ class FreelingEnTest < Test::Unit::TestCase
     parse = freeling.parse("In New York")
     words = parse.words
     tokens = parse.tokens
-    pp tokens
     
     assert_equal ['In', 'New York'], words.collect(&:word)
     assert_equal ['in', 'new york'], words.collect(&:lemma)
-    assert_equal [Sprakd::PartOfSpeech::Preposition, Sprakd::PartOfSpeech::Propernoun], words.collect(&:part_of_speech)
+    assert_equal [Sprakd::PartOfSpeech::Preposition, Sprakd::PartOfSpeech::ProperNoun], words.collect(&:part_of_speech)
     assert_equal [nil, nil], words.collect(&:grammar)
-    assert_equal [tokens[0..1], tokens[2..2], tokens[3..11]], words.collect(&:tokens)
+    assert_equal [tokens[0..0], tokens[2..2]], words.collect(&:tokens)
 
     # Should keep them
+    # TODO
     freeling = Sprakd::Provider::FreelingEn.new
     parse = freeling.parse("In New_York")
     words = parse.words
     tokens = parse.tokens
-    pp tokens
     
     assert_equal ['In', 'New_York'], words.collect(&:word)
     assert_equal ['in', 'new_york'], words.collect(&:lemma)
-    assert_equal [Sprakd::PartOfSpeech::Preposition, Sprakd::PartOfSpeech::Propernoun], words.collect(&:part_of_speech)
+    assert_equal [Sprakd::PartOfSpeech::Preposition, Sprakd::PartOfSpeech::ProperNoun], words.collect(&:part_of_speech)
     assert_equal [nil, nil], words.collect(&:grammar)
     assert_equal [tokens[0..1], tokens[2..2], tokens[3..11]], words.collect(&:tokens)
   end

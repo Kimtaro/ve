@@ -70,6 +70,7 @@ class Sprakd
         output.each_with_index do |line, index|
           line.rstrip!
           token = {:raw => line}
+          # TODO: Mark the corresponding @text character range in the token
           
           # Anything unparsed at the end of the text
           # This must happen before sentence splits are detected to avoid funny ordering

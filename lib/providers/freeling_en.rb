@@ -82,6 +82,7 @@ class Sprakd
               unparsed_token = {:type => :unparsed,
                                 :literal => unparsed_md[1],
                                 :raw => ''}
+              unparsed_token[:characters] = (position..(position+unparsed_token[:literal].length-1))
               @tokens << unparsed_token
             end
           end
@@ -100,6 +101,9 @@ class Sprakd
           [:literal, :lemma, :pos, :accuracy].each_with_index do |attr, i|
             token[attr] = info[i]
           end
+
+          token[:literal].gsub!('_', ' ')
+          token[:lemma].gsub!('_', ' ')
           
           # Anything unparsed preceding this token.
           # We need to do this complicated dance with _ since Freeling replaces spaces with it.
