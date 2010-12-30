@@ -146,10 +146,13 @@ class Sprakd
       DOUSHIHIJIRITSUTEKI = '動詞非自立的'
       SAHEN_SURU = 'サ変・スル'
       TOKUSHU_TA = '特殊・タ'
-      TOKUSHU_DA = '特殊・ダ'
       TOKUSHU_NAI = '特殊・ナイ'
+      TOKUSHU_TAI = '特殊・タイ'
+      TOKUSHU_DESU = '特殊・デス'
+      TOKUSHU_DA = '特殊・ダ'
 
       # Etc
+      NA = 'な'
       NI = 'に'
       TE = 'て'
 
@@ -164,6 +167,7 @@ class Sprakd
             pos = nil
             grammar = nil
             eat_next = false
+            eat_lemma = true
             attach_to_previous = false
             also_attach_to_lemma = false
 
@@ -186,6 +190,7 @@ class Sprakd
                     pos = Sprakd::PartOfSpeech::Adjective
                     if following[:inflection_form] == TAIGENSETSUZOKU
                       eat_next = true
+                      eat_lemma = false
                     end
                   elsif following[:inflection_type] == TOKUSHU_NAI
                     pos = Sprakd::PartOfSpeech::Adjective
@@ -244,8 +249,10 @@ class Sprakd
             when JODOUSHI
               pos = Sprakd::PartOfSpeech::Postposition
 
-              if token[:inflection_type] == TOKUSHU_TA || token[:inflection_type] == TOKUSHU_NAI
+              if token[:inflection_type] == TOKUSHU_TA || token[:inflection_type] == TOKUSHU_NAI || token[:inflection_type] == TOKUSHU_TAI
                 attach_to_previous = true
+              elsif (token[:inflection_type] == TOKUSHU_DA || token[:inflection_type] == TOKUSHU_DESU) && token[:literal] != NA
+                pos = Sprakd::PartOfSpeech::Verb
               end
             when DOUSHI
               pos = Sprakd::PartOfSpeech::Verb
@@ -257,6 +264,7 @@ class Sprakd
             when KEIYOUSHI
               pos = Sprakd::PartOfSpeech::Adjective
             when JOSHI
+              pos = Sprakd::PartOfSpeech::Postposition
               if token[:pos2] == SETSUZOKUJOSHI
                 attach_to_previous = true
               end
@@ -288,7 +296,7 @@ class Sprakd
                 following = tokens.next
                 word.tokens << following
                 word.word << following[:literal]
-                word.lemma << following[:lemma]
+                word.lemma << following[:lemma] if eat_lemma
               end
 
               words << word
