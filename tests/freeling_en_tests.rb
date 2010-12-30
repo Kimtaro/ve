@@ -87,6 +87,15 @@ class FreelingEnTest < Test::Unit::TestCase
   end
 
   def test_symbol_parsing
+    freeling = Sprakd::Provider::FreelingEn.new
+
+    assert_parses_into_words(freeling,
+                             {:words => ['.', ',', '$'],
+                              :lemmas => ['.', ',', '$'],
+                              :pos => [Sprakd::PartOfSpeech::Symbol, Sprakd::PartOfSpeech::Symbol, Sprakd::PartOfSpeech::Symbol],
+                              :grammar => [nil, nil, nil],
+                              :tokens => [0..0, 1..1, 2..2]},
+                             '.,$')
   end
 
   def test_can_handle_underscores_properly
