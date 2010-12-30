@@ -1,13 +1,18 @@
 # Encoding: UTF-8
 
-require File.expand_path(File.dirname(__FILE__) + "/../lib/sprakd")
 require 'test/unit'
+require File.expand_path(File.dirname(__FILE__) + "/../lib/sprakd")
+require File.expand_path(File.dirname(__FILE__) + "/test_helper")
 
 class FreelingEnTest < Test::Unit::TestCase
   
   def test_should_be_able_to_start
     freeling = Sprakd::Provider::FreelingEn.new
     assert freeling.works?
+  end
+
+  # TODO: UTF-8 handling
+  def test_can_handle_utf8
   end
 
   def test_can_parse
@@ -66,6 +71,22 @@ class FreelingEnTest < Test::Unit::TestCase
     assert_equal [Sprakd::PartOfSpeech::Pronoun, Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::ProperNoun, Sprakd::PartOfSpeech::Noun, Sprakd::PartOfSpeech::Symbol], words.collect(&:part_of_speech)
     assert_equal [:personal, nil, nil, nil, nil], words.collect(&:grammar)
     assert_equal [[tokens[0]], [tokens[2]], tokens[4..5], [tokens[7]], [tokens[8]]], words.collect(&:tokens)
+  end
+
+  def test_date_parsing
+    # Should be turned off. At least for now
+    freeling = Sprakd::Provider::FreelingEn.new
+
+    assert_parses_into_words(freeling,
+                             {:words => ['January'],
+                              :lemmas => ['january'],
+                              :pos => [Sprakd::PartOfSpeech::Noun],
+                              :grammar => [nil],
+                              :tokens => [0..0]},
+                             'January')
+  end
+
+  def test_symbol_parsing
   end
 
   def test_can_handle_underscores_properly

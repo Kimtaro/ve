@@ -18,7 +18,7 @@ class Sprakd
     
         @config[:app] = `which #{@config[:app]}`.strip!
         local = @config[:app] =~ /local/ ? '/local' : ''
-        @config[:flags] = "-f /usr#{local}/share/FreeLing/config/en.cfg --flush --nonumb"
+        @config[:flags] = "-f /usr#{local}/share/FreeLing/config/en.cfg --flush --nonumb --nodate"
         
         @is_working = false        
         start!

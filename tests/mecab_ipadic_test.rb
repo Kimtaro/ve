@@ -1,7 +1,8 @@
 # Encoding: UTF-8
 
-require File.expand_path(File.dirname(__FILE__) + "/../lib/sprakd")
 require 'test/unit'
+require File.expand_path(File.dirname(__FILE__) + "/../lib/sprakd")
+require File.expand_path(File.dirname(__FILE__) + "/test_helper")
 
 class MecabIpadicTest < Test::Unit::TestCase
   
@@ -49,12 +50,11 @@ class MecabIpadicTest < Test::Unit::TestCase
     assert_equal '悪化', tokens[0][:lemma]
   end
 
-  # TODO: Test that entire rule tree
   def test_word_assembly
     mecab = Sprakd::Provider::MecabIpadic.new
 
     # Meishi
-    assert_parses_into_words({:words => ['車'],
+    assert_parses_into_words(mecab, {:words => ['車'],
                               :lemmas => ['車'],
                               :pos => [Sprakd::PartOfSpeech::Noun],
                               :grammar => [nil],
@@ -62,7 +62,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              '車')
     
     # Koyuumeishi
-    assert_parses_into_words({:words => ['太郎'],
+    assert_parses_into_words(mecab, {:words => ['太郎'],
                               :lemmas => ['太郎'],
                               :pos => [Sprakd::PartOfSpeech::ProperNoun],
                               :grammar => [nil],
@@ -70,7 +70,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              '太郎')
 
     # Daimeishi
-    assert_parses_into_words({:words => ['彼'],
+    assert_parses_into_words(mecab, {:words => ['彼'],
                               :lemmas => ['彼'],
                               :pos => [Sprakd::PartOfSpeech::Pronoun],
                               :grammar => [nil],
@@ -78,7 +78,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              '彼')
 
     # Fukushikanou
-    assert_parses_into_words({:words => ['午後に'],
+    assert_parses_into_words(mecab, {:words => ['午後に'],
                               :lemmas => ['午後に'],
                               :pos => [Sprakd::PartOfSpeech::Adverb],
                               :grammar => [nil],
@@ -86,14 +86,14 @@ class MecabIpadicTest < Test::Unit::TestCase
                              '午後に')
 
     # Kazu
-    assert_parses_into_words({:words => ['一'],
+    assert_parses_into_words(mecab, {:words => ['一'],
                               :lemmas => ['一'],
                               :pos => [Sprakd::PartOfSpeech::Number],
                               :grammar => [nil],
                               :tokens => [0..0]},
                              '一')
 
-    assert_parses_into_words({:words => ['１２３'],
+    assert_parses_into_words(mecab, {:words => ['１２３'],
                               :lemmas => ['１２３'],
                               :pos => [Sprakd::PartOfSpeech::Number],
                               :grammar => [nil],
@@ -101,7 +101,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              '１２３')
 
     # Sahensetsuzoku + tokumi ta
-    assert_parses_into_words({:words => ['悪化した'],
+    assert_parses_into_words(mecab, {:words => ['悪化した'],
                               :lemmas => ['悪化する'],
                               :pos => [Sprakd::PartOfSpeech::Verb],
                               :grammar => [nil],
@@ -109,7 +109,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              '悪化した')
 
     # Keiyoudoushigokan
-    assert_parses_into_words({:words => ['重要な'],
+    assert_parses_into_words(mecab, {:words => ['重要な'],
                               :lemmas => ['重要'],
                               :pos => [Sprakd::PartOfSpeech::Adjective],
                               :grammar => [nil],
@@ -117,7 +117,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              '重要な')
 
     # Naikeiyoushigokan
-    assert_parses_into_words({:words => ['とんでもない'],
+    assert_parses_into_words(mecab, {:words => ['とんでもない'],
                               :lemmas => ['とんでもない'],
                               :pos => [Sprakd::PartOfSpeech::Adjective],
                               :grammar => [nil],
@@ -125,7 +125,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              'とんでもない')
 
     # Meishi hijiritsu fukushikanou
-    assert_parses_into_words({:words => ['の', 'うちに'],
+    assert_parses_into_words(mecab, {:words => ['の', 'うちに'],
                               :lemmas => ['の', 'うちに'],
                               :pos => [Sprakd::PartOfSpeech::Postposition, Sprakd::PartOfSpeech::Adverb],
                               :grammar => [nil, nil],
@@ -133,14 +133,14 @@ class MecabIpadicTest < Test::Unit::TestCase
                              'のうちに')
 
     # Meishi hijiritsu jodoushigokan
-    assert_parses_into_words({:words => ['の', 'ような'],
+    assert_parses_into_words(mecab, {:words => ['の', 'ような'],
                               :lemmas => ['の', 'ようだ'],
                               :pos => [Sprakd::PartOfSpeech::Postposition, Sprakd::PartOfSpeech::Verb],
                               :grammar => [nil, :auxillary],
                               :tokens => [0..0, 1..2]},
                              'のような')
 
-    assert_parses_into_words({:words => ['の', 'ように'],
+    assert_parses_into_words(mecab, {:words => ['の', 'ように'],
                               :lemmas => ['の', 'ように'],
                               :pos => [Sprakd::PartOfSpeech::Postposition, Sprakd::PartOfSpeech::Adverb],
                               :grammar => [nil, nil],
@@ -148,21 +148,21 @@ class MecabIpadicTest < Test::Unit::TestCase
                              'のように')
 
     # Meishi hijiritsu keiyoudoushigokan
-    assert_parses_into_words({:words => ['みたいな'],
+    assert_parses_into_words(mecab, {:words => ['みたいな'],
                               :lemmas => ['みたいだ'],
                               :pos => [Sprakd::PartOfSpeech::Adjective],
                               :grammar => [nil],
                               :tokens => [0..1]},
                              'みたいな')
 
-    assert_parses_into_words({:words => ['みたいの'],
+    assert_parses_into_words(mecab, {:words => ['みたいの'],
                               :lemmas => ['みたいの'],
                               :pos => [Sprakd::PartOfSpeech::Adjective],
                               :grammar => [nil],
                               :tokens => [0..1]},
                              'みたいの')
 
-    assert_parses_into_words({:words => ['みたい', 'だ'],
+    assert_parses_into_words(mecab, {:words => ['みたい', 'だ'],
                               :lemmas => ['みたい', 'だ'],
                               :pos => [Sprakd::PartOfSpeech::Adjective, Sprakd::PartOfSpeech::Verb],
                               :grammar => [nil, nil],
@@ -170,7 +170,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              'みたいだ')
 
     # Meishi tokushu jodoushigokan
-    assert_parses_into_words({:words => ['行く', 'そう', 'だ'],
+    assert_parses_into_words(mecab, {:words => ['行く', 'そう', 'だ'],
                               :lemmas => ['行く', 'そう', 'だ'],
                               :pos => [Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::Verb],
                               :grammar => [nil, :auxillary, nil],
@@ -179,7 +179,7 @@ class MecabIpadicTest < Test::Unit::TestCase
 
     # Meishi setsubi
     # TODO: This should maybe be parsed as one noun instead
-    assert_parses_into_words({:words => ['楽し', 'さ'],
+    assert_parses_into_words(mecab, {:words => ['楽し', 'さ'],
                               :lemmas => ['楽しい', 'さ'],
                               :pos => [Sprakd::PartOfSpeech::Adjective, Sprakd::PartOfSpeech::Suffix],
                               :grammar => [nil, nil],
@@ -187,7 +187,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              '楽しさ')
 
     # Meishi setsuzokushiteki
-    assert_parses_into_words({:words => ['日本', '対', 'アメリカ'],
+    assert_parses_into_words(mecab, {:words => ['日本', '対', 'アメリカ'],
                               :lemmas => ['日本', '対', 'アメリカ'],
                               :pos => [Sprakd::PartOfSpeech::ProperNoun, Sprakd::PartOfSpeech::Conjunction, Sprakd::PartOfSpeech::ProperNoun],
                               :grammar => [nil, nil, nil],
@@ -195,7 +195,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              '日本対アメリカ')
 
     # Meishi doushihijiritsuteki
-    assert_parses_into_words({:words => ['見て', 'ごらん'],
+    assert_parses_into_words(mecab, {:words => ['見て', 'ごらん'],
                               :lemmas => ['見る', 'ごらん'],
                               :pos => [Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::Verb],
                               :grammar => [nil, :nominal],
@@ -203,7 +203,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              '見てごらん')
 
     # Settoushi
-    assert_parses_into_words({:words => ['お', '座り'],
+    assert_parses_into_words(mecab, {:words => ['お', '座り'],
                               :lemmas => ['お', '座り'],
                               :pos => [Sprakd::PartOfSpeech::Prefix, Sprakd::PartOfSpeech::Noun],
                               :grammar => [nil, nil],
@@ -211,7 +211,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              'お座り')
 
     # Kigou
-    assert_parses_into_words({:words => ['。'],
+    assert_parses_into_words(mecab, {:words => ['。'],
                               :lemmas => ['。'],
                               :pos => [Sprakd::PartOfSpeech::Symbol],
                               :grammar => [nil],
@@ -219,7 +219,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              '。')
 
     # Firaa
-    assert_parses_into_words({:words => ['えと'],
+    assert_parses_into_words(mecab, {:words => ['えと'],
                               :lemmas => ['えと'],
                               :pos => [Sprakd::PartOfSpeech::Interjection],
                               :grammar => [nil],
@@ -227,7 +227,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              'えと')
 
     # Sonota
-    assert_parses_into_words({:words => ['だ', 'ァ'],
+    assert_parses_into_words(mecab, {:words => ['だ', 'ァ'],
                               :lemmas => ['だ', 'ァ'],
                               :pos => [Sprakd::PartOfSpeech::Postposition, Sprakd::PartOfSpeech::Other],
                               :grammar => [nil, nil],
@@ -235,7 +235,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              'だァ')
 
     # Kandoushi
-    assert_parses_into_words({:words => ['おはよう'],
+    assert_parses_into_words(mecab, {:words => ['おはよう'],
                               :lemmas => ['おはよう'],
                               :pos => [Sprakd::PartOfSpeech::Interjection],
                               :grammar => [nil],
@@ -243,7 +243,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              'おはよう')
 
     # Rentaishi
-    assert_parses_into_words({:words => ['この'],
+    assert_parses_into_words(mecab, {:words => ['この'],
                               :lemmas => ['この'],
                               :pos => [Sprakd::PartOfSpeech::Determiner],
                               :grammar => [nil],
@@ -251,7 +251,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              'この')
 
     # Setsuzokushi
-    assert_parses_into_words({:words => ['そして'],
+    assert_parses_into_words(mecab, {:words => ['そして'],
                               :lemmas => ['そして'],
                               :pos => [Sprakd::PartOfSpeech::Conjunction],
                               :grammar => [nil],
@@ -259,7 +259,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              'そして')
 
     # Fukushi
-    assert_parses_into_words({:words => ['多分'],
+    assert_parses_into_words(mecab, {:words => ['多分'],
                               :lemmas => ['多分'],
                               :pos => [Sprakd::PartOfSpeech::Adverb],
                               :grammar => [nil],
@@ -267,21 +267,21 @@ class MecabIpadicTest < Test::Unit::TestCase
                              '多分')
 
     # Doushi
-    assert_parses_into_words({:words => ['行く'],
+    assert_parses_into_words(mecab, {:words => ['行く'],
                               :lemmas => ['行く'],
                               :pos => [Sprakd::PartOfSpeech::Verb],
                               :grammar => [nil],
                               :tokens => [0..0]},
                              '行く')
 
-    assert_parses_into_words({:words => ['行かない'],
+    assert_parses_into_words(mecab, {:words => ['行かない'],
                               :lemmas => ['行く'],
                               :pos => [Sprakd::PartOfSpeech::Verb],
                               :grammar => [nil],
                               :tokens => [0..1]},
                              '行かない')
 
-    assert_parses_into_words({:words => ['行って', 'きて'],
+    assert_parses_into_words(mecab, {:words => ['行って', 'きて'],
                               :lemmas => ['行く', 'くる'],
                               :pos => [Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::Verb],
                               :grammar => [nil, :auxillary],
@@ -289,14 +289,14 @@ class MecabIpadicTest < Test::Unit::TestCase
                              '行ってきて')
 
     # Doushi setsubi
-    assert_parses_into_words({:words => ['行かれる'],
+    assert_parses_into_words(mecab, {:words => ['行かれる'],
                               :lemmas => ['行く'],
                               :pos => [Sprakd::PartOfSpeech::Verb],
                               :grammar => [nil],
                               :tokens => [0..1]},
                              '行かれる')
 
-    assert_parses_into_words({:words => ['食べさせられた'],
+    assert_parses_into_words(mecab, {:words => ['食べさせられた'],
                               :lemmas => ['食べる'],
                               :pos => [Sprakd::PartOfSpeech::Verb],
                               :grammar => [nil],
@@ -304,42 +304,42 @@ class MecabIpadicTest < Test::Unit::TestCase
                              '食べさせられた')
 
     # Keiyoushi
-    assert_parses_into_words({:words => ['寒い'],
+    assert_parses_into_words(mecab, {:words => ['寒い'],
                               :lemmas => ['寒い'],
                               :pos => [Sprakd::PartOfSpeech::Adjective],
                               :grammar => [nil],
                               :tokens => [0..0]},
                              '寒い')
 
-    assert_parses_into_words({:words => ['寒くて'],
+    assert_parses_into_words(mecab, {:words => ['寒くて'],
                               :lemmas => ['寒い'],
                               :pos => [Sprakd::PartOfSpeech::Adjective],
                               :grammar => [nil],
                               :tokens => [0..1]},
                              '寒くて')
 
-    assert_parses_into_words({:words => ['寒かった'],
+    assert_parses_into_words(mecab, {:words => ['寒かった'],
                               :lemmas => ['寒い'],
                               :pos => [Sprakd::PartOfSpeech::Adjective],
                               :grammar => [nil],
                               :tokens => [0..1]},
                              '寒かった')
 
-    assert_parses_into_words({:words => ['寒ければ'],
+    assert_parses_into_words(mecab, {:words => ['寒ければ'],
                               :lemmas => ['寒い'],
                               :pos => [Sprakd::PartOfSpeech::Adjective],
                               :grammar => [nil],
                               :tokens => [0..1]},
                              '寒ければ')
 
-    assert_parses_into_words({:words => ['寒けりゃ'],
+    assert_parses_into_words(mecab, {:words => ['寒けりゃ'],
                               :lemmas => ['寒い'],
                               :pos => [Sprakd::PartOfSpeech::Adjective],
                               :grammar => [nil],
                               :tokens => [0..0]},
                              '寒けりゃ')
 
-    assert_parses_into_words({:words => ['食べたい'],
+    assert_parses_into_words(mecab, {:words => ['食べたい'],
                               :lemmas => ['食べる'],
                               :pos => [Sprakd::PartOfSpeech::Verb],
                               :grammar => [nil],
@@ -347,7 +347,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              '食べたい')
 
     # Joshi
-    assert_parses_into_words({:words => ['日本', 'から'],
+    assert_parses_into_words(mecab, {:words => ['日本', 'から'],
                               :lemmas => ['日本', 'から'],
                               :pos => [Sprakd::PartOfSpeech::ProperNoun, Sprakd::PartOfSpeech::Postposition],
                               :grammar => [nil, nil],
@@ -355,51 +355,35 @@ class MecabIpadicTest < Test::Unit::TestCase
                              '日本から')
 
     # The copula
-    assert_parses_into_words({:words => ['日本', 'です'],
+    assert_parses_into_words(mecab, {:words => ['日本', 'です'],
                               :lemmas => ['日本', 'です'],
                               :pos => [Sprakd::PartOfSpeech::ProperNoun, Sprakd::PartOfSpeech::Verb],
                               :grammar => [nil, nil],
                               :tokens => [0..0, 1..1]},
                              '日本です')
 
-    assert_parses_into_words({:words => ['日本', 'だった'],
+    assert_parses_into_words(mecab, {:words => ['日本', 'だった'],
                               :lemmas => ['日本', 'だ'],
                               :pos => [Sprakd::PartOfSpeech::ProperNoun, Sprakd::PartOfSpeech::Verb],
                               :grammar => [nil, nil],
                               :tokens => [0..0, 1..2]},
                              '日本だった')
 
+    # TODO: xした should parse as adjective?
+    assert_parses_into_words(mecab, {:words => [],
+                              :lemmas => [],
+                              :pos => [],
+                              :grammar => [],
+                              :tokens => []},
+                             '')
+
     #
-    assert_parses_into_words({:words => [],
+    assert_parses_into_words(mecab, {:words => [],
                               :lemmas => [],
                               :pos => [],
                               :grammar => [],
                               :tokens => []},
                              '')
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
-  end
-
-  private
-
-  def assert_parses_into_words(expected, text)
-    mecab = Sprakd::Provider::MecabIpadic.new
-    parse = mecab.parse(text)
-    words = parse.words
-    tokens = parse.tokens
-    
-    assert_equal expected[:words], words.collect(&:word)
-    assert_equal expected[:lemmas], words.collect(&:lemma)
-    assert_equal expected[:pos], words.collect(&:part_of_speech)
-    assert_equal expected[:grammar], words.collect(&:grammar)
-
-    words.each_with_index do |word, i|
-      assert_equal tokens[expected[:tokens][i]], word.tokens
-    end
   end
   
 end
