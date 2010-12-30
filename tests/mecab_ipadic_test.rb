@@ -313,25 +313,50 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :tokens => [0..3]},
                              '食べさせられた')
 
+    # Keiyoushi
+    assert_parses_into_words({:words => ['寒い'],
+                              :lemmas => ['寒い'],
+                              :pos => [Sprakd::PartOfSpeech::Adjective],
+                              :grammar => [nil],
+                              :tokens => [0..0]},
+                             '寒い')
+
+    assert_parses_into_words({:words => ['寒くて'],
+                              :lemmas => ['寒い'],
+                              :pos => [Sprakd::PartOfSpeech::Adjective],
+                              :grammar => [nil],
+                              :tokens => [0..1]},
+                             '寒くて')
+
+    assert_parses_into_words({:words => ['寒かった'],
+                              :lemmas => ['寒い'],
+                              :pos => [Sprakd::PartOfSpeech::Adjective],
+                              :grammar => [nil],
+                              :tokens => [0..1]},
+                             '寒かった')
+
+    assert_parses_into_words({:words => ['寒ければ'],
+                              :lemmas => ['寒い'],
+                              :pos => [Sprakd::PartOfSpeech::Adjective],
+                              :grammar => [nil],
+                              :tokens => [0..1]},
+                             '寒ければ')
+
+    assert_parses_into_words({:words => ['寒けりゃ'],
+                              :lemmas => ['寒い'],
+                              :pos => [Sprakd::PartOfSpeech::Adjective],
+                              :grammar => [nil],
+                              :tokens => [0..1]},
+                             '寒けりゃ')
+
+    assert_parses_into_words({:words => ['食べたい'],
+                              :lemmas => ['食べたい'],
+                              :pos => [Sprakd::PartOfSpeech::Adjective],
+                              :grammar => [nil],
+                              :tokens => [0..1]},
+                             '食べたい')
+
     #
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
-    assert_parses_into_words({:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
     assert_parses_into_words({:words => [],
                               :lemmas => [],
                               :pos => [],

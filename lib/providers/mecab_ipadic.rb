@@ -128,6 +128,7 @@ class Sprakd
       SETSUZOKUSHI = '接続詞'
       FUKUSHI = '副詞'
       SETSUZOKUJOSHI = '接続助詞'
+      KEIYOUSHI = '形容詞'
 
       # Pos2 and Inflection types
       HIJIRITSU = '非自立'
@@ -253,8 +254,10 @@ class Sprakd
               elsif token[:pos2] == HIJIRITSU
                 grammar = :auxillary
               end
+            when KEIYOUSHI
+              pos = Sprakd::PartOfSpeech::Adjective
             when JOSHI
-              if token[:pos2] == SETSUZOKUJOSHI && token[:literal] == TE
+              if token[:pos2] == SETSUZOKUJOSHI
                 attach_to_previous = true
               end
             when RENTAISHI
