@@ -29,11 +29,12 @@ class MecabIpadicTest < Test::Unit::TestCase
     assert_equal text, parse.tokens.collect { |t| t[:literal] }.join
   end
   
-  def test_creates_tokens_from_data_that_is_ignored_in_parsing
+  def test_tokens_must_be_created_for_parsed_and_unparsed_text
     mecab = Sprakd::Provider::MecabIpadic.new
     parse = mecab.parse(' A   B  ')
     assert_equal [:unparsed, :parsed, :unparsed, :parsed, :unparsed, :sentence_split], parse.tokens.collect { |t| t[:type] }
     assert_equal [' ', 'A', '   ', 'B', '  ', ''], parse.tokens.collect { |t| t[:literal] }
+    assert_equal [0..0, 1..1, 2..4, 5..5, 6..7, nil], parse.tokens.collect { |t| t[:characters] }
   end
   
   def test_tokens_should_not_be_modified_when_attached_to_words

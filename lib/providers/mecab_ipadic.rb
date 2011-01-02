@@ -74,10 +74,11 @@ class Sprakd
           
           # Anything unparsed at the end of the text
           # This must happen before sentence splits are detected to avoid funny ordering
-          if output.size > 1 && output.size == index + 1
+          if output.length > 1 && output.length == index + 1
             unparsed_md = %r{(.*? \Z\n?)}mx.match(text, position)
             if unparsed_md[1].length > 0
               unparsed_token = {:type => :unparsed, :literal => unparsed_md[1], :raw => ''}
+              unparsed_token[:characters] = (position..(position+unparsed_token[:literal].length-1))
               @tokens << unparsed_token
             end
           end
@@ -98,10 +99,12 @@ class Sprakd
             unparsed_md = %r{(.*?) #{Regexp.quote(token[:literal])}}mx.match(text, position)
             if unparsed_md[1].length > 0
               unparsed_token = {:type => :unparsed, :literal => unparsed_md[1]}
+              unparsed_token[:characters] = (position..(position+unparsed_token[:literal].length-1))
               @tokens << unparsed_token
               position += unparsed_token[:literal].length
             end
             
+            token[:characters] = (position..(position+token[:literal].length-1))
             position += token[:literal].length
           else
             # C'est une catastrophe
