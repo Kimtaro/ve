@@ -31,15 +31,9 @@ class MecabIpadicTest < Test::Unit::TestCase
   
   def test_creates_tokens_from_data_that_is_ignored_in_parsing
     mecab = Sprakd::Provider::MecabIpadic.new
-    parse = mecab.parse('A   B  ')
-    assert_equal [:parsed, :unparsed, :parsed, :unparsed, :sentence_split], parse.tokens.collect { |t| t[:type] }
-    assert_equal ['A', '   ', 'B', '  ', ''], parse.tokens.collect { |t| t[:literal] }
-  end
-  
-  def test_can_give_sentences
-    mecab = Sprakd::Provider::MecabIpadic.new
-    parse = mecab.parse('これは文章である。で、also containing some Englishですね')
-    assert_equal ['これは文章である。', 'で、also containing some Englishですね'], parse.sentences
+    parse = mecab.parse(' A   B  ')
+    assert_equal [:unparsed, :parsed, :unparsed, :parsed, :unparsed, :sentence_split], parse.tokens.collect { |t| t[:type] }
+    assert_equal [' ', 'A', '   ', 'B', '  ', ''], parse.tokens.collect { |t| t[:literal] }
   end
   
   def test_tokens_should_not_be_modified_when_attached_to_words
@@ -50,7 +44,14 @@ class MecabIpadicTest < Test::Unit::TestCase
     assert_equal '悪化', tokens[0][:lemma]
   end
 
-  def test_word_assembly
+  def test_sentences
+    mecab = Sprakd::Provider::MecabIpadic.new
+    parse = mecab.parse('これは文章である。で、also containing some Englishですね')
+    assert_equal ['これは文章である。', 'で、also containing some Englishですね'], parse.sentences
+  end
+  
+
+  def test_words
     mecab = Sprakd::Provider::MecabIpadic.new
 
     # Meishi
