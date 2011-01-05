@@ -151,6 +151,7 @@ class Sprakd
       TOKUSHU_TAI = '特殊・タイ'
       TOKUSHU_DESU = '特殊・デス'
       TOKUSHU_DA = '特殊・ダ'
+      TOKUSHU_MASU = '特殊・マス'
 
       # Etc
       NA = 'な'
@@ -250,7 +251,7 @@ class Sprakd
             when JODOUSHI
               pos = Sprakd::PartOfSpeech::Postposition
 
-              if token[:inflection_type] == TOKUSHU_TA || token[:inflection_type] == TOKUSHU_NAI || token[:inflection_type] == TOKUSHU_TAI
+              if [TOKUSHU_TA, TOKUSHU_NAI, TOKUSHU_TAI, TOKUSHU_MASU].include?(token[:inflection_type])
                 attach_to_previous = true
               elsif (token[:inflection_type] == TOKUSHU_DA || token[:inflection_type] == TOKUSHU_DESU) && token[:literal] != NA
                 pos = Sprakd::PartOfSpeech::Verb

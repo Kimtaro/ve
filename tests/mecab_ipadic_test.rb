@@ -305,6 +305,14 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :tokens => [0..3]},
                              '食べさせられた')
 
+    # Doushi + jodoushi
+    assert_parses_into_words(mecab, {:words => ['食べました'],
+                              :lemmas => ['食べる'],
+                              :pos => [Sprakd::PartOfSpeech::Verb],
+                              :grammar => [nil],
+                              :tokens => [0..2]},
+                             '食べました')
+
     # Keiyoushi
     assert_parses_into_words(mecab, {:words => ['寒い'],
                               :lemmas => ['寒い'],
@@ -378,14 +386,13 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :grammar => [],
                               :tokens => []},
                              '')
+  end
 
-    #
-    assert_parses_into_words(mecab, {:words => [],
-                              :lemmas => [],
-                              :pos => [],
-                              :grammar => [],
-                              :tokens => []},
-                             '')
+  def test_word_transliteration
+    mecab = Sprakd::Provider::MecabIpadic.new
+    parse = mecab.parse('日本')
+
+    assert_equal 'にほん', parse.words.first.transliteration(:latn)
   end
   
 end
