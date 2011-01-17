@@ -390,7 +390,7 @@ class MecabIpadicTest < Test::Unit::TestCase
 
   def test_word_transliteration
     mecab = Sprakd::Provider::MecabIpadic.new
-    parse = mecab.parse('日本')
+    parse = mecab.parse('日本', :transliterate_words => :latn)
 
     assert_equal 'にほん', parse.words.first.transliteration(:latn)
   end

@@ -9,8 +9,8 @@ require 'pp'
 
 class Sprakd
 
-  def self.get(text, language, function)
-    provider = Sprakd::Manager.provider_for(language, function)
+  def self.get(text, language, function, *args)
+    provider = Sprakd::Manager.provider_for(language, function, *args)
     parse = provider.parse(text)
     parse.send(function.to_sym)
   end
@@ -21,20 +21,28 @@ class Sprakd
       @@provider_for[language.to_sym][function.to_sym]
     end
 
-    def self.register(klass, language, functions)
+    def self.register(klass, language)
       @@provider_for ||= {}
       provider = klass.new
-      functions.each do |f|
+      # This won't work if people start monkey patching the providers with public methods that arent abilities
+      # It's also not pretty, but kinda nifty
+      provider_name = provider.class.to_s.split('::').last
+      parse_class = Kernel.class_eval("Sprakd::Parse::#{provider_name}")
+      abilities = parse_class.public_instance_methods - Object.public_instance_methods
+      abilities.each do |a|
         @@provider_for[language.to_sym] ||= {}
-        @@provider_for[language.to_sym][f.to_sym] = provider
+        @@provider_for[language.to_sym][a] = provider
       end
+      pp @@provider_for
     end
 
   end
 
 end
 
+# Autoload this shit
 require 'providers/fallbacks'
 require 'providers/mecab_ipadic'
 require 'providers/freeling_en'
+require 'providers/transliterators'
 

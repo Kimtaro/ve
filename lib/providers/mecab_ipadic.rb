@@ -27,7 +27,7 @@ class Sprakd
       end
   
       # Talks to the app and returns a parse object
-      def parse(text)
+      def parse(text, options = {})
         @stdin.puts "#{text} #{BIT_STOP}"
         output = []
         
@@ -337,5 +337,5 @@ class Sprakd
   end
 end
 
-Sprakd::Manager.register(Sprakd::Provider::MecabIpadic, :ja, [:words, :sentences])
+Sprakd::Manager.register(Sprakd::Provider::MecabIpadic, :ja)
 
