@@ -311,6 +311,7 @@ class Sprakd
       end
       
       def sentences
+        # TODO: Sentence objects that keep track of the sentence's tokens
         sentences = []
         current = ''
         
