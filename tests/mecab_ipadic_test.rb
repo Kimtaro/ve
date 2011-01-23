@@ -1,7 +1,6 @@
 # Encoding: UTF-8
 
 require 'test/unit'
-require File.expand_path(File.dirname(__FILE__) + "/../lib/sprakd")
 require File.expand_path(File.dirname(__FILE__) + "/test_helper")
 
 class MecabIpadicTest < Test::Unit::TestCase
