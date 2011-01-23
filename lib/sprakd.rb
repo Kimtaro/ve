@@ -33,7 +33,6 @@ class Sprakd
         @@provider_for[language.to_sym] ||= {}
         @@provider_for[language.to_sym][a] = provider
       end
-      pp @@provider_for
     end
 
   end
