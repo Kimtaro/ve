@@ -21,6 +21,8 @@ class Sprakd
       @@provider_for[language.to_sym][function.to_sym]
     end
 
+    # TODO: Make a difference between what features are available locally
+    # and what requires contacting external Sprakds
     def self.register(klass, language)
       @@provider_for ||= {}
       provider = klass.new

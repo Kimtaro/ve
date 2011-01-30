@@ -12,7 +12,7 @@ class Test::Unit::TestCase
     assert_equal expected[:words], words.collect(&:word)
     assert_equal expected[:lemmas], words.collect(&:lemma)
     assert_equal expected[:pos], words.collect(&:part_of_speech)
-    assert_equal expected[:grammar], words.collect(&:grammar)
+    assert_equal expected[:extra], words.collect(&:extra)
 
     words.each_with_index do |word, i|
       assert_equal tokens[expected[:tokens][i]], word.tokens
