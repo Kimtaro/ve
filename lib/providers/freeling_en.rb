@@ -215,5 +215,5 @@ class Sprakd
   end
 end
 
-Sprakd::Manager.register(Sprakd::Provider::FreelingEn, :en, [:words, :sentences])
+Sprakd::Manager.register(Sprakd::Provider::FreelingEn, :en)
 

@@ -27,7 +27,7 @@ class Sprakd
       end
   
       # Talks to the app and returns a parse object
-      def parse(text)
+      def parse(text, options = {})
         @stdin.puts "#{text} #{BIT_STOP}"
         output = []
         
@@ -289,15 +289,26 @@ class Sprakd
             if attach_to_previous && words.length > 0
               words[-1].tokens << token
               words[-1].word << token[:literal]
+              words[-1].extra[:reading] << token[:reading]
+              words[-1].extra[:transcription] << token[:hatsuon]
               words[-1].lemma << token[:lemma] if also_attach_to_lemma
             else
               pos = Sprakd::PartOfSpeech::TBD if pos.nil?
-              word = Sprakd::Word.new(token[:literal], token[:lemma], pos, [token], grammar)
+              word = Sprakd::Word.new(token[:literal], token[:lemma], pos, [token], {
+                :reading => token[:reading],
+                :transcription => token[:hatsuon],
+                :grammar => grammar
+              }, {
+                :reading_script => :kata,
+                :transcription_script => :kata
+              })
 
               if eat_next
                 following = tokens.next
                 word.tokens << following
                 word.word << following[:literal]
+                word.extra[:reading] << following[:reading]
+                word.extra[:transcription] << following[:hatsuon]
                 word.lemma << following[:lemma] if eat_lemma
               end
 
@@ -311,6 +322,7 @@ class Sprakd
       end
       
       def sentences
+        # TODO: Sentence objects that keep track of the sentence's tokens
         sentences = []
         current = ''
         
@@ -337,5 +349,5 @@ class Sprakd
   end
 end
 
-Sprakd::Manager.register(Sprakd::Provider::MecabIpadic, :ja, [:words, :sentences])
+Sprakd::Manager.register(Sprakd::Provider::MecabIpadic, :ja)
 
