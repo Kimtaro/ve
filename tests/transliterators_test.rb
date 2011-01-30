@@ -15,8 +15,12 @@ class TransliteratorsTest < Test::Unit::TestCase
   
   def test_transliterate_from_hira_to_kata
     trans = Sprakd::Provider::Transliterators.new
-    
     assert_equal KATAKANA, trans.parse(HIRAGANA).transliterate_from_hira_to_kata
+  end
+
+  def test_transliterate_from_kata_to_hira
+    trans = Sprakd::Provider::Transliterators.new
+    assert_equal HIRAGANA, trans.parse(KATAKANA).transliterate_from_kata_to_hira
   end
 
 end
