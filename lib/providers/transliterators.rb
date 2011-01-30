@@ -14,6 +14,7 @@ class Sprakd
       end
 
       def parse(text, options = {})
+        Sprakd::Parse::Transliterators.new(text)
       end
 
     end
@@ -32,7 +33,35 @@ class Sprakd
       end
 
       def transliterate_from_kana_to_latn
-        return 'X'
+        return @text
+      end
+      
+      def transliterate_from_hira_to_kata
+        kata = ''
+
+        @text.each_codepoint do |c|
+          if c >= 12353 and c <= 12438
+            kata << (c + 96).chr(Encoding::UTF_8)
+          else
+            kata << c.char(Encoding::UTF_8)
+          end
+        end
+
+        return kata
+      end
+      
+      def transliterate_from_kata_to_hira
+        hira = ''
+
+        @text.each_codepoint do |c|
+          if c >= 12449 and c <= 12534
+            hira << (c - 96).chr(Encoding::UTF_8)
+          else
+            hira << c.chr(Encoding::UTF_8)
+          end
+        end
+
+        return hira
       end
 
     end
