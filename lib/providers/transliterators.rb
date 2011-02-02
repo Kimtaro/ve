@@ -83,28 +83,37 @@ class Sprakd
         # Hepburn style romaji
         kana = @text.dup
         romaji = ''
+        geminate = false
 
         while kana.length > 0
-          [3, 2, 1].each do |length|
+          [2, 1].each do |length|
             mora = ''
-            for_removal = length
             for_conversion = kana[0, length]
-            
+
             if for_conversion == 'っ'
-              # TODO
+              geminate = true
+              kana[0, length] = ''
+              break
+            elsif for_conversion == 'ん' && kana[1, 1].match(/[やゆよ]/)
+              # Syllabic N before ya, yu or yo
+              mora = "n'"
             elsif HIRA_TO_LATN[for_conversion]
               # Generic cases
               mora = HIRA_TO_LATN[for_conversion]
             end
 
             if mora.length > 0
+              if geminate
+                geminate = false
+                romaji << mora[0, 1]
+              end
               romaji << mora
-              kana[0, for_removal] = ''
+              kana[0, length] = ''
               break
             elsif length == 1
               # Nothing found
               romaji << for_conversion
-              romaji[0, for_removal] = ''
+              kana[0, length] = ''
             end
           end
         end
