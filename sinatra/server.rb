@@ -4,23 +4,29 @@ require 'json'
 
 require File.expand_path(File.dirname(__FILE__) + "/../lib/sprakd")
 
-get '/:language/words' do
-  words
+get '/:language/:function' do
+  run
 end
 
-post '/:language/words' do
-  words
+post '/:language/:function' do
+  run
 end
 
 private
 
-def words
-  words = Sprakd.get(params[:text], params[:language], :words)
+def run
+  result = Sprakd.get(params[:text], params[:language], params[:function].to_sym)
 
-  result = JSON.generate(words.collect(&:as_json))
-  if params[:callback]
-    result = "#{params[:callback]}(#{result})"
+  case params[:function].to_sym
+  when 'words'
+    json = JSON.generate(result.collect(&:as_json))
+  else
+    json = result
   end
-  
-  result
+
+  if params[:callback]
+    json = "#{params[:callback]}(#{result})"
+  end
+
+  json
 end
