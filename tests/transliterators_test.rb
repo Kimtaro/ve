@@ -33,4 +33,10 @@ class TransliteratorsTest < Test::Unit::TestCase
     assert_equal HIRAGANA, trans.parse(KATAKANA).transliterate_from_kata_to_hira
   end
 
+  def test_transliterate_from_kana_to_latn
+    trans = Sprakd::Provider::Transliterators.new
+    assert_equal 'hiraganakatakana', trans.parse('ひらがなカタカナ').transliterate_from_kana_to_latn
+    
+  end
+
 end

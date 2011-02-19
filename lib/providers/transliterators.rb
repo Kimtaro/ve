@@ -79,6 +79,17 @@ class Sprakd
         @text = text
       end
 
+      # TODO:
+      def transliterate_from_latn_to_hira
+        @text
+      end
+      
+      # TODO: How to deal with inter-provider dependencies?
+      # TODO: hani is language independent (hanzi + kanji + hanja)
+      def transliterate_from_hani_to_latn
+        @text
+      end
+
       def transliterate_from_hira_to_latn
         # Hepburn style romaji
         kana = @text.dup
@@ -149,6 +160,12 @@ class Sprakd
         return hira
       end
 
+      # TODO: test
+      def transliterate_from_kana_to_latn
+        @text = transliterate_from_kata_to_hira
+        transliterate_from_hira_to_latn
+      end
+      
     end
   end
 end
