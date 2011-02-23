@@ -68,7 +68,18 @@ table{
 \*------------------------------------*/
 /* GO! */
 
-body { font-family: Helvetica; background-color: #f0f0f0; }
-h1 { font-family: 'Allan'; font-weight: bold; font-size: 3em; }
-h2 { font-family: 'Allan'; font-weight: bold; font-size: 1.7em; }
+body { font-family: 'Droid Serif', Times, Serif; background-color: #E3DCCC; }
+h1 { font-family: "league-gothic-1","league-gothic-2"; font-weight: normal; font-size: 3em; background: black; color: #fafafa; }
+h2 { font-family: "league-gothic-1","league-gothic-2"; font-weight: normal; font-size: 1.7em; border-top: 3px solid black; line-height: 1; margin: 0.5em 0 0.3em; color: #BF4128; }
+h1, h2 { padding: 7px 0 7px 7px; }
 h1 .phon { font-family: 'Times New Roman', serif; font-weight: normal; font-size: 0.5em; color: #666; }
+.insignia { font-family: Menlo, Monaco, Courier, Monospace; width: 75px; height: 75px; margin: 0 auto; background: #3C8B6C; color: #fff; text-align: center; font-size: 2em; line-height: 65px; position: relative; top: -41px; margin-bottom: -36px; -webkit-border-radius: 75px; -moz-border-radius: 75px; border-radius: 75px; padding: 3px; }
+.insignia div { width: 67px; height: 67px; margin: 1px auto 0 auto; border: 3px solid white; -webkit-border-radius: 75px; -moz-border-radius: 75px; border-radius: 75px; }
+
+#main, header { width: 900px; margin: 0 auto; background: #fafafa; }
+#main { border-width: 0 3px; border-style: solid; border-color: black; }
+p, ul, dl { font-size: 1em; line-height: 1.3; margin: 7px; }
+dt { font-style: italic; font-size: 1.1em; }
+dd { margin: 0 0 1em 2em; }
+tt { font-family: Menlo, Monaco, Courier, Monospace;}
+footer { margin: 1em auto; width: 900px; font-size: 0.7em; }

@@ -4,6 +4,9 @@
   <meta charset="utf-8" />
   <title>Ve - A linguistic framework you can use</title>
   <link href='http://fonts.googleapis.com/css?family=Allan:bold' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold' rel='stylesheet' type='text/css'>
+  <script type="text/javascript" src="http://use.typekit.com/zhk5yki.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
   <link rel="stylesheet" type="text/css" href="style.css" />
   <!--[if IE]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -11,27 +14,44 @@
 </head>
 <body id="home">
 
-  <header>
-    <h1>Ve <span class="phon">/veː/</span></h1>
-  </header>
-
   <section id="main">
+    <header>
+      <h1>A linguistic framework</h1>
+      <div class="insignia"><div>veː</div></div>
+    </header>
+    
     <p>
-      Ve is a linguistics framework built for programmers, not linguists. Use advanced language parsing in your app without first taking years of grammar, math and machine intelligence or reading through obtuse parser manuals. ZOMG!
+      Ve is a linguistic framework built for programmers. Use advanced language parsing in your app without first taking years of grammar, math and machine intelligence or reading through obtuse parser manuals. ZOMG!
     </p>
   
     <p>Ve sits on top of existing language specific parsers and unifies their output into a common interface. In this sense Ve is programming language agnostic, and more the specification of the interface rather than the implementation itself.</p>
+    
+    <p>Ve is in alpha stage. It might eat your kids.</p>
   
     <h2>Ve gives you</h2>
   
     <dl>
-      <dt>Base form of words. No more inaccurate stemming!</dt>
-      <dd>flying → fly<br>flies → fly</dd>
+      <dt>Base form of words</dt>
+      <dd>
+        flying → <tt>fly</tt><br>
+        flies → <tt>fly</tt><br>
+        Look 'ma! No more inaccurate stemming!
+      </dd>
       <dt>Parts of speech</dt>
-      <dd>I eat gigantic cookies → Pronoun Verb Adjective Noun</dd>
+      <dd>I eat gigantic cookies → <tt>Pronoun Verb Adjective Noun</tt></dd>
+      <dt>Transliterations</dt>
+      <dd>
+        漢字 → <tt>kanji</tt><br>
+        Many languages use non-latin writing, or extensions to the a-z in English. Being able to convert between scripts is sometimes crucial to an application. Ve has beautiful support for this.
+      </dd>
       <dt>Just what you need</dt>
-      <dd>Existing language parsers are aimed at researchers and linguists and give far more detailed information than most everyday applications call for. Ve transforms complex data into simple that is just what you need in most applications.</dd>
+      <dd>Existing language parsers are aimed at researchers and linguists and give far more detailed information than most everyday applications call for. Ve transforms complex data into just what you need.</dd>
     </dl>
+  
+    <h2>Try Ve</h2>
+    
+    <textarea id="input"></textarea>
+    <textarea id="output"></textarea>
   
     <h2>Why Ve is good</h2>
   
@@ -39,7 +59,7 @@
       <dt>Language agnostic</dt>
       <dd>Use the same API for all languages that Ve supports.</dd>
       <dt>Non-destructive parsing<dt>
-      <dd>Most parsers spit out only the text they deal with, missing spacing and punctuation. Ve goes to great lengths to make sure your original input can be reconstructed from its output.</dd>
+      <dd>Most parsers spit out only the text they deal with, ignoring whitespace, punctuation and text it can't deal with. Ve goes to great lengths to make sure your original input can be reconstructed from its output.</dd>
       <dt>Protection</dt>
       <dd>Some parsers have <strike>STDs</strike> instabilities and odd interfaces. Ve takes care of weird character encodings and crashing parsers, giving you a stable and predictable interface.</dd>
       <dt>Access</dt>
@@ -48,7 +68,7 @@
 
     <h2>Support chart</h2>
     
-    <p>Ve aims to support all of its features for as many languages as possible. Here's the currently supported functions per language.</p>
+    <p>Ve aims to support all of its features for as many languages as possible, but it's a lot of work. Here's the currently supported functions per language.</p>
     
     <table>
       <thead>
@@ -59,14 +79,14 @@
         <td>Transliterations</td>
       </thead>
       <tr>
-        <td>English</td>
+        <td class="lang">English</td>
         <td class="yes">✔</td>
         <td class="yes">✔</td>
         <td class="yes">✔</td>
         <td class="no">✘</td>
       </tr>
       <tr>
-        <td>Japanese</td>
+        <td class="lang">Japanese</td>
         <td class="yes">✔</td>
         <td class="yes">✔</td>
         <td class="yes">✔</td>
@@ -81,15 +101,17 @@
         </td>
       </tr>
     </table>
+    
+    <p>The base recommended Ve installation uses parsers that you can use in both commercial and non-commercial projects. But some features might be implemented by parsers that expressly disallows commercial usage. Please check the license of each parser interface to make sure you COMPLY.</p>
 
     <h2>Caveats</h2>
   
     <p>Ve is meant for pragmatic applications of linguistics, like search indexing and </p>
   </section>    
 
-  <section>
+  <footer>
     <p>The name Ve, or Vé, comes from Nordic mythology where he is one of Odin's two brothers and the one who gave language to man. <a href="http://en.wikipedia.org/wiki/Vili_and_Vé">http://en.wikipedia.org/wiki/Vili_and_Vé</a>
-  </section>
+  </footer>
 
 </body>
 </html>
