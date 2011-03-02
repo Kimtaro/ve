@@ -11,6 +11,7 @@ class Sprakd
 
       BIT_STOP = 'SprakdEnd'
   
+      # TODO: Automatically set FREELINGSHARE if it's not set?
       def initialize(config = {})
         @config = {:app => 'analyzer',
                    :path => '',
@@ -52,6 +53,8 @@ class Sprakd
   
       def start!
         @stdin, @stdout, @stderr = Open3.popen3("#{@config[:app]} #{@config[:flags]}")
+        @stdin.set_encoding('UTF-8', 'ISO-8859-1')
+        @stdout.set_encoding('ISO-8859-1', 'UTF-8')
         @is_working = works?
       rescue
         @is_working = false
