@@ -9,6 +9,8 @@ class Sprakd
       @lemma = lemma.dup
       @part_of_speech = part_of_speech
       @tokens = tokens
+      
+      # TODO: I don't like this, it's too unstructured
       @extra = extra
       @info = info
     end
