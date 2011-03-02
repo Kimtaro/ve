@@ -15,10 +15,13 @@ end
 private
 
 def run
+#  Sprakd.source = Sprakd::Local # Default
+#  Sprakd.source = Sprakd::Remote.new(:url => 'http://sprakd.kimtaro.com/', :access_token => 'XYZ')
   result = Sprakd.get(params[:text], params[:language], params[:function].to_sym)
+#  result = Sprakd.in(params[:language]).params[:text]
 
   case params[:function].to_sym
-  when 'words'
+  when :words
     json = JSON.generate(result.collect(&:as_json))
   else
     json = result
