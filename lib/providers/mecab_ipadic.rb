@@ -44,6 +44,7 @@ class Sprakd
 
       private
   
+      # TODO: Use Process.spawn/kill for process control?
       def start!
         @stdin, @stdout, @stderr = Open3.popen3(@config[:app])
         @is_working = works?

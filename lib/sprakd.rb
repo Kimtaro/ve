@@ -11,7 +11,7 @@ class Sprakd
 
   def self.get(text, language, function, *args)
     provider = Sprakd::Manager.provider_for(language, function, *args)
-    parse = provider.parse(text)
+    parse = provider.parse(text, args)
     parse.send(function.to_sym)
   end
 

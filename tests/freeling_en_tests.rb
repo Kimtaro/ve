@@ -10,6 +10,12 @@ class FreelingEnTest < Test::Unit::TestCase
     assert freeling.works?
   end
 
+  def test_doesnt_die_on_japanese
+    freeling = Sprakd::Provider::FreelingEn.new
+    parse = freeling.parse('これは日本語です')
+    assert_equal Sprakd::Parse::FreelingEn, parse.class
+  end
+
   # TODO: UTF-8 handling
   def test_can_handle_utf8
   end

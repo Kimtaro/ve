@@ -2,6 +2,7 @@ var Sprakd = (function() {
   return({
     'parse': function(text, language, func, callback) {
       var url = 'http://sprak.kimtaro.com:4567/' + language + '/' + func;
+      //var url = 'http://localhost:4567/' + language + '/' + func;
       $.ajax({
         url: url,
         data: {'text': text},

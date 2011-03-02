@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body { font-family: Sans-serif }
+      div.word { float: left; width: auto; white-space: nowrap; margin: 0 5px 5px 0; background: #f0f0f0; padding: 3px; }
+      .extra { color: #aaa; }
+    </style>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+    <p>
+      <input type="text" size="100" id="text" />
+    </p>
+    <p>
+      <select id="lang">
+        <option value="ja" selected>Japanese</option>
+        <option value="en">English</option>
+      </select>
+    </p>
+    <div id="result"></div>
+
+    <script src="jquery-1.4.4.min.js"></script>
+    <script src="sprakd.js"></script>
+    <script>
+      $(document).ready(function(){
+
+        $('#text').keyup(function(){
+          var text = $('#text').val();
+          var language = $('#lang option:selected').val();
+          Sprakd.parse(text, language, 'words', function(data){
+            $('#result').html('');
+            $.each(data, function(i, word) {
+              $('#result').append(
+              '<div class="word">' +
+                '<span class="extra">' + word.part_of_speech + '<br />' +
+                  word.lemma + '<br/>' +
+                  (!!word.extra ? word.extra.reading + '</span><br />' : '') +
+                word.word +
+                '</div>'
+              );
+            });
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
