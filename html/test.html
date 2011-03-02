@@ -35,7 +35,7 @@
               '<div class="word">' +
                 '<span class="extra">' + word.part_of_speech + '<br />' +
                   word.lemma + '<br/>' +
-                  word.extra.reading + '</span><br />' +
+                  (!!word.extra ? word.extra.reading + '</span><br />' : '') +
                 word.word +
                 '</div>'
               );

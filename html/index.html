@@ -16,9 +16,20 @@
 
   <section id="main">
     <header>
-      <h1>A linguistic framework</h1>
+      <h1>Ve: A linguistic framework</h1>
       <div class="insignia"><div>veː</div></div>
     </header>
+    
+    <nav>
+      <ul>
+        <li>Overview</li>
+        <li>Structure</li>
+        Specification, Hosted API
+    </nav>
+
+    <p>
+      You have a powerful database, and a kickass ORM. So why are you still using stemming?
+    </p>
     
     <p>
       Ve is a linguistic framework built for programmers. Use advanced language parsing in your app without first taking years of grammar, math and machine intelligence or reading through obtuse parser manuals. ZOMG!
@@ -27,7 +38,7 @@
     <p>Ve sits on top of existing language specific parsers and unifies their output into a common interface. In this sense Ve is programming language agnostic, and more the specification of the interface rather than the implementation itself.</p>
     
     <p>Ve is in alpha stage. It might eat your kids.</p>
-  
+      
     <h2>Ve gives you</h2>
   
     <dl>
@@ -48,10 +59,14 @@
       <dd>Existing language parsers are aimed at researchers and linguists and give far more detailed information than most everyday applications call for. Ve transforms complex data into just what you need.</dd>
     </dl>
   
+    <h2>Ruby Example</h2>
+    <h2>Javscript Example</h2>
+  
     <h2>Try Ve</h2>
     
     <textarea id="input"></textarea>
     <textarea id="output"></textarea>
+    <div id="result"></div>
   
     <h2>Why Ve is good</h2>
   
@@ -72,11 +87,13 @@
     
     <table>
       <thead>
-        <td>&nbsp;</td>
-        <td>Words with base forms</td>
-        <td>Parts of speech</td>
-        <td>Sentences</td>
-        <td>Transliterations</td>
+        <tr>
+          <td>&nbsp;</td>
+          <td>Words with base forms</td>
+          <td>Parts of speech</td>
+          <td>Sentences</td>
+          <td>Transliterations</td>
+        </tr>
       </thead>
       <tr>
         <td class="lang">English</td>
@@ -106,12 +123,36 @@
 
     <h2>Caveats</h2>
   
-    <p>Ve is meant for pragmatic applications of linguistics, like search indexing and </p>
+    <p>Ve is meant for pragmatic applications of linguistics, like search indexing and basic part of speech tagging. It's not meant for serious linguistic research. Accuracy is dependent on each individual parser and the amount of simplification that has to be done to match the Ve specification. Don't use Ve if you need 100% accurate parsing, use humans instead.</p>
   </section>    
 
   <footer>
     <p>The name Ve, or Vé, comes from Nordic mythology where he is one of Odin's two brothers and the one who gave language to man. <a href="http://en.wikipedia.org/wiki/Vili_and_Vé">http://en.wikipedia.org/wiki/Vili_and_Vé</a>
   </footer>
 
+  <script src="jquery-1.4.4.min.js"></script>
+  <script src="sprakd.js"></script>
+  <script>
+    $(function(){
+
+      $('#input').keyup(function(){
+        var text = $('#input').val();
+        var language = 'ja';//$('#lang option:selected').val();
+        Sprakd.parse(text, language, 'words', function(data){
+          $('#result').html('');
+          $.each(data, function(i, word) {
+            $('#result').append(
+            '<div class="word">' +
+              '<span class="extra">' + word.part_of_speech + '<br />' +
+                word.lemma + '<br/>' +
+                word.extra.reading + '</span><br />' +
+              word.word +
+              '</div>'
+            );
+          });
+        });
+      });
+    });
+  </script>
 </body>
 </html>

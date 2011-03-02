@@ -72,8 +72,8 @@ body { font-family: 'Droid Serif', Times, Serif; background-color: #E3DCCC; }
 h1 { font-family: "league-gothic-1","league-gothic-2"; font-weight: normal; font-size: 3em; background: black; color: #fafafa; }
 h2 { font-family: "league-gothic-1","league-gothic-2"; font-weight: normal; font-size: 1.7em; border-top: 3px solid black; line-height: 1; margin: 0.5em 0 0.3em; color: #BF4128; }
 h1, h2 { padding: 7px 0 7px 7px; }
-h1 .phon { font-family: 'Times New Roman', serif; font-weight: normal; font-size: 0.5em; color: #666; }
-.insignia { font-family: Menlo, Monaco, Courier, Monospace; width: 75px; height: 75px; margin: 0 auto; background: #3C8B6C; color: #fff; text-align: center; font-size: 2em; line-height: 65px; position: relative; top: -41px; margin-bottom: -36px; -webkit-border-radius: 75px; -moz-border-radius: 75px; border-radius: 75px; padding: 3px; }
+
+.insignia { font-family: Menlo, Monaco, Courier, Monospace; width: 75px; height: 75px; margin: 0 auto; background: #3C8B6C; color: #fff; text-align: center; font-size: 2em; line-height: 65px; position: relative; top: -41px; margin-bottom: -36px; -webkit-border-radius: 75px; -moz-border-radius: 75px; border-radius: 75px; padding: 3px; -moz-box-shadow: 0 0 5px #3C8B6C; -webkit-box-shadow: 0 0 5px #3C8B6C; box-shadow: 0 0 5px #3C8B6C; border: 0 solid #000; }
 .insignia div { width: 67px; height: 67px; margin: 1px auto 0 auto; border: 3px solid white; -webkit-border-radius: 75px; -moz-border-radius: 75px; border-radius: 75px; }
 
 #main, header { width: 900px; margin: 0 auto; background: #fafafa; }
