@@ -32,6 +32,8 @@ class Sprakd
   
       # Talks to the app and returns a parse object
       def parse(text)
+        return @text if @stdin.nil?
+        
         @stdin.puts "#{text}\n#{BIT_STOP}\n"
         output = []
         
@@ -183,7 +185,7 @@ class Sprakd
             end
 
             pos = Sprakd::PartOfSpeech::TBD if pos.nil?
-            word = Sprakd::Word.new(token[:literal], token[:lemma], pos, [token], grammar)
+            word = Sprakd::Word.new(token[:literal], token[:lemma], pos, [token], {:grammar => grammar})
             words << word
           end
         end
