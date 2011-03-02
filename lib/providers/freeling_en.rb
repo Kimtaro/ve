@@ -32,7 +32,7 @@ class Sprakd
       end
   
       # Talks to the app and returns a parse object
-      def parse(text)
+      def parse(text, options = {})
         return @text if @stdin.nil?
         
         @stdin.puts "#{text}\n#{BIT_STOP}\n"
