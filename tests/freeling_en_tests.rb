@@ -60,7 +60,7 @@ class FreelingEnTest < Test::Unit::TestCase
     assert_equal ['This', 'was', 'a', 'sentence', '.'], words.collect(&:word)
     assert_equal ['this', 'be', 'a', 'sentence', '.'], words.collect(&:lemma)
     assert_equal [Sprakd::PartOfSpeech::Pronoun, Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::Determiner, Sprakd::PartOfSpeech::Noun, Sprakd::PartOfSpeech::Symbol], words.collect(&:part_of_speech)
-    assert_equal [:personal, :past, nil, nil, nil], words.collect(&:grammar)
+    assert_equal [{:grammar => :personal}, {:grammar => :past}, {:grammar => nil}, {:grammar => nil}, {:grammar => nil}], words.collect(&:extra)
     
     assert_equal [[tokens[0]], [tokens[2]], [tokens[4]], [tokens[6]], [tokens[7]]], words.collect(&:tokens)
   end
@@ -74,7 +74,7 @@ class FreelingEnTest < Test::Unit::TestCase
     assert_equal ['This', 'is', "Jane's", 'sentence', '.'], words.collect(&:word)
     assert_equal ['this', 'be', "jane", 'sentence', '.'], words.collect(&:lemma)
     assert_equal [Sprakd::PartOfSpeech::Pronoun, Sprakd::PartOfSpeech::Verb, Sprakd::PartOfSpeech::ProperNoun, Sprakd::PartOfSpeech::Noun, Sprakd::PartOfSpeech::Symbol], words.collect(&:part_of_speech)
-    assert_equal [:personal, nil, nil, nil, nil], words.collect(&:grammar)
+    assert_equal [{:grammar => :personal}, {:grammar => nil}, {:gramamr => nil}, {:grammar => nil}, {:grammar => nil}], words.collect(&:extra)
     assert_equal [[tokens[0]], [tokens[2]], tokens[4..5], [tokens[7]], [tokens[8]]], words.collect(&:tokens)
   end
 
@@ -86,7 +86,7 @@ class FreelingEnTest < Test::Unit::TestCase
                              {:words => ['January'],
                               :lemmas => ['january'],
                               :pos => [Sprakd::PartOfSpeech::Noun],
-                              :grammar => [nil],
+                              :extra => [{:grammar => nil}],
                               :tokens => [0..0]},
                              'January')
   end
@@ -98,7 +98,7 @@ class FreelingEnTest < Test::Unit::TestCase
                              {:words => ['.', ',', '$'],
                               :lemmas => ['.', ',', '$'],
                               :pos => [Sprakd::PartOfSpeech::Symbol, Sprakd::PartOfSpeech::Symbol, Sprakd::PartOfSpeech::Symbol],
-                              :grammar => [nil, nil, nil],
+                              :extra => [{:grammar => nil}, {:grammar => nil}, {:grammar => nil}],
                               :tokens => [0..0, 1..1, 2..2]},
                              '.,$')
   end
@@ -113,7 +113,7 @@ class FreelingEnTest < Test::Unit::TestCase
     assert_equal ['In', 'New York'], words.collect(&:word)
     assert_equal ['in', 'new york'], words.collect(&:lemma)
     assert_equal [Sprakd::PartOfSpeech::Preposition, Sprakd::PartOfSpeech::ProperNoun], words.collect(&:part_of_speech)
-    assert_equal [nil, nil], words.collect(&:grammar)
+    assert_equal [{:grammar => nil}, {:grammar => nil}], words.collect(&:extra)
     assert_equal [tokens[0..0], tokens[2..2]], words.collect(&:tokens)
 
     # Should keep them
@@ -126,7 +126,7 @@ class FreelingEnTest < Test::Unit::TestCase
     assert_equal ['In', 'New_York'], words.collect(&:word)
     assert_equal ['in', 'new_york'], words.collect(&:lemma)
     assert_equal [Sprakd::PartOfSpeech::Preposition, Sprakd::PartOfSpeech::ProperNoun], words.collect(&:part_of_speech)
-    assert_equal [nil, nil], words.collect(&:grammar)
+    assert_equal [{:grammar => nil}, {:grammarl => nil}], words.collect(&:extra)
     assert_equal [tokens[0..1], tokens[2..2], tokens[3..11]], words.collect(&:tokens)
   end
   
