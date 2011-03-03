@@ -18,6 +18,9 @@ class FreelingEnTest < Test::Unit::TestCase
 
   # TODO: UTF-8 handling
   def test_can_handle_utf8
+    freeling = Sprakd::Provider::FreelingEn.new
+    parse = freeling.parse('I’m')
+    assert_equal ['I\'m'], parse.tokens.collect { |t| t[:literal] }
   end
 
   def test_can_parse
