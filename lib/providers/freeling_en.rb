@@ -33,8 +33,9 @@ class Sprakd
   
       # Talks to the app and returns a parse object
       def parse(text, options = {})
-        return @text if @stdin.nil?
+        return text if @stdin.nil?
         
+        text = text.gsub('’', "'")
         @stdin.puts "#{text}\n#{BIT_STOP}\n"
         output = []
         
@@ -53,8 +54,11 @@ class Sprakd
   
       def start!
         @stdin, @stdout, @stderr = Open3.popen3("#{@config[:app]} #{@config[:flags]}")
+        
+        # TODO: Also filter out non-iso-latin-1 characters
         @stdin.set_encoding('UTF-8', 'ISO-8859-1')
         @stdout.set_encoding('ISO-8859-1', 'UTF-8')
+        
         @is_working = works?
       rescue
         @is_working = false
