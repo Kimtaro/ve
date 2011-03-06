@@ -47,8 +47,8 @@ class Sprakd
       # TODO: Use Process.spawn/kill for process control?
       def start!
         @stdin, @stdout, @stderr = Open3.popen3(@config[:app])
-        @stdin.set_encoding('UTF-8', 'ISO-8859-1')
-        @stdout.set_encoding('ISO-8859-1', 'UTF-8')
+        @stdin.set_encoding('UTF-8')
+        @stdout.set_encoding('UTF-8')
         @is_working = works?
       rescue
         @is_working = false
