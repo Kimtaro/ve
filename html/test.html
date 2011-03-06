@@ -31,12 +31,17 @@
           Sprakd.parse(text, language, 'words', function(data){
             $('#result').html('');
             $.each(data, function(i, word) {
+              if ( word.extra != undefined ) {
+                var reading = word.extra.reading ? word.extra.reading : '';
+                var grammar = word.extra.grammar ? word.extra.grammar : '';
+              }
               $('#result').append(
-              '<div class="word">' +
-                '<span class="extra">' + word.part_of_speech + '<br />' +
-                  word.lemma + '<br/>' +
-                  (!!word.extra ? word.extra.reading + '</span><br />' : '') +
-                word.word +
+                '<div class="word">' +
+                  '<div class="extra">' + word.part_of_speech + '</div>' +
+                  '<div class="extra">' + word.lemma + '</div>' +
+                  '<div class="extra">' + grammar + '</div>' +
+                  '<div class="extra">' + reading + '</div>' +
+                  word.word +
                 '</div>'
               );
             });
