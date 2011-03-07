@@ -28,9 +28,10 @@
         $('#text').keyup(function(){
           var text = $('#text').val();
           var language = $('#lang option:selected').val();
-          Sprakd.parse(text, language, 'words', function(data){
+          
+          Ve(language).words(text, function(words){
             $('#result').html('');
-            $.each(data, function(i, word) {
+            $.each(words, function(i, word) {
               if ( word.extra != undefined ) {
                 var reading = word.extra.reading ? word.extra.reading : '&nbsp;';
                 var grammar = word.extra.grammar ? word.extra.grammar : '&nbsp;';
