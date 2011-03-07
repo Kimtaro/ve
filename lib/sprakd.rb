@@ -8,12 +8,18 @@ require 'languages/japanese'
 require 'pp'
 
 class Sprakd
-
+  
+  # End-users only interact with this class, so it must provide a sexy interface
+  # to all functionality in the providers and parse objects
+  
+  # Basic, non-sexy
   def self.get(text, language, function, *args)
     provider = Sprakd::Manager.provider_for(language, function, *args)
     parse = provider.parse(text, args)
     parse.send(function.to_sym)
   end
+  
+  
 
   class Manager
 

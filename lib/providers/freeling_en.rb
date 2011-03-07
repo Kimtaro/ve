@@ -35,7 +35,10 @@ class Sprakd
       def parse(text, options = {})
         return text if @stdin.nil?
         
+        # Fix Unicode chars
+        # TODO: These need to be converted back to the original char in the :literal attribute
         text = text.gsub('’', "'")
+        
         @stdin.puts "#{text}\n#{BIT_STOP}\n"
         output = []
         
