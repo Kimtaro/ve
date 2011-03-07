@@ -403,7 +403,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                              '')
   end
 
-  def test_word_transliteration
+  def todo_test_word_transliteration
     mecab = Sprakd::Provider::MecabIpadic.new
     parse = mecab.parse('日本', :transliterate_words => :latn)
 
