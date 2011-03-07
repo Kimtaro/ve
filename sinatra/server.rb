@@ -17,8 +17,8 @@ private
 def run
 #  Sprakd.source = Sprakd::Local # Default
 #  Sprakd.source = Sprakd::Remote.new(:url => 'http://sprakd.kimtaro.com/', :access_token => 'XYZ')
-  result = Sprakd.get(params[:text], params[:language], params[:function].to_sym)
-#  result = Sprakd.in(params[:language]).params[:text]
+#  result = Sprakd.get(params[:text], params[:language], params[:function].to_sym)
+  result = Sprakd.in(params[:language]).words(params[:text])
 
   case params[:function].to_sym
   when :words
