@@ -32,8 +32,8 @@
             $('#result').html('');
             $.each(data, function(i, word) {
               if ( word.extra != undefined ) {
-                var reading = word.extra.reading ? word.extra.reading : '';
-                var grammar = word.extra.grammar ? word.extra.grammar : '';
+                var reading = word.extra.reading ? word.extra.reading : '&nbsp;';
+                var grammar = word.extra.grammar ? word.extra.grammar : '&nbsp;';
               }
               $('#result').append(
                 '<div class="word">' +
