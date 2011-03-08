@@ -170,5 +170,5 @@ class Sprakd
   end
 end
 
-Sprakd::Manager.register(Sprakd::Provider::Transliterators, :ja)
+Sprakd::LocalInterface::Manager.register(Sprakd::Provider::Transliterators, :ja)
 

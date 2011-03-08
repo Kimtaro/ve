@@ -227,5 +227,5 @@ class Sprakd
   end
 end
 
-Sprakd::Manager.register(Sprakd::Provider::FreelingEn, :en)
+Sprakd::LocalInterface::Manager.register(Sprakd::Provider::FreelingEn, :en)
 

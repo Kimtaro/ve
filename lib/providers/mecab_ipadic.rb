@@ -352,5 +352,5 @@ class Sprakd
   end
 end
 
-Sprakd::Manager.register(Sprakd::Provider::MecabIpadic, :ja)
+Sprakd::LocalInterface::Manager.register(Sprakd::Provider::MecabIpadic, :ja)
 
