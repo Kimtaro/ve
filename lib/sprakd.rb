@@ -33,7 +33,7 @@ class Sprakd
       end
     end
     
-    def initialize(language)
+    def initialize(language, config = {})
       @language = language
     end
 
@@ -44,12 +44,43 @@ class Sprakd
     end
   end
   
+  class HTTPInterface
+    require 'net/http'
+    require 'uri'
+    require 'json'
+    
+    def initialize(language, config = {})
+      @language = language
+      @base_url = config[:url]
+    end
+
+    def method_missing(function, *args)
+      url = "#{@base_url}/#{@language}/#{function}"
+      uri = URI.parse(url)
+      response = Net::HTTP.post_form(uri, {:text => args[0]})
+      data = JSON.parse(response.body)
+      result = []
+      
+      data.each do |obj|
+        # TODO: Support transliterations
+        case obj['_class']
+        when 'Word'
+          result << Sprakd::Word.new(obj['word'], obj['lemma'], obj['part_of_speech'], obj['tokens'], obj['extra'], obj['info'])
+        end
+      end
+      
+      result
+    end
+  end
+  
   @@interface = Sprakd::LocalInterface
+  @@interface_for = {}
+  @@config = {}
   
   # End-users only interact with this class, so it must provide a sexy interface
   # to all functionality in the providers and parse objects
   
-  # Basic, non-sexy
+  # Basic, non-sexy, local interface only
   def self.get(text, language, function, *args)
     provider = Sprakd::LocalInterface::Manager.provider_for(language, function, *args)
     parse = provider.parse(text, args)
@@ -58,12 +89,16 @@ class Sprakd
   
   # Early sexy verision
   def self.in(language)
-    interface = Sprakd::LocalInterface.new(language)
-    interface
+    unless @@interface_for[language]
+      @@interface_for[language] = @@interface.new(language, @@config)
+    end
+    
+    @@interface_for[language]
   end
 
-  def self.interface(i = Sprakd::LocalInterface)
-    @@interface = i
+  def self.config(interface, config)
+    @@interface = interface
+    @@config = config
   end
   
 end
