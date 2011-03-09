@@ -28,7 +28,7 @@ def run
   end
 
   if params[:callback]
-    json = "#{params[:callback]}(#{result})"
+    json = "#{params[:callback]}(#{json})"
   end
 
   json
