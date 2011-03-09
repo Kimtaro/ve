@@ -9,12 +9,12 @@ class TransliteratorsTest < Test::Unit::TestCase
   HIRAGANA = "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"
 
   def test_should_be_able_to_start
-    trans = Sprakd::Provider::Transliterators.new
+    trans = Ve::Provider::Transliterators.new
     assert trans.works?
   end
 
   def test_transliterate_from_hira_to_latn
-    trans = Sprakd::Provider::Transliterators.new
+    trans = Ve::Provider::Transliterators.new
     assert_equal 'kosoado',   trans.parse('こそあど').transliterate_from_hira_to_latn
     assert_equal 'konna',     trans.parse('こんな').transliterate_from_hira_to_latn
     assert_equal 'konyaku',   trans.parse('こにゃく').transliterate_from_hira_to_latn
@@ -24,17 +24,17 @@ class TransliteratorsTest < Test::Unit::TestCase
   end
   
   def test_transliterate_from_hira_to_kata
-    trans = Sprakd::Provider::Transliterators.new
+    trans = Ve::Provider::Transliterators.new
     assert_equal KATAKANA, trans.parse(HIRAGANA).transliterate_from_hira_to_kata
   end
 
   def test_transliterate_from_kata_to_hira
-    trans = Sprakd::Provider::Transliterators.new
+    trans = Ve::Provider::Transliterators.new
     assert_equal HIRAGANA, trans.parse(KATAKANA).transliterate_from_kata_to_hira
   end
 
   def test_transliterate_from_kana_to_latn
-    trans = Sprakd::Provider::Transliterators.new
+    trans = Ve::Provider::Transliterators.new
     assert_equal 'hiraganakatakana', trans.parse('ひらがなカタカナ').transliterate_from_kana_to_latn
     
   end

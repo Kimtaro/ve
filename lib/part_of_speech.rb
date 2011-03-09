@@ -1,4 +1,4 @@
-class Sprakd
+class Ve
   class PartOfSpeech
     
     def self.name
@@ -24,7 +24,7 @@ class Sprakd
     class Determiner < PartOfSpeech; end
     class Other < PartOfSpeech; end
 
-    class TBD < PartOfSpeech; end # Placeholder for provider PoS that haven't had a Sprakd PoS assigned yet
+    class TBD < PartOfSpeech; end # Placeholder for provider PoS that haven't had a Ve PoS assigned yet
     
   end
 end

@@ -2,11 +2,11 @@
 
 require 'open3'
 
-class Sprakd
+class Ve
   class Provider
-    class MecabIpadic < Sprakd::Provider
+    class MecabIpadic < Ve::Provider
 
-      BIT_STOP = 'SprakdEnd'
+      BIT_STOP = 'VeEnd'
   
       def initialize(config = {})
         # TODO: Make config handling better
@@ -39,7 +39,7 @@ class Sprakd
           output << line
         end
         
-        Sprakd::Parse::MecabIpadic.new(text, output)
+        Ve::Parse::MecabIpadic.new(text, output)
       end
 
       private
@@ -58,9 +58,9 @@ class Sprakd
   end
 end
 
-class Sprakd
+class Ve
   class Parse
-    class MecabIpadic < Sprakd::Parse
+    class MecabIpadic < Ve::Parse
       
       PARSER = %r{^ (.+?) \t (.+) }x
       attr_reader :tokens, :text
@@ -178,30 +178,30 @@ class Sprakd
 
             case token[:pos]
             when MEISHI
-              pos = Sprakd::PartOfSpeech::Noun
+              pos = Ve::PartOfSpeech::Noun
 
               case token[:pos2]
               when KOYUUMEISHI
-                pos = Sprakd::PartOfSpeech::ProperNoun
+                pos = Ve::PartOfSpeech::ProperNoun
               when DAIMEISHI
-                pos = Sprakd::PartOfSpeech::Pronoun
+                pos = Ve::PartOfSpeech::Pronoun
               when FUKUSHIKANOU, SAHENSETSUZOKU, KEIYOUDOUSHIGOKAN, NAIKEIYOUSHIGOKAN
                 if tokens.more?
                   following = tokens.peek
                   if following[:inflection_type] == SAHEN_SURU
-                    pos = Sprakd::PartOfSpeech::Verb
+                    pos = Ve::PartOfSpeech::Verb
                     eat_next = true
                   elsif following[:inflection_type] == TOKUSHU_DA
-                    pos = Sprakd::PartOfSpeech::Adjective
+                    pos = Ve::PartOfSpeech::Adjective
                     if following[:inflection_form] == TAIGENSETSUZOKU
                       eat_next = true
                       eat_lemma = false
                     end
                   elsif following[:inflection_type] == TOKUSHU_NAI
-                    pos = Sprakd::PartOfSpeech::Adjective
+                    pos = Ve::PartOfSpeech::Adjective
                     eat_next = true
                   elsif following[:pos] == JOSHI && following[:literal] == NI
-                    pos = Sprakd::PartOfSpeech::Adverb
+                    pos = Ve::PartOfSpeech::Adverb
                     eat_next = true
                   end
                 end
@@ -211,22 +211,22 @@ class Sprakd
                   case token[:pos3]
                   when FUKUSHIKANOU
                     if following[:pos] == JOSHI && following[:literal] == NI
-                      pos = Sprakd::PartOfSpeech::Adverb
+                      pos = Ve::PartOfSpeech::Adverb
                       eat_next = true
                     end
                   when JODOUSHIGOKAN
                     if following[:inflection_type] == TOKUSHU_DA
-                      pos = Sprakd::PartOfSpeech::Verb
+                      pos = Ve::PartOfSpeech::Verb
                       grammar = :auxillary
                       if following[:inflection_form] == TAIGENSETSUZOKU
                         eat_next = true
                       end
                     elsif following[:pos] == JOSHI && following[:pos2] == FUKUSHIKA
-                      pos = Sprakd::PartOfSpeech::Adverb
+                      pos = Ve::PartOfSpeech::Adverb
                       eat_next = true
                     end
                   when KEIYOUDOUSHIGOKAN
-                    pos = Sprakd::PartOfSpeech::Adjective
+                    pos = Ve::PartOfSpeech::Adjective
                     if (following[:inflection_type] == TOKUSHU_DA && following[:inflection_form] == TAIGENSETSUZOKU) || following[:pos2] == RENTAIKA
                       eat_next = true
                     end
@@ -234,57 +234,57 @@ class Sprakd
                 end
               when KAZU
                 # TODO: recurse and find following numbers and add to this word. Except non-numbers like 幾
-                pos = Sprakd::PartOfSpeech::Number
-                if words.length > 0 && words[-1].part_of_speech == Sprakd::PartOfSpeech::Number
+                pos = Ve::PartOfSpeech::Number
+                if words.length > 0 && words[-1].part_of_speech == Ve::PartOfSpeech::Number
                   attach_to_previous = true
                   also_attach_to_lemma = true
                 end
               when SETSUBI
                 # TODO: elaborate a bit?
-                pos = Sprakd::PartOfSpeech::Suffix
+                pos = Ve::PartOfSpeech::Suffix
               when SETSUZOKUSHITEKI
-                pos = Sprakd::PartOfSpeech::Conjunction
+                pos = Ve::PartOfSpeech::Conjunction
               when DOUSHIHIJIRITSUTEKI
-                pos = Sprakd::PartOfSpeech::Verb
+                pos = Ve::PartOfSpeech::Verb
                 grammar = :nominal
               end
             when SETTOUSHI
               # TODO: elaborate this when we have the "main part" feature for words?
-              pos = Sprakd::PartOfSpeech::Prefix
+              pos = Ve::PartOfSpeech::Prefix
             when JODOUSHI
-              pos = Sprakd::PartOfSpeech::Postposition
+              pos = Ve::PartOfSpeech::Postposition
 
               if [TOKUSHU_TA, TOKUSHU_NAI, TOKUSHU_TAI, TOKUSHU_MASU].include?(token[:inflection_type])
                 attach_to_previous = true
               elsif (token[:inflection_type] == TOKUSHU_DA || token[:inflection_type] == TOKUSHU_DESU) && token[:literal] != NA
-                pos = Sprakd::PartOfSpeech::Verb
+                pos = Ve::PartOfSpeech::Verb
               end
             when DOUSHI
-              pos = Sprakd::PartOfSpeech::Verb
+              pos = Ve::PartOfSpeech::Verb
               if token[:pos2] == SETSUBI
                 attach_to_previous = true
               elsif token[:pos2] == HIJIRITSU
                 grammar = :auxillary
               end
             when KEIYOUSHI
-              pos = Sprakd::PartOfSpeech::Adjective
+              pos = Ve::PartOfSpeech::Adjective
             when JOSHI
-              pos = Sprakd::PartOfSpeech::Postposition
+              pos = Ve::PartOfSpeech::Postposition
               if token[:pos2] == SETSUZOKUJOSHI
                 attach_to_previous = true
               end
             when RENTAISHI
-              pos = Sprakd::PartOfSpeech::Determiner
+              pos = Ve::PartOfSpeech::Determiner
             when SETSUZOKUSHI
-              pos = Sprakd::PartOfSpeech::Conjunction
+              pos = Ve::PartOfSpeech::Conjunction
             when FUKUSHI
-              pos = Sprakd::PartOfSpeech::Adverb
+              pos = Ve::PartOfSpeech::Adverb
             when KIGOU
-              pos = Sprakd::PartOfSpeech::Symbol
+              pos = Ve::PartOfSpeech::Symbol
             when FIRAA, KANDOUSHI
-              pos = Sprakd::PartOfSpeech::Interjection
+              pos = Ve::PartOfSpeech::Interjection
             when SONOTA
-              pos = Sprakd::PartOfSpeech::Other
+              pos = Ve::PartOfSpeech::Other
             else
               # C'est une catastrophe
             end
@@ -296,8 +296,8 @@ class Sprakd
               words[-1].extra[:transcription] << token[:hatsuon]
               words[-1].lemma << token[:lemma] if also_attach_to_lemma
             else
-              pos = Sprakd::PartOfSpeech::TBD if pos.nil?
-              word = Sprakd::Word.new(token[:literal], token[:lemma], pos, [token], {
+              pos = Ve::PartOfSpeech::TBD if pos.nil?
+              word = Ve::Word.new(token[:literal], token[:lemma], pos, [token], {
                 :reading => token[:reading],
                 :transcription => token[:hatsuon],
                 :grammar => grammar
@@ -352,5 +352,5 @@ class Sprakd
   end
 end
 
-Sprakd::LocalInterface::Manager.register(Sprakd::Provider::MecabIpadic, :ja)
+Ve::LocalInterface::Manager.register(Ve::Provider::MecabIpadic, :ja)
 

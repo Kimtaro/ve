@@ -7,7 +7,7 @@ require 'languages/english'
 require 'languages/japanese'
 require 'pp'
 
-class Sprakd
+class Ve
   
   # TODO: Put into separate files
   class LocalInterface
@@ -17,14 +17,14 @@ class Sprakd
       end
 
       # TODO: Make a difference between what features are available locally
-      # and what requires contacting external Sprakds
+      # and what requires contacting external Ves
       def self.register(klass, language)
         @@provider_for ||= {}
         provider = klass.new
         # This won't work if people start monkey patching the providers with public methods that arent abilities
         # It's also not pretty, but kinda nifty
         provider_name = provider.class.to_s.split('::').last
-        parse_class = Kernel.class_eval("Sprakd::Parse::#{provider_name}")
+        parse_class = Kernel.class_eval("Ve::Parse::#{provider_name}")
         abilities = parse_class.public_instance_methods - Object.public_instance_methods
         abilities.each do |a|
           @@provider_for[language.to_sym] ||= {}
@@ -38,7 +38,7 @@ class Sprakd
     end
 
     def method_missing(function, *args)
-      provider = Sprakd::LocalInterface::Manager.provider_for(@language, function)
+      provider = Ve::LocalInterface::Manager.provider_for(@language, function)
       parse = provider.parse(args[0])
       parse.send(function.to_sym)
     end
@@ -65,7 +65,7 @@ class Sprakd
         # TODO: Support transliterations
         case obj['_class']
         when 'Word'
-          result << Sprakd::Word.new(obj['word'], obj['lemma'], obj['part_of_speech'], obj['tokens'], obj['extra'], obj['info'])
+          result << Ve::Word.new(obj['word'], obj['lemma'], obj['part_of_speech'], obj['tokens'], obj['extra'], obj['info'])
         end
       end
       
@@ -73,7 +73,7 @@ class Sprakd
     end
   end
   
-  @@interface = Sprakd::LocalInterface
+  @@interface = Ve::LocalInterface
   @@interface_for = {}
   @@config = {}
   
@@ -82,7 +82,7 @@ class Sprakd
   
   # Basic, non-sexy, local interface only
   def self.get(text, language, function, *args)
-    provider = Sprakd::LocalInterface::Manager.provider_for(language, function, *args)
+    provider = Ve::LocalInterface::Manager.provider_for(language, function, *args)
     parse = provider.parse(text, args)
     parse.send(function.to_sym)
   end

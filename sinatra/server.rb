@@ -2,7 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'json'
 
-require File.expand_path(File.dirname(__FILE__) + "/../lib/sprakd")
+require File.expand_path(File.dirname(__FILE__) + "/../lib/ve")
 
 get '/:language/:function' do
   run
@@ -15,10 +15,10 @@ end
 private
 
 def run
-#  Sprakd.source = Sprakd::Local # Default
-#  Sprakd.source = Sprakd::Remote.new(:url => 'http://sprakd.kimtaro.com/', :access_token => 'XYZ')
-#  result = Sprakd.get(params[:text], params[:language], params[:function].to_sym)
-  result = Sprakd.in(params[:language]).words(params[:text])
+#  Ve.source = Ve::Local # Default
+#  Ve.source = Ve::Remote.new(:url => 'http://ve.kimtaro.com/', :access_token => 'XYZ')
+#  result = Ve.get(params[:text], params[:language], params[:function].to_sym)
+  result = Ve.in(params[:language]).words(params[:text])
 
   case params[:function].to_sym
   when :words

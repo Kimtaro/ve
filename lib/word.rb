@@ -1,4 +1,4 @@
-class Sprakd
+class Ve
   class Word
     
     attr_accessor :word, :lemma, :part_of_speech, :tokens, :extra, :info
