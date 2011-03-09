@@ -51,3 +51,10 @@ Todo
 - Break out into separate projects for each component. Ve-ruby, Ve-js.
 - Better UTF-8 handling for Freeling
 - See all the TODO's in the code
+
+License
+-------
+
+(c) Kim Ahlström 2011
+
+This is under the MIT license.
