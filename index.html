@@ -5,6 +5,7 @@
   <title>Ve - A linguistic framework you can use</title>
   <link href='http://fonts.googleapis.com/css?family=Allan:bold' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Droid+Serif:regular,italic,bold' rel='stylesheet' type='text/css'>
+  <script type="text/javascript" charset="utf-8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
   <script type="text/javascript" src="http://use.typekit.com/zhk5yki.js"></script>
   <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
   <link rel="stylesheet" type="text/css" href="style.css" />
@@ -20,24 +21,38 @@
       <div class="insignia"><div>veː</div></div>
     </header>
     
-    <nav>
+    <!-- <nav>
       <ul>
         <li>Overview</li>
         <li>Structure</li>
         Specification, Hosted API
-    </nav>
+    </nav> -->
 
-    <p>
-      You have a powerful database, and a kickass ORM. So why are you still using stemming?
+    <p class="sell">
+      You have a <span class="sell_1">flexible web framework</span>, a <span class="sell_2">powerful database</span>, a <span class="sell_3">kickass ORM</span>, a <span class="sell_4">beautiful API</span> and <span class="sell_5">insightful metrics</span>. So why are you still using inaccurate stemming and simplistic part of speech tagging that only works for English?
     </p>
     
     <p>
       Ve is a linguistic framework built for programmers. Use advanced language parsing in your app without first taking years of grammar, math and machine intelligence or reading through obtuse parser manuals. ZOMG!
     </p>
   
-    <p>Ve sits on top of existing language specific parsers and unifies their output into a common interface. In this sense Ve is programming language agnostic, and more the specification of the interface rather than the implementation itself.</p>
+    <p>Ve sits on top of existing, powerful language parsers and unifies their output into a common interface.</p>
     
     <p>Ve is in alpha stage. It might eat your kids.</p>
+    
+    <p>The source code and technical details are available at <a href="http://github.com/kimtaro/ve">github.com/kimtaro/ve</a>.</p>
+  
+    <h2>Try Ve</h2>
+    
+    <select id="lang">
+      <option selected value="en">English</option>
+      <option value="ja">Japanese</option>
+    </select>
+    <input type="text" id="input" size="130" />
+    <div id="result"></div>
+
+    <h2>Ruby Example</h2>
+    <h2>Javscript Example</h2>
       
     <h2>Ve gives you</h2>
   
@@ -48,8 +63,10 @@
         flies → <tt>fly</tt><br>
         Look 'ma! No more inaccurate stemming!
       </dd>
+      <dt>Sentences</dt>
+      <dd>Last year I went to the U.S.A. Next year I will go to S. Korea. → <tt>['Last year I went to the U.S.A.', 'Next year I will go to S. Korea.']</tt></dd>
       <dt>Parts of speech</dt>
-      <dd>I eat gigantic cookies → <tt>Pronoun Verb Adjective Noun</tt></dd>
+      <dd>I eat gigantic cookies → <tt>Pronoun Verb Adjective Noun/Plural</tt></dd>
       <dt>Transliterations</dt>
       <dd>
         漢字 → <tt>kanji</tt><br>
@@ -58,21 +75,14 @@
       <dt>Just what you need</dt>
       <dd>Existing language parsers are aimed at researchers and linguists and give far more detailed information than most everyday applications call for. Ve transforms complex data into just what you need.</dd>
     </dl>
-  
-    <h2>Ruby Example</h2>
-    <h2>Javscript Example</h2>
-  
-    <h2>Try Ve</h2>
     
-    <textarea id="input"></textarea>
-    <textarea id="output"></textarea>
-    <div id="result"></div>
-  
     <h2>Why Ve is good</h2>
   
     <dl>
       <dt>Language agnostic</dt>
       <dd>Use the same API for all languages that Ve supports.</dd>
+      <dt>Programming language agnostic</dt>
+      <dd>Ve aims to be a specification of features and compontents, rather than the implementation itself. You can write a Ve server in Ruby, Java, Perl or whatever floats your boat and have it drive Ve clients in any language.</dd>
       <dt>Non-destructive parsing<dt>
       <dd>Most parsers spit out only the text they deal with, ignoring whitespace, punctuation and text it can't process. Ve goes to great lengths to make sure your original input can be reconstructed from its output.</dd>
       <dt>Protection</dt>
@@ -130,29 +140,46 @@
     <p>The name Ve, or Vé, comes from Nordic mythology. Ve is one of Odin's two brothers and the one who gave language to man. <a href="http://en.wikipedia.org/wiki/Vili_and_Vé">http://en.wikipedia.org/wiki/Vili_and_Vé</a>
   </footer>
 
-  <script src="jquery-1.4.4.min.js"></script>
   <script src="ve.js"></script>
   <script>
-    $(function(){
-
-      $('#input').keyup(function(){
-        var text = $('#input').val();
-        var language = 'ja';//$('#lang option:selected').val();
-        Ve.in(language).words(text, function(words) {
-          $('#result').html('');
-          $.each(data, function(i, word) {
-            $('#result').append(
+  $(function(){
+    $('#input').keyup(function(e){
+      var text = $('#input').val();
+      var language = $('#lang option:selected').val();
+      
+      Ve(language).words(text, function(words){
+        $('#result').html('');
+        $.each(words, function(i, word) {
+          if ( word.extra != undefined ) {
+            var reading = word.extra.reading ? word.extra.reading : '&nbsp;';
+            var grammar = word.extra.grammar ? word.extra.grammar : '&nbsp;';
+          }
+          $('#result').append(
             '<div class="word">' +
-              '<span class="extra">' + word.part_of_speech + '<br />' +
-                word.lemma + '<br/>' +
-                word.extra.reading + '</span><br />' +
               word.word +
-              '</div>'
-            );
-          });
+              '<div class="extra">' + word.lemma + '</div>' +
+              '<div class="extra">' + word.part_of_speech + '</div>' +
+              '<div class="extra">' + grammar + '</div>' +
+              '<div class="extra">' + reading + '</div>' +
+            '</div>'
+          );
         });
       });
     });
+    
+    $('#lang').change(function(e){
+      var lang = $('#lang').val();
+      
+      if ( lang == 'en' ) {
+        $('#input').val('The jolly group of people flew to London.').trigger('keyup');
+      }
+      else if ( lang == 'ja' ) {
+        $('#input').val('おいしい食べ物を食べて、さわやかなビールを飲んだ。').trigger('keyup');
+      }
+    });
+    
+    $('#lang').trigger('change');
+  });
   </script>
 </body>
 </html>

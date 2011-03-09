@@ -71,9 +71,9 @@ table{
 body { font-family: 'Droid Serif', Times, Serif; background-color: #fff; }
 h1 { font-family: "league-gothic-1","league-gothic-2"; font-weight: normal; font-size: 3em; background: black; color: #fafafa; }
 h2 { font-family: "league-gothic-1","league-gothic-2"; font-weight: normal; font-size: 1.7em; border-top: 0px solid black; line-height: 1; margin: 0.5em 0 0.3em; color: #BF4128; }
-h1, h2 { padding: 7px 0 7px 7px; }
+h1, h2 { padding: 7px 0 7px 7px; clear: both; }
 
-.insignia { font-family: Menlo, Monaco, Courier, Monospace; width: 75px; height: 75px; margin: 0 auto; background: #3C8B6C; color: #fff; text-align: center; font-size: 2em; line-height: 65px; position: relative; top: -41px; margin-bottom: -36px; -webkit-border-radius: 75px; -moz-border-radius: 75px; border-radius: 75px; padding: 3px; -moz-box-shadow: 0 0 5px #3C8B6C; -webkit-box-shadow: 0 0 5px #3C8B6C; box-shadow: 0 0 5px #3C8B6C; border: 0 solid #000; }
+.insignia { font-family: Menlo, Monaco, Courier, Monospace; width: 75px; height: 75px; margin: 0 auto; background: #000; color: #fff; text-align: center; font-size: 2em; line-height: 65px; position: relative; top: -41px; margin-bottom: -36px; -webkit-border-radius: 75px; -moz-border-radius: 75px; border-radius: 75px; padding: 3px; -moz-box-shadow: 0 0 5px #000; -webkit-box-shadow: 0 0 5px #000; box-shadow: 0 0 5px #000; border: 0 solid #000; }
 .insignia div { width: 67px; height: 67px; margin: 1px auto 0 auto; border: 3px solid white; -webkit-border-radius: 75px; -moz-border-radius: 75px; border-radius: 75px; }
 
 #main, header { width: 900px; margin: 0 auto; background: #fafafa; }
@@ -81,5 +81,17 @@ h1, h2 { padding: 7px 0 7px 7px; }
 p, ul, dl { font-size: 0.9em; line-height: 1.4; margin: 7px 7px 1em 7px; }
 dt { font-style: italic; font-size: 1.1em; }
 dd { margin: 0 0 1em 2em; }
-tt { font-family: Menlo, Monaco, Courier, Monospace;}
-footer { margin: 1em auto; width: 900px; font-size: 0.7em; }
+tt { font-family: Menlo, Monaco, Courier, Monospace; background: #eee; color: #666; }
+footer { margin: 3em auto 2em auto; width: 900px; font-size: 0.7em; }
+
+.sell { font-size: 1.2em; margin-top: 1em; }
+.sell_1, .sell_2, .sell_3, .sell_4, .sell_5 { font-weight: bold; }
+.sell_1 { color: #349316; }
+.sell_2 { color: #164993; }
+.sell_3 { color: #861693; }
+.sell_4 { color: #9F1818; }
+.sell_5 { color: #9A9F18; }
+
+#result { clear: both; margin: 1em 0; width: 100%; }
+div.word { font-family: Menlo, Monaco, Courier, Monospace; float: left; width: auto; white-space: nowrap; margin: 0 5px 5px 0; background: #f0f0f0; padding: 3px; font-size: 0.8em; line-height: 1.3; }
+.extra { color: #aaa; }
