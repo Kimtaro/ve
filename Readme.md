@@ -3,6 +3,8 @@ Ve
 
 A linguistic framework for anyone. No degree required.
 
+Read all about it on [kimtaro.github.com/ve](http://kimtaro.github.com/ve).
+
 Ruby
 ----
 
