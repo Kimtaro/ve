@@ -1,2 +1,2 @@
-class Sprakd::Language
+class Ve::Language
 end

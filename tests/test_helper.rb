@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + "/../lib/sprakd")
+require File.expand_path(File.dirname(__FILE__) + "/../lib/ve")
 
 class Test::Unit::TestCase
 

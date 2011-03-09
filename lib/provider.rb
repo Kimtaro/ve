@@ -1,4 +1,4 @@
-class Sprakd
+class Ve
   class Provider
   
     # Interface, to be implemented by providers
@@ -18,7 +18,7 @@ class Sprakd
   end  
 end
 
-class Sprakd
+class Ve
   class Parse
     
     # TODO

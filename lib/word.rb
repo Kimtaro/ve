@@ -1,7 +1,7 @@
-class Sprakd
+class Ve
   class Word
     
-    attr_accessor :word, :lemma, :part_of_speech, :tokens, :extra
+    attr_accessor :word, :lemma, :part_of_speech, :tokens, :extra, :info
     
     # TODO: More elegance
     def initialize(word, lemma, part_of_speech, tokens, extra = {}, info = {})
@@ -29,10 +29,13 @@ class Sprakd
 
     def as_json
       {
+        :_class => 'Word',
         :word => @word,
         :lemma => @lemma,
         :part_of_speech => @part_of_speech.name,
-        :extra => @extra
+        :tokens => @tokens,
+        :extra => @extra,
+        :info => @info
       }
     end
     

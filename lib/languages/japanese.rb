@@ -1,4 +1,4 @@
-class Sprakd
+class Ve
   class Language
     class Japanese
   

@@ -2,9 +2,9 @@
 
 require 'open3'
 
-class Sprakd
+class Ve
   class Provider
-    class Transliterators < Sprakd::Provider
+    class Transliterators < Ve::Provider
 
       def initialize(config = {})
       end
@@ -14,16 +14,16 @@ class Sprakd
       end
 
       def parse(text, options = {})
-        Sprakd::Parse::Transliterators.new(text)
+        Ve::Parse::Transliterators.new(text)
       end
 
     end
   end
 end
 
-class Sprakd
+class Ve
   class Parse
-    class Transliterators < Sprakd::Parse
+    class Transliterators < Ve::Parse
 
       HIRA_TO_LATN = {
         "あ"=>"a", "い"=>"i", "う"=>"u", "え"=>"e", "お"=>"o",
@@ -170,5 +170,5 @@ class Sprakd
   end
 end
 
-Sprakd::Manager.register(Sprakd::Provider::Transliterators, :ja)
+Ve::LocalInterface::Manager.register(Ve::Provider::Transliterators, :ja)
 

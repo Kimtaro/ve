@@ -5,11 +5,11 @@
 
 require 'open3'
 
-class Sprakd
+class Ve
   class Provider
-    class FreelingEn < Sprakd::Provider
+    class FreelingEn < Ve::Provider
 
-      BIT_STOP = 'SprakdEnd'
+      BIT_STOP = 'VeEnd'
   
       # TODO: Automatically set FREELINGSHARE if it's not set?
       def initialize(config = {})
@@ -50,7 +50,7 @@ class Sprakd
           output << line
         end
         
-        Sprakd::Parse::FreelingEn.new(text, output)
+        Ve::Parse::FreelingEn.new(text, output)
       end
 
       private
@@ -71,9 +71,9 @@ class Sprakd
   end
 end
 
-class Sprakd
+class Ve
   class Parse
-    class FreelingEn < Sprakd::Parse
+    class FreelingEn < Ve::Parse
       
       attr_reader :tokens, :text
       
@@ -139,42 +139,42 @@ class Sprakd
       end
       
       INTERNAL_INFO_FOR_PARSED_POS = {
-        'CC' => [Sprakd::PartOfSpeech::Conjunction, nil],
-        'CD' => [Sprakd::PartOfSpeech::Number, nil],
-        'DT' => [Sprakd::PartOfSpeech::Determiner, nil],
-        'EX' => [Sprakd::PartOfSpeech::Pronoun, nil],
-        'FW' => [Sprakd::PartOfSpeech::Unknown, nil],
-        'IN' => [Sprakd::PartOfSpeech::Preposition, nil],
-        'JJ' => [Sprakd::PartOfSpeech::Adjective, nil],
-        'JJR' => [Sprakd::PartOfSpeech::Conjunction, :comparative],
-        'JJS' => [Sprakd::PartOfSpeech::Conjunction, :superlative],
-        'LS' => [Sprakd::PartOfSpeech::Unknown, nil],
-        'MD' => [Sprakd::PartOfSpeech::Verb, :modal],
-        'NN' => [Sprakd::PartOfSpeech::Noun, nil],
-        'NNS' => [Sprakd::PartOfSpeech::Noun, :plural],
-        'NNP' => [Sprakd::PartOfSpeech::ProperNoun, nil],
-        'NNPS' => [Sprakd::PartOfSpeech::ProperNoun, :plural],
-        'PDT' => [Sprakd::PartOfSpeech::Determiner, nil],
-        'PRP' => [Sprakd::PartOfSpeech::Pronoun, :personal],
-        'PRP$' => [Sprakd::PartOfSpeech::Pronoun, :possessive],
-        'RB' => [Sprakd::PartOfSpeech::Adverb, nil],
-        'RBR' => [Sprakd::PartOfSpeech::Adverb, :comparative],
-        'RBS' => [Sprakd::PartOfSpeech::Adverb, :superlative],
-        'RP' => [Sprakd::PartOfSpeech::Postposition, nil],
-        'SYM' => [Sprakd::PartOfSpeech::Symbol, nil],
-        'TO' => [Sprakd::PartOfSpeech::Preposition, nil],
-        'UH' => [Sprakd::PartOfSpeech::Interjection, nil],
-        'VB' => [Sprakd::PartOfSpeech::Verb, nil],
-        'VBD' => [Sprakd::PartOfSpeech::Verb, :past],
-        'VBG' => [Sprakd::PartOfSpeech::Verb, :present_participle],
-        'VBN' => [Sprakd::PartOfSpeech::Verb, :past_participle],
-        'VBP' => [Sprakd::PartOfSpeech::Verb, nil],
-        'VBZ' => [Sprakd::PartOfSpeech::Verb, nil],
-        'WDT' => [Sprakd::PartOfSpeech::Determiner, nil],
-        'WP' => [Sprakd::PartOfSpeech::Pronoun, nil],
-        'WP$' => [Sprakd::PartOfSpeech::Pronoun, :possessive],
-        'WRB' => [Sprakd::PartOfSpeech::Adverb, nil],
-        'Z' => [Sprakd::PartOfSpeech::Determiner, nil]
+        'CC' => [Ve::PartOfSpeech::Conjunction, nil],
+        'CD' => [Ve::PartOfSpeech::Number, nil],
+        'DT' => [Ve::PartOfSpeech::Determiner, nil],
+        'EX' => [Ve::PartOfSpeech::Pronoun, nil],
+        'FW' => [Ve::PartOfSpeech::Unknown, nil],
+        'IN' => [Ve::PartOfSpeech::Preposition, nil],
+        'JJ' => [Ve::PartOfSpeech::Adjective, nil],
+        'JJR' => [Ve::PartOfSpeech::Conjunction, :comparative],
+        'JJS' => [Ve::PartOfSpeech::Conjunction, :superlative],
+        'LS' => [Ve::PartOfSpeech::Unknown, nil],
+        'MD' => [Ve::PartOfSpeech::Verb, :modal],
+        'NN' => [Ve::PartOfSpeech::Noun, nil],
+        'NNS' => [Ve::PartOfSpeech::Noun, :plural],
+        'NNP' => [Ve::PartOfSpeech::ProperNoun, nil],
+        'NNPS' => [Ve::PartOfSpeech::ProperNoun, :plural],
+        'PDT' => [Ve::PartOfSpeech::Determiner, nil],
+        'PRP' => [Ve::PartOfSpeech::Pronoun, :personal],
+        'PRP$' => [Ve::PartOfSpeech::Pronoun, :possessive],
+        'RB' => [Ve::PartOfSpeech::Adverb, nil],
+        'RBR' => [Ve::PartOfSpeech::Adverb, :comparative],
+        'RBS' => [Ve::PartOfSpeech::Adverb, :superlative],
+        'RP' => [Ve::PartOfSpeech::Postposition, nil],
+        'SYM' => [Ve::PartOfSpeech::Symbol, nil],
+        'TO' => [Ve::PartOfSpeech::Preposition, nil],
+        'UH' => [Ve::PartOfSpeech::Interjection, nil],
+        'VB' => [Ve::PartOfSpeech::Verb, nil],
+        'VBD' => [Ve::PartOfSpeech::Verb, :past],
+        'VBG' => [Ve::PartOfSpeech::Verb, :present_participle],
+        'VBN' => [Ve::PartOfSpeech::Verb, :past_participle],
+        'VBP' => [Ve::PartOfSpeech::Verb, nil],
+        'VBZ' => [Ve::PartOfSpeech::Verb, nil],
+        'WDT' => [Ve::PartOfSpeech::Determiner, nil],
+        'WP' => [Ve::PartOfSpeech::Pronoun, nil],
+        'WP$' => [Ve::PartOfSpeech::Pronoun, :possessive],
+        'WRB' => [Ve::PartOfSpeech::Adverb, nil],
+        'Z' => [Ve::PartOfSpeech::Determiner, nil]
       }
       
       def words
@@ -191,11 +191,11 @@ class Sprakd
             pos, grammar = INTERNAL_INFO_FOR_PARSED_POS[token[:pos]]
 
             if pos.nil? && token[:pos] =~ /^F\w+$/
-              pos = Sprakd::PartOfSpeech::Symbol
+              pos = Ve::PartOfSpeech::Symbol
             end
 
-            pos = Sprakd::PartOfSpeech::TBD if pos.nil?
-            word = Sprakd::Word.new(token[:literal], token[:lemma], pos, [token], {:grammar => grammar})
+            pos = Ve::PartOfSpeech::TBD if pos.nil?
+            word = Ve::Word.new(token[:literal], token[:lemma], pos, [token], {:grammar => grammar})
             words << word
           end
         end
@@ -227,5 +227,5 @@ class Sprakd
   end
 end
 
-Sprakd::Manager.register(Sprakd::Provider::FreelingEn, :en)
+Ve::LocalInterface::Manager.register(Ve::Provider::FreelingEn, :en)
 
