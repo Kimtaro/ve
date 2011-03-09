@@ -16,6 +16,7 @@ Ruby
 Javascript
 ----------
 
+    <script type="text/javascript" charset="utf-8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="ve.js"></script>
     <script type="text/javascript" charset="utf-8">
       Ve('ja').words('ビールがおいしかった', function(words) {
