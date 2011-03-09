@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body { font-family: Sans-serif }
+      div.word { float: left; width: auto; white-space: nowrap; margin: 0 5px 5px 0; background: #f0f0f0; padding: 3px; }
+      .extra { color: #aaa; }
+    </style>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+    <p>
+      <input type="text" size="100" id="text" />
+    </p>
+    <p>
+      <select id="lang">
+        <option value="ja" selected>Japanese</option>
+        <option value="en">English</option>
+      </select>
+    </p>
+    <div id="result"></div>
+
+    <script src="jquery-1.4.4.min.js"></script>
+    <script src="ve.js"></script>
+    <script>
+      $(document).ready(function(){
+
+        $('#text').keyup(function(){
+          var text = $('#text').val();
+          var language = $('#lang option:selected').val();
+          
+          Ve(language).words(text, function(words){
+            $('#result').html('');
+            $.each(words, function(i, word) {
+              if ( word.extra != undefined ) {
+                var reading = word.extra.reading ? word.extra.reading : '&nbsp;';
+                var grammar = word.extra.grammar ? word.extra.grammar : '&nbsp;';
+              }
+              $('#result').append(
+                '<div class="word">' +
+                  '<div class="extra">' + word.part_of_speech + '</div>' +
+                  '<div class="extra">' + grammar + '</div>' +
+                  '<div class="extra">' + reading + '</div>' +
+                  '<div class="extra">' + word.lemma + '</div>' +
+                  word.word +
+                '</div>'
+              );
+            });
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
