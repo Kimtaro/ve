@@ -131,14 +131,14 @@
   </footer>
 
   <script src="jquery-1.4.4.min.js"></script>
-  <script src="sprakd.js"></script>
+  <script src="ve.js"></script>
   <script>
     $(function(){
 
       $('#input').keyup(function(){
         var text = $('#input').val();
         var language = 'ja';//$('#lang option:selected').val();
-        Sprakd.parse(text, language, 'words', function(data){
+        Ve.in(language).words(text, function(words) {
           $('#result').html('');
           $.each(data, function(i, word) {
             $('#result').append(
