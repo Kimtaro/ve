@@ -45,7 +45,6 @@ Structure
 Todo
 ----
 
-- There's some major concurrency issues with the current sinatra server
 - Expose more through the sinatra server
 - Alias lemma to base, so people don't need to know what lemmas are
 - Break out into separate projects for each component. Ve-ruby, Ve-js.
