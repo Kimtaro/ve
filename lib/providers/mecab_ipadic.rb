@@ -27,7 +27,7 @@ class Ve
   
       # Talks to the app and returns a parse object
       def parse(text, options = {})
-        start! if @stdin.nil?
+        start! if @stdin.nil? # Restart if the provider crashed
         
         @stdin.puts "#{text} #{BIT_STOP}"
         output = []
@@ -42,6 +42,8 @@ class Ve
         
         Ve::Parse::MecabIpadic.new(text, output)
       rescue
+        # TODO: No good to catch all errors like this
+        # I need a backtrace when something unexpected fails
         Ve::Parse::MecabIpadic.new(text, [])
       end
 
