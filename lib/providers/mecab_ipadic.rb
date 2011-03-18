@@ -352,5 +352,5 @@ class Ve
   end
 end
 
-Ve::LocalInterface::Manager.register(Ve::Provider::MecabIpadic, :ja)
+Ve::Manager.register(Ve::Provider::MecabIpadic, :ja)
 

@@ -170,5 +170,5 @@ class Ve
   end
 end
 
-Ve::LocalInterface::Manager.register(Ve::Provider::Transliterators, :ja)
+Ve::Manager.register(Ve::Provider::Transliterators, :ja)
 

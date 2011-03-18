@@ -227,5 +227,5 @@ class Ve
   end
 end
 
-Ve::LocalInterface::Manager.register(Ve::Provider::FreelingEn, :en)
+Ve::Manager.register(Ve::Provider::FreelingEn, :en)
 
