@@ -15,7 +15,6 @@ class Ve
                    :flags => ''}.merge(config)
     
         @config[:app] = `which #{@config[:app]}`
-        @is_working = false
         
         start!
       end
@@ -28,6 +27,8 @@ class Ve
   
       # Talks to the app and returns a parse object
       def parse(text, options = {})
+        start! if @stdin.nil?
+        
         @stdin.puts "#{text} #{BIT_STOP}"
         output = []
         
@@ -40,6 +41,8 @@ class Ve
         end
         
         Ve::Parse::MecabIpadic.new(text, output)
+      rescue
+        Ve::Parse::MecabIpadic.new(text, [])
       end
 
       private
@@ -49,9 +52,8 @@ class Ve
         @stdin, @stdout, @stderr = Open3.popen3(@config[:app])
         @stdin.set_encoding('UTF-8')
         @stdout.set_encoding('UTF-8')
-        @is_working = works?
-      rescue
-        @is_working = false
+      rescue Errno::ENOENT
+        # The parser couldn't be started. Probably not installed on this system
       end
   
     end

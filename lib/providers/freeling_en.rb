@@ -21,7 +21,6 @@ class Ve
         local = @config[:app] =~ /local/ ? '/local' : ''
         @config[:flags] = "-f /usr#{local}/share/FreeLing/config/en.cfg --flush --nonumb --nodate"
         
-        @is_working = false        
         start!
       end
   
@@ -33,8 +32,7 @@ class Ve
   
       # Talks to the app and returns a parse object
       def parse(text, options = {})
-        return text if @stdin.nil?
-        
+        start! if @stdin.nil?
         # Fix Unicode chars
         # TODO: These need to be converted back to the original char in the :literal attribute
         text = text.gsub('’', "'")
@@ -49,8 +47,10 @@ class Ve
           end
           output << line
         end
-        
+
         Ve::Parse::FreelingEn.new(text, output)
+      rescue
+        Ve::Parse::FreelingEn.new(text, [])
       end
 
       private
@@ -61,10 +61,8 @@ class Ve
         # TODO: Also filter out non-iso-latin-1 characters
         @stdin.set_encoding('UTF-8', 'ISO-8859-1')
         @stdout.set_encoding('ISO-8859-1', 'UTF-8')
-        
-        @is_working = works?
-      rescue
-        @is_working = false
+      rescue Errno::ENOENT
+        # The parser couldn't be started. Probably not installed on this system
       end
   
     end
