@@ -164,6 +164,8 @@ class Ve
       NA = 'な'
       NI = 'に'
       TE = 'て'
+      DE = 'で'
+      BA = 'ば'
 
       def words
         words = []
@@ -274,7 +276,7 @@ class Ve
               pos = Ve::PartOfSpeech::Adjective
             when JOSHI
               pos = Ve::PartOfSpeech::Postposition
-              if token[:pos2] == SETSUZOKUJOSHI
+              if token[:pos2] == SETSUZOKUJOSHI && [TE, DE, BA].include?(token[:literal])
                 attach_to_previous = true
               end
             when RENTAISHI

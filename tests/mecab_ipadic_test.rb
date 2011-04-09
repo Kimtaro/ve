@@ -394,6 +394,15 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :tokens => [0..0, 1..2]},
                              '日本だった')
 
+	# いるから
+	assert_parses_into_words(mecab, {:words => ['いる', 'から'],
+                              		 :lemmas => ['いる', 'から'],
+	                                 :pos => [Ve::PartOfSpeech::Verb, Ve::PartOfSpeech::Postposition],
+                                     :extra => [{:reading => 'イル', :transcription => 'イル', :grammar => nil},
+	                                            {:reading => 'カラ', :transcription => 'カラ', :grammar => nil}],
+                                     :tokens => [0..0, 1..1]},
+                             'いるから')
+
     # TODO: xした should parse as adjective?
     assert_parses_into_words(mecab, {:words => [],
                               :lemmas => [],
