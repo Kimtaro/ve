@@ -276,6 +276,7 @@ class Ve
               pos = Ve::PartOfSpeech::Adjective
             when JOSHI
               pos = Ve::PartOfSpeech::Postposition
+              pp token
               if token[:pos2] == SETSUZOKUJOSHI && [TE, DE, BA].include?(token[:literal])
                 attach_to_previous = true
               end
