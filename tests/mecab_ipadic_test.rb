@@ -50,6 +50,17 @@ class MecabIpadicTest < Test::Unit::TestCase
     assert_equal ['これは文章である。', 'で、also containing some Englishですね'], parse.sentences
   end
   
+  def test_this_shouldnt_crash
+    mecab = Ve::Provider::MecabIpadic.new
+    parse = mecab.parse('チューたろうは田中さんの犬です。')
+    pp parse.words
+  end
+  
+  def test_this_shouldnt_crash_either
+	mecab = Ve::Provider::MecabIpadic.new
+	parse = mecab.parse('三十年式歩兵銃')
+	pp parse.words
+  end
 
   def test_words
     mecab = Ve::Provider::MecabIpadic.new
@@ -402,6 +413,26 @@ class MecabIpadicTest < Test::Unit::TestCase
 	                                            {:reading => 'カラ', :transcription => 'カラ', :grammar => nil}],
                                      :tokens => [0..0, 1..1]},
                              'いるから')
+
+	# しているから
+	assert_parses_into_words(mecab, {:words => ['して', 'いる', 'から'],
+                              		 :lemmas => ['する', 'いる', 'から'],
+	                                 :pos => [Ve::PartOfSpeech::Verb, Ve::PartOfSpeech::Verb, Ve::PartOfSpeech::Postposition],
+                                     :extra => [{:reading => 'シテ', :transcription => 'シテ', :grammar => nil},
+                                     			{:reading => 'イル', :transcription => 'イル', :grammar => :auxillary},
+	                                            {:reading => 'カラ', :transcription => 'カラ', :grammar => nil}],
+                                     :tokens => [0..0, 1..1, 2..2]},
+                             'しているから')
+
+	# 基準があるが、
+	assert_parses_into_words(mecab, {:words => ['して', 'いる', 'から'],
+                              		 :lemmas => ['する', 'いる', 'から'],
+	                                 :pos => [Ve::PartOfSpeech::Verb, Ve::PartOfSpeech::Verb, Ve::PartOfSpeech::Postposition],
+                                   :extra => [{:reading => 'シテ', :transcription => 'シテ', :grammar => nil},
+                                     			    {:reading => 'イル', :transcription => 'イル', :grammar => :auxillary},
+	                                            {:reading => 'カラ', :transcription => 'カラ', :grammar => nil}],
+                                   :tokens => [0..0, 1..1, 2..2]},
+                             '基準があるが、')
 
     # TODO: xした should parse as adjective?
     assert_parses_into_words(mecab, {:words => [],

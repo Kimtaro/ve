@@ -276,7 +276,6 @@ class Ve
               pos = Ve::PartOfSpeech::Adjective
             when JOSHI
               pos = Ve::PartOfSpeech::Postposition
-              pp token
               if token[:pos2] == SETSUZOKUJOSHI && [TE, DE, BA].include?(token[:literal])
                 attach_to_previous = true
               end
@@ -299,14 +298,14 @@ class Ve
             if attach_to_previous && words.length > 0
               words[-1].tokens << token
               words[-1].word << token[:literal]
-              words[-1].extra[:reading] << token[:reading]
-              words[-1].extra[:transcription] << token[:hatsuon]
+              words[-1].extra[:reading] << (token[:reading] || '')
+              words[-1].extra[:transcription] << (token[:hatsuon] || '')
               words[-1].lemma << token[:lemma] if also_attach_to_lemma
             else
               pos = Ve::PartOfSpeech::TBD if pos.nil?
               word = Ve::Word.new(token[:literal], token[:lemma], pos, [token], {
-                :reading => token[:reading],
-                :transcription => token[:hatsuon],
+                :reading => token[:reading] || '',
+                :transcription => token[:hatsuon] || '',
                 :grammar => grammar
               }, {
                 :reading_script => :kata,
