@@ -1,4 +1,8 @@
+require 'rubygems'
+require 'bundler/setup'
+
 require File.expand_path(File.dirname(__FILE__) + "/../lib/ve")
+require 'test/unit'
 
 class Test::Unit::TestCase
 
@@ -8,7 +12,7 @@ class Test::Unit::TestCase
     parse = provider.parse(text)
     words = parse.words
     tokens = parse.tokens
-    
+
     assert_equal expected[:words], words.collect(&:word)
     assert_equal expected[:lemmas], words.collect(&:lemma)
     assert_equal expected[:pos], words.collect(&:part_of_speech)
