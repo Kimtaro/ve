@@ -1,6 +1,8 @@
 require 'rubygems'
+require 'bundler/setup'
 require 'sinatra'
 require 'json'
+require 'rack/cors'
 
 require File.expand_path(File.dirname(__FILE__) + "/../lib/ve")
 
@@ -35,6 +37,9 @@ def run
 
   if params[:callback]
     json = "#{params[:callback]}(#{json})"
+    content_type 'application/javascript', :charset => 'utf-8'
+  else
+    content_type 'application/json', :charset => 'utf-8'
   end
 
   json
