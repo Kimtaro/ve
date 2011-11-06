@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="http-equiv" content="Content-Type: text/html; charset=utf-8">
+    <style type="text/css">
+      .fail { color: red; }
+      .pass { color: green; }
+    </style>
+    <script src="ve.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+      function assert(test, name) {
+        var report = document.getElementById('report');
+        var result = test ? 'pass' : 'fail';
+        
+        report.innerHTML = report.innerHTML + '<p class="' + result + '">' + name + ': ' + result + '</p>'
+      }
+      
+      new Ve('en').words('I ate hamburgers.', function(words){
+        assert((4 == words.length && 'eat' == words[1].lemma), 'English');
+      });
+      
+      new Ve('ja').words('ビールを飲んだ', function(words){
+        // TODO: Shouldn't have to encode it here ...
+        var word = "\u98f2\u3080"; // 飲む
+        assert((3 == words.length && word == words[2].lemma), 'Japanese');
+      });
+    </script>
+  </head>
+  <body>
+    <div id="report"></div>
+  </body>
+</html>
