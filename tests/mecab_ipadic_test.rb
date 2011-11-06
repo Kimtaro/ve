@@ -1,10 +1,9 @@
 # Encoding: UTF-8
 
-require 'test/unit'
-require File.expand_path(File.dirname(__FILE__) + "/test_helper")
+require_relative 'test_helper'
 
 class MecabIpadicTest < Test::Unit::TestCase
-  
+
   def test_should_be_able_to_start
     mecab = Ve::Provider::MecabIpadic.new
     assert mecab.works?
@@ -15,19 +14,19 @@ class MecabIpadicTest < Test::Unit::TestCase
     parse = mecab.parse('')
     assert_equal Ve::Parse::MecabIpadic, parse.class
   end
-  
+
   def test_all_literals_should_equal_the_input_text
     text = <<-EOS
     古池や
     蛙飛び込む
     水の音
-    
+
     EOS
     mecab = Ve::Provider::MecabIpadic.new
     parse = mecab.parse(text)
     assert_equal text, parse.tokens.collect { |t| t[:literal] }.join
   end
-  
+
   def test_tokens_must_be_created_for_parsed_and_unparsed_text
     mecab = Ve::Provider::MecabIpadic.new
     parse = mecab.parse(' A   B  ')
@@ -35,7 +34,7 @@ class MecabIpadicTest < Test::Unit::TestCase
     assert_equal [' ', 'A', '   ', 'B', '  ', ''], parse.tokens.collect { |t| t[:literal] }
     assert_equal [0..0, 1..1, 2..4, 5..5, 6..7, nil], parse.tokens.collect { |t| t[:characters] }
   end
-  
+
   def test_tokens_should_not_be_modified_when_attached_to_words
     mecab = Ve::Provider::MecabIpadic.new
     parse = mecab.parse('悪化する')
@@ -49,13 +48,13 @@ class MecabIpadicTest < Test::Unit::TestCase
     parse = mecab.parse('これは文章である。で、also containing some Englishですね')
     assert_equal ['これは文章である。', 'で、also containing some Englishですね'], parse.sentences
   end
-  
+
   def test_this_shouldnt_crash
     mecab = Ve::Provider::MecabIpadic.new
     parse = mecab.parse('チューたろうは田中さんの犬です。')
     pp parse.words
   end
-  
+
   def test_this_shouldnt_crash_either
 	mecab = Ve::Provider::MecabIpadic.new
 	parse = mecab.parse('三十年式歩兵銃')
@@ -72,7 +71,7 @@ class MecabIpadicTest < Test::Unit::TestCase
                               :extra => [{:reading => 'クルマ', :transcription => 'クルマ', :grammar => nil}],
                               :tokens => [0..0]},
                              '車')
-    
+
     # Koyuumeishi
     assert_parses_into_words(mecab, {:words => ['太郎'],
                               :lemmas => ['太郎'],
@@ -449,5 +448,5 @@ class MecabIpadicTest < Test::Unit::TestCase
 
     assert_equal 'nihon', parse.words.first.transliteration(:latn)
   end
-  
+
 end
