@@ -4,6 +4,12 @@ require 'json'
 
 require File.expand_path(File.dirname(__FILE__) + "/../lib/ve")
 
+use Rack::Cors do
+  allow do
+    origins '*'
+  end
+end
+
 get '/:language/:function' do
   run
 end
