@@ -52,13 +52,13 @@ class MecabIpadicTest < Test::Unit::TestCase
   def test_this_shouldnt_crash
     mecab = Ve::Provider::MecabIpadic.new
     parse = mecab.parse('チューたろうは田中さんの犬です。')
-    pp parse.words
+    assert_equal 11, parse.tokens.size
   end
 
   def test_this_shouldnt_crash_either
     mecab = Ve::Provider::MecabIpadic.new
     parse = mecab.parse('三十年式歩兵銃')
-    pp parse.words
+    assert_equal 7, parse.tokens.size
   end
 
   def test_words
