@@ -1,10 +1,8 @@
 # Encoding: UTF-8
 
-require 'open3'
-
 class Ve
   class Provider
-    class Transliterators < Ve::Provider
+    class JapaneseTransliterators < Ve::Provider
 
       def initialize(config = {})
       end
@@ -14,7 +12,7 @@ class Ve
       end
 
       def parse(text, options = {})
-        Ve::Parse::Transliterators.new(text)
+        Ve::Parse::JapaneseTransliterators.new(text)
       end
 
     end
@@ -23,7 +21,7 @@ end
 
 class Ve
   class Parse
-    class Transliterators < Ve::Parse
+    class JapaneseTransliterators < Ve::Parse
 
       HIRA_TO_LATN = {
         "あ"=>"a", "い"=>"i", "う"=>"u", "え"=>"e", "お"=>"o",
@@ -79,15 +77,10 @@ class Ve
         @text = text
       end
 
-      # TODO:
-      def transliterate_from_latn_to_hira
-        @text
-      end
-      
-      # TODO: How to deal with inter-provider dependencies?
-      # TODO: hani is language independent (hanzi + kanji + hanja)
-      def transliterate_from_hani_to_latn
-        @text
+      # TODO: test
+      def transliterate_from_kana_to_latn
+        @text = transliterate_from_kata_to_hira
+        transliterate_from_hira_to_latn
       end
 
       def transliterate_from_hira_to_latn
@@ -132,43 +125,48 @@ class Ve
         return romaji
       end
       
-      def transliterate_from_hira_to_kata
-        kata = ''
-
-        @text.each_codepoint do |c|
-          if c >= 12353 and c <= 12438
-            kata << (c + 96).chr(Encoding::UTF_8)
-          else
-            kata << c.char(Encoding::UTF_8)
-          end
-        end
-
-        return kata
+      # TODO:
+      def transliterate_from_latn_to_hira
+        @text
       end
       
       def transliterate_from_kata_to_hira
-        hira = ''
+        transpose_codepoints_in_range(@text, -96, 12449..12534)
+      end
 
-        @text.each_codepoint do |c|
-          if c >= 12449 and c <= 12534
-            hira << (c - 96).chr(Encoding::UTF_8)
+      def transliterate_from_hira_to_kata
+        transpose_codepoints_in_range(@text, 96, 12353..12438)
+      end
+
+      def transliterate_from_fullwidth_to_halfwidth
+        res = transpose_codepoints_in_range(@text, -65248, 65281..65374)
+        transpose_codepoints_in_range(res, -12256, 12288..12288)
+      end
+
+      def transliterate_from_halfwidth_to_fullwidth
+        res = transpose_codepoints_in_range(@text, 65248, 33..126)
+        transpose_codepoints_in_range(res, 12256, 32..32)
+      end
+      
+      private
+
+      def transpose_codepoints_in_range(text, distance, range)
+        result = ''
+
+        text.each_codepoint do |c|
+          if c >= range.first and c <= range.last
+            result << (c + distance).chr(Encoding::UTF_8)
           else
-            hira << c.chr(Encoding::UTF_8)
+            result << c.chr(Encoding::UTF_8)
           end
         end
 
-        return hira
-      end
-
-      # TODO: test
-      def transliterate_from_kana_to_latn
-        @text = transliterate_from_kata_to_hira
-        transliterate_from_hira_to_latn
+        return result
       end
       
     end
   end
 end
 
-Ve::Manager.register(Ve::Provider::Transliterators, :ja)
+Ve::Manager.register(Ve::Provider::JapaneseTransliterators, :ja)
 

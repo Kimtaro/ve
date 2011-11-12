@@ -103,9 +103,9 @@ class Ve
   
 end
 
-# Autoload this shit
+# TODO: Autoload this shit
 require 'providers/fallbacks'
 require 'providers/mecab_ipadic'
 require 'providers/freeling_en'
-require 'providers/transliterators'
+require 'providers/japanese_transliterators'
 
