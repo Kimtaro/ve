@@ -77,9 +77,8 @@ class Ve
         @text = text
       end
 
-      # TODO: test
-      def transliterate_from_kana_to_latn
-        @text = transliterate_from_kata_to_hira
+      def transliterate_from_hrkt_to_latn
+        @text = transliterate_from_kana_to_hira
         transliterate_from_hira_to_latn
       end
 
@@ -130,11 +129,11 @@ class Ve
         @text
       end
       
-      def transliterate_from_kata_to_hira
+      def transliterate_from_kana_to_hira
         transpose_codepoints_in_range(@text, -96, 12449..12534)
       end
 
-      def transliterate_from_hira_to_kata
+      def transliterate_from_hira_to_kana
         transpose_codepoints_in_range(@text, 96, 12353..12438)
       end
 

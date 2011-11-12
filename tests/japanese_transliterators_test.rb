@@ -26,16 +26,16 @@ class JapaneseTransliteratorsTest < Test::Unit::TestCase
     assert_equal 'appa',      @trans.parse('あっぱ').transliterate_from_hira_to_latn
   end
 
-  def test_transliterate_from_hira_to_kata
-    assert_equal KATAKANA, @trans.parse(HIRAGANA).transliterate_from_hira_to_kata
+  def test_transliterate_from_hira_to_kana
+    assert_equal KATAKANA, @trans.parse(HIRAGANA).transliterate_from_hira_to_kana
   end
 
-  def test_transliterate_from_kata_to_hira
-    assert_equal HIRAGANA, @trans.parse(KATAKANA).transliterate_from_kata_to_hira
+  def test_transliterate_from_kata_to_hina
+    assert_equal HIRAGANA, @trans.parse(KATAKANA).transliterate_from_kana_to_hira
   end
 
-  def test_transliterate_from_kana_to_latn
-    assert_equal 'hiraganakatakana', @trans.parse('ひらがなカタカナ').transliterate_from_kana_to_latn
+  def test_transliterate_from_hrkt_to_latn
+    assert_equal 'hiraganakatakana', @trans.parse('ひらがなカタカナ').transliterate_from_hrkt_to_latn
   end
   
   def test_transliterate_from_fullwidth_to_halfwidth
