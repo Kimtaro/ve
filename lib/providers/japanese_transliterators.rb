@@ -23,6 +23,9 @@ class Ve
   class Parse
     class JapaneseTransliterators < Ve::Parse
 
+      H_SYLLABIC_N   = 'ん'
+      H_SMALL_TSU    = 'っ'
+      
       HIRA_TO_LATN = {
         "あ"=>"a", "い"=>"i", "う"=>"u", "え"=>"e", "お"=>"o",
         "か"=>"ka", "き"=>"ki", "く"=>"ku", "け"=>"ke", "こ"=>"ko",
@@ -68,7 +71,77 @@ class Ve
         "うぁ"=>"wha", "いぇ"=>"ye", "うぉ"=>"who",
         "ぁ"=>"xa", "ぃ"=>"xi", "ぅ"=>"xu", "ぇ"=>"xe", "ぉ"=>"xo",
         "ゕ"=>"xka", "ゖ"=>"xke", "ゎ"=>"xwa"
-       }
+      }
+      
+      LATN_TO_HIRA = {
+        'a'   => 'あ', 'i'   => 'い',                'u'  => 'う',               'e'  => 'え',   'o'  => 'お',
+        'ka'  => 'か', 'ki'  => 'き',                'ku' => 'く',               'ke' => 'け',   'ko' => 'こ',
+        'ga'  => 'が', 'gi'  => 'ぎ',                'gu' => 'ぐ',               'ge' => 'げ',   'go' => 'ご',
+        'sa'  => 'さ', 'si'  => 'し', 'shi' => 'し', 'su' => 'す',               'se' => 'せ',   'so' => 'そ',
+        'za'  => 'ざ', 'zi'  => 'じ', 'ji'  => 'じ', 'zu' => 'ず',               'ze' => 'ぜ',   'zo' => 'ぞ',
+        'ta'  => 'た', 'ti'  => 'ち', 'chi' => 'ち', 'tu' => 'つ', 'tsu'=> 'つ', 'te' => 'て',   'to' => 'と',
+        'da'  => 'だ', 'di'  => 'ぢ',                'du' => 'づ', 'dzu'=> 'づ', 'de' => 'で',   'do' => 'ど',
+        'na'  => 'な', 'ni'  => 'に',                'nu' => 'ぬ',               'ne' => 'ね',   'no' => 'の',
+        'ha'  => 'は', 'hi'  => 'ひ',                'hu' => 'ふ', 'fu' => 'ふ', 'he' => 'へ',   'ho' => 'ほ',
+        'ba'  => 'ば', 'bi'  => 'び',                'bu' => 'ぶ',               'be' => 'べ',   'bo' => 'ぼ',
+        'pa'  => 'ぱ', 'pi'  => 'ぴ',                'pu' => 'ぷ',               'pe' => 'ぺ',   'po' => 'ぽ',
+        'ma'  => 'ま', 'mi'  => 'み',                'mu' => 'む',               'me' => 'め',   'mo' => 'も',
+        'ya'  => 'や',                               'yu' => 'ゆ',                               'yo' => 'よ',
+        'ra'  => 'ら', 'ri'  => 'り',                'ru' => 'る',               're' => 'れ',   'ro' => 'ろ',
+        'la'  => 'ら', 'li'  => 'り',                'lu' => 'る',               'le' => 'れ',   'lo' => 'ろ',
+        'wa'  => 'わ', 'wi'  => 'うぃ',                                          'we' => 'うぇ', 'wo' => 'を',
+        'wye' => 'ゑ', 'wyi' => 'ゐ', '-' => 'ー',
+
+        'n'   => 'ん', 'nn'  => 'ん', "n'"=> 'ん',
+
+        'kya' => 'きゃ', 'kyu' => 'きゅ', 'kyo' => 'きょ', 'kye' => 'きぇ', 'kyi' => 'きぃ',
+        'gya' => 'ぎゃ', 'gyu' => 'ぎゅ', 'gyo' => 'ぎょ', 'gye' => 'ぎぇ', 'gyi' => 'ぎぃ',
+        'kwa' => 'くぁ', 'kwi' => 'くぃ', 'kwu' => 'くぅ', 'kwe' => 'くぇ', 'kwo' => 'くぉ',
+        'gwa' => 'ぐぁ', 'gwi' => 'ぐぃ', 'gwu' => 'ぐぅ', 'gwe' => 'ぐぇ', 'gwo' => 'ぐぉ',
+        'qwa' => 'ぐぁ', 'gwi' => 'ぐぃ', 'gwu' => 'ぐぅ', 'gwe' => 'ぐぇ', 'gwo' => 'ぐぉ',
+
+        'sya' => 'しゃ', 'syi' => 'しぃ', 'syu' => 'しゅ', 'sye' => 'しぇ', 'syo' => 'しょ',
+        'sha' => 'しゃ',                  'shu' => 'しゅ', 'she' => 'しぇ', 'sho' => 'しょ',
+        'ja'  => 'じゃ',                  'ju'  => 'じゅ', 'je'  => 'じぇ', 'jo'  => 'じょ',
+        'jya' => 'じゃ', 'jyi' => 'じぃ', 'jyu' => 'じゅ', 'jye' => 'じぇ', 'jyo' => 'じょ',
+        'zya' => 'じゃ', 'zyu' => 'じゅ', 'zyo' => 'じょ', 'zye' => 'じぇ', 'zyi' => 'じぃ',
+        'swa' => 'すぁ', 'swi' => 'すぃ', 'swu' => 'すぅ', 'swe' => 'すぇ', 'swo' => 'すぉ',
+
+        'cha' => 'ちゃ',                  'chu' => 'ちゅ', 'che' => 'ちぇ', 'cho' => 'ちょ',
+        'cya' => 'ちゃ', 'cyi' => 'ちぃ', 'cyu' => 'ちゅ', 'cye' => 'ちぇ', 'cyo' => 'ちょ',
+        'tya' => 'ちゃ', 'tyi' => 'ちぃ', 'tyu' => 'ちゅ', 'tye' => 'ちぇ', 'tyo' => 'ちょ',
+        'dya' => 'ぢゃ', 'dyi' => 'ぢぃ', 'dyu' => 'ぢゅ', 'dye' => 'ぢぇ', 'dyo' => 'ぢょ',
+        'tsa' => 'つぁ', 'tsi' => 'つぃ',                  'tse' => 'つぇ', 'tso' => 'つぉ',
+        'tha' => 'てゃ', 'thi' => 'てぃ', 'thu' => 'てゅ', 'the' => 'てぇ', 'tho' => 'てょ',
+        'twa' => 'とぁ', 'twi' => 'とぃ', 'twu' => 'とぅ', 'twe' => 'とぇ', 'two' => 'とぉ',
+        'dha' => 'でゃ', 'dhi' => 'でぃ', 'dhu' => 'でゅ', 'dhe' => 'でぇ', 'dho' => 'でょ',
+        'dwa' => 'どぁ', 'dwi' => 'どぃ', 'dwu' => 'どぅ', 'dwe' => 'どぇ', 'dwo' => 'どぉ',
+
+        'nya' => 'にゃ', 'nyu' => 'にゅ', 'nyo' => 'にょ', 'nye' => 'にぇ', 'nyi' => 'にぃ',
+
+        'hya' => 'ひゃ', 'hyi' => 'ひぃ', 'hyu' => 'ひゅ', 'hye' => 'ひぇ', 'hyo' => 'ひょ',
+        'bya' => 'びゃ', 'byi' => 'びぃ', 'byu' => 'びゅ', 'bye' => 'びぇ', 'byo' => 'びょ',
+        'pya' => 'ぴゃ', 'pyi' => 'ぴぃ', 'pyu' => 'ぴゅ', 'pye' => 'ぴぇ', 'pyo' => 'ぴょ',
+        'fa'  => 'ふぁ', 'fi'  => 'ふぃ',                  'fe'  => 'ふぇ', 'fo'  => 'ふぉ',
+        'fwa' => 'ふぁ', 'fwi' => 'ふぃ', 'fwu' => 'ふぅ', 'fwe' => 'ふぇ', 'fwo' => 'ふぉ',
+        'fya' => 'ふゃ', 'fyi' => 'ふぃ', 'fyu' => 'ふゅ', 'fye' => 'ふぇ', 'fyo' => 'ふょ',
+
+        'mya' => 'みゃ', 'myi' => 'みぃ', 'myu' => 'みゅ', 'mye' => 'みぇ', 'myo' => 'みょ',
+
+        'rya' => 'りゃ', 'ryi' => 'りぃ', 'ryu' => 'りゅ', 'rye' => 'りぇ', 'ryo' => 'りょ',
+        'lya' => 'りゃ', 'lyu' => 'りゅ', 'lyo' => 'りょ', 'lye' => 'りぇ', 'lyi' => 'りぃ',
+
+        'va'  => 'ゔぁ', 'vi'  => 'ゔぃ', 'vu'  => 'ゔ',   've'  => 'ゔぇ',  'vo' => 'ゔぉ',
+        'vya' => 'ゔゃ', 'vyi' => 'ゔぃ', 'vyu' => 'ゔゅ', 'vye' => 'ゔぇ', 'vyo' => 'ゔょ',
+        'wha' => 'うぁ', 'whi' => 'うぃ', 'ye'  => 'いぇ', 'whe' => 'うぇ', 'who' => 'うぉ',
+
+        'xa'  => 'ぁ', 'xi'   => 'ぃ', 'xu'  => 'ぅ', 'xe'  => 'ぇ', 'xo'   => 'ぉ',
+        'xya' => 'ゃ', 'xyu'  => 'ゅ', 'xyo' => 'ょ',
+        'xtu' => 'っ', 'xtsu' => 'っ',
+        'xka' => 'ゕ', 'xke'  => 'ゖ', 'xwa' => 'ゎ',
+
+        '@@' => '　', '#[' => '「', '#]' => '」', '#,' => '、', '#.' => '。', '#/' => '・',
+      }
 
       attr_reader :tokens, :text
 
@@ -93,11 +166,11 @@ class Ve
             mora = ''
             for_conversion = kana[0, length]
 
-            if for_conversion == 'っ'
+            if for_conversion == H_SMALL_TSU
               geminate = true
               kana[0, length] = ''
               break
-            elsif for_conversion == 'ん' && kana[1, 1].match(/[やゆよ]/)
+            elsif for_conversion == H_SYLLABIC_N && kana[1, 1].match(/[やゆよ]/)
               # Syllabic N before ya, yu or yo
               mora = "n'"
             elsif HIRA_TO_LATN[for_conversion]
@@ -124,9 +197,58 @@ class Ve
         return romaji
       end
       
-      # TODO:
-      def transliterate_from_latn_to_hira
-        @text
+      def transliterate_from_latn_to_hrkt
+        romaji = @text.dup
+        kana = ''
+
+        romaji.gsub!(/m([BbPp])/, 'n\1')
+        romaji.gsub!(/M([BbPp])/, 'N\1')
+
+        while romaji.length > 0
+          [3, 2, 1].each do |length|
+            mora = ''
+            for_removal = length
+            for_conversion = romaji[0, length]
+            is_upper = !!(for_conversion.match(/^\p{Upper}/))
+            for_conversion.downcase!
+
+            if for_conversion.match(/nn[aiueo]/)
+              # nna should kanafy to んな instead of んあ
+              # This is what people expect for words like konna, anna, zannen
+              mora = H_SYLLABIC_N
+              for_removal = 1
+            elsif LATN_TO_HIRA[for_conversion]
+              # Generic cases
+              mora = LATN_TO_HIRA[for_conversion]
+            elsif for_conversion == 'tch' || ( length == 2 && for_conversion.match(/([kgsztdnbpmyrlwc])\1/))
+              # tch and double-consonants for small tsu 
+              mora = H_SMALL_TSU
+              for_removal = 1
+            end
+
+            if mora.length > 0
+              if is_upper
+                # Dance so we can call transliterate_from_hira_to_kana on internal data
+                # TODO: Need a better way for this
+                temp_text = @text
+                @text = mora.dup
+                kana << transliterate_from_hira_to_kana
+                @text = temp_text
+              else
+                kana << mora
+              end
+              
+              romaji[0, for_removal] = ''
+              break
+            elsif length == 1
+              # Nothing found
+              kana << for_conversion
+              romaji[0, 1] = ''
+            end
+          end
+        end
+
+        return kana
       end
       
       def transliterate_from_kana_to_hira
