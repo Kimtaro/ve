@@ -21,7 +21,7 @@ class FreelingEnTest < Test::Unit::TestCase
     parse = freeling.parse('I’m')
     assert_equal ['I\'m'], parse.tokens.collect { |t| t[:literal] }
   end
-
+  
   def test_can_parse
     freeling = Ve::Provider::FreelingEn.new
     parse = freeling.parse('')
@@ -65,6 +65,13 @@ class FreelingEnTest < Test::Unit::TestCase
     assert_equal [{:grammar => :personal}, {:grammar => :past}, {:grammar => nil}, {:grammar => nil}, {:grammar => nil}], words.collect(&:extra)
 
     assert_equal [[tokens[0]], [tokens[2]], [tokens[4]], [tokens[6]], [tokens[7]]], words.collect(&:tokens)
+  end
+
+  def test_words_can_handle_contractions
+    freeling = Ve::Provider::FreelingEn.new
+    parse = freeling.parse("I'm eating.")
+    puts parse.tokens.inspect
+    assert_equal ["I'm", "eating", "."], parse.tokens.collect { |t| t[:literal] }
   end
 
   def test_possessive_endings_must_be_reattached
