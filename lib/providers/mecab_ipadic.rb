@@ -208,7 +208,7 @@ class Ve
                     eat_next = true
                   elsif following[:pos] == JOSHI && following[:literal] == NI
                     pos = Ve::PartOfSpeech::Adverb
-                    eat_next = true
+                    eat_next = false
                   end
                 end
               when HIJIRITSU, TOKUSHU
