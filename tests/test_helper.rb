@@ -9,8 +9,8 @@ class MiniTest::Unit::TestCase
 
   private
 
-  def assert_parses_into_words(provider, expected, text)
-    parse = provider.parse(text)
+  def assert_parses_into_words(parse_klass, expected, text, raw)
+    parse = parse_klass.new(text, raw)
     words = parse.words
     tokens = parse.tokens
 

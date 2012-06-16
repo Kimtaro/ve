@@ -8,7 +8,7 @@ require 'open3'
 class Ve
   class Provider
     class FreelingEn < Ve::Provider
-
+      # FIX: This class isn't tested
       BIT_STOP = 'VeEnd'
   
       # TODO: Automatically set FREELINGSHARE if it's not set?
@@ -27,7 +27,8 @@ class Ve
       # Interface methods
   
       def works?
-        (["Wrote write VBD 1", ""] == parse('Wrote').tokens.collect { |t| t[:raw] })
+        p = parse('Wrote')
+        ["Wrote write VBD 1", ""] == p.tokens.collect { |t| t[:raw] }
       end
   
       # Talks to the app and returns a parse object
@@ -41,6 +42,7 @@ class Ve
         output = []
         
         while line = @stdout.readline
+          puts line
           if line =~ /#{BIT_STOP}/x
             @stdout.readline
             break
@@ -48,6 +50,7 @@ class Ve
           output << line
         end
 
+        puts output.inpsect
         Ve::Parse::FreelingEn.new(text, output)
       rescue
         Ve::Parse::FreelingEn.new(text, [])
