@@ -8,5 +8,6 @@ group :server do
 end
 
 group :test do
+  gem "rake"
   gem "mocha", :require => false
 end
