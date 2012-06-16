@@ -50,7 +50,6 @@ class Ve
           output << line
         end
 
-        puts output.inpsect
         Ve::Parse::FreelingEn.new(text, output)
       rescue
         Ve::Parse::FreelingEn.new(text, [])
