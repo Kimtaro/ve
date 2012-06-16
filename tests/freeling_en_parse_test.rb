@@ -104,6 +104,7 @@ class FreelingEnParseTest < MiniTest::Unit::TestCase
 
     # Should keep them
     # TODO
+    skip
     text = 'In New_York'
     raw = ['In in IN 0.986184', 'New_York new_york NNP 1', '']
     parse = Ve::Parse::FreelingEn.new(text, raw)
