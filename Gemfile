@@ -6,3 +6,7 @@ group :server do
   gem "sinatra"
   gem "rack-cors"
 end
+
+group :test do
+  gem "mocha", :require => false
+end

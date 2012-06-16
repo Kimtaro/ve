@@ -3,6 +3,7 @@ require 'bundler/setup'
 
 require File.expand_path(File.dirname(__FILE__) + "/../lib/ve")
 require 'minitest/autorun'
+require 'mocha'
 
 class MiniTest::Unit::TestCase
 
