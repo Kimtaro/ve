@@ -2,9 +2,9 @@ require 'rubygems'
 require 'bundler/setup'
 
 require File.expand_path(File.dirname(__FILE__) + "/../lib/ve")
-require 'test/unit'
+require 'minitest/autorun'
 
-class Test::Unit::TestCase
+class MiniTest::Unit::TestCase
 
   private
 

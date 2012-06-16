@@ -2,7 +2,7 @@
 
 require_relative 'test_helper'
 
-class FreelingEnTest < Test::Unit::TestCase
+class FreelingEnTest < MiniTest::Unit::TestCase
 
   def test_should_be_able_to_start
     freeling = Ve::Provider::FreelingEn.new

@@ -2,7 +2,7 @@
 
 require_relative 'test_helper'
 
-class MecabIpadicTest < Test::Unit::TestCase
+class MecabIpadicTest < MiniTest::Unit::TestCase
 
   def test_should_be_able_to_start
     mecab = Ve::Provider::MecabIpadic.new

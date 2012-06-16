@@ -2,7 +2,7 @@
 
 require_relative 'test_helper'
 
-class VeTest < Test::Unit::TestCase
+class VeTest < MiniTest::Unit::TestCase
 
   def test_get
     assert_equal ['日本語', 'です'], Ve.get('日本語です', :ja, :words).collect(&:word)
