@@ -275,7 +275,7 @@ class Ve
               if token[:pos2] == SETSUBI
                 attach_to_previous = true
               elsif token[:pos2] == HIJIRITSU
-                grammar = :auxillary
+                attach_to_previous = true
               end
             when KEIYOUSHI
               pos = Ve::PartOfSpeech::Adjective

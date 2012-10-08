@@ -476,12 +476,11 @@ EOR
 EOS
 EOR
 
-    assert_parses_into_words(Ve::Parse::MecabIpadic, {:words => ['行って', 'きて'],
-                              :lemmas => ['行く', 'くる'],
-                              :pos => [Ve::PartOfSpeech::Verb, Ve::PartOfSpeech::Verb],
-                              :extra => [{:reading => 'イッテ', :transcription => 'イッテ', :grammar => nil},
-                                         {:reading => 'キテ', :transcription => 'キテ', :grammar => :auxillary}],
-                              :tokens => [0..1, 2..3]},
+    assert_parses_into_words(Ve::Parse::MecabIpadic, {:words => ['行ってきて'],
+                              :lemmas => ['行く'],
+                              :pos => [Ve::PartOfSpeech::Verb],
+                              :extra => [{:reading => 'イッテキテ', :transcription => 'イッテキテ', :grammar => nil}],
+                              :tokens => [0..3]},
                              '行ってきて', <<-EOR.split("\n"))
 行っ	動詞,自立,*,*,五段・カ行促音便,連用タ接続,行く,イッ,イッ
 て	助詞,接続助詞,*,*,*,*,て,テ,テ
@@ -540,6 +539,17 @@ EOR
 EOS
 EOR
 
+    assert_parses_into_words(Ve::Parse::MecabIpadic, {:words => ['食べている'],
+                              :lemmas => ['食べる'],
+                              :pos => [Ve::PartOfSpeech::Verb],
+                              :extra => [{:reading => 'タベテイル', :transcription => 'タベテイル', :grammar => nil}],
+                              :tokens => [0..2]},
+                             '食べている', <<-EOR.split("\n"))
+食べ	動詞,自立,*,*,一段,連用形,食べる,タベ,タベ,たべ/食/食べ,
+て	助詞,接続助詞,*,*,*,*,て,テ,テ,,
+いる	動詞,非自立,*,*,一段,基本形,いる,イル,イル,,
+EOS
+EOR
 
     # Keiyoushi
     assert_parses_into_words(Ve::Parse::MecabIpadic, {:words => ['寒い'],
@@ -659,13 +669,12 @@ EOS
 EOR
 
     # しているから
-    assert_parses_into_words(Ve::Parse::MecabIpadic, {:words => ['して', 'いる', 'から'],
-                             :lemmas => ['する', 'いる', 'から'],
-                             :pos => [Ve::PartOfSpeech::Verb, Ve::PartOfSpeech::Verb, Ve::PartOfSpeech::Postposition],
-                             :extra => [{:reading => 'シテ', :transcription => 'シテ', :grammar => nil},
-                                        {:reading => 'イル', :transcription => 'イル', :grammar => :auxillary},
+    assert_parses_into_words(Ve::Parse::MecabIpadic, {:words => ['している', 'から'],
+                             :lemmas => ['する', 'から'],
+                             :pos => [Ve::PartOfSpeech::Verb, Ve::PartOfSpeech::Postposition],
+                             :extra => [{:reading => 'シテイル', :transcription => 'シテイル', :grammar => nil},
                                         {:reading => 'カラ', :transcription => 'カラ', :grammar => nil}],
-                             :tokens => [0..1, 2..2, 3..3]},
+                             :tokens => [0..2, 3..3]},
                              'しているから', <<-EOR.split("\n"))
 し	動詞,自立,*,*,サ変・スル,連用形,する,シ,シ
 て	助詞,接続助詞,*,*,*,*,て,テ,テ
