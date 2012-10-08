@@ -184,6 +184,7 @@ class Ve
             eat_lemma = true
             attach_to_previous = false
             also_attach_to_lemma = false
+            update_pos = false
 
             case token[:pos]
             when MEISHI
