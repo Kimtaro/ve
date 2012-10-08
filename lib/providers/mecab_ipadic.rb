@@ -161,6 +161,7 @@ class Ve
       TOKUSHU_MASU = '特殊・マス'
       TOKUSHU_NU = '特殊・ヌ'
       FUHENKAGATA = '不変化型'
+      JINMEI = '人名'
 
       # Etc
       NA = 'な'
@@ -250,9 +251,13 @@ class Ve
                   also_attach_to_lemma = true
                 end
               when SETSUBI
-                attach_to_previous = true
-                update_pos = true
-                pos = Ve::PartOfSpeech::Noun
+                if token[:pos3] == JINMEI
+                  pos = Ve::PartOfSpeech::Suffix
+                else
+                  attach_to_previous = true
+                  update_pos = true
+                  pos = Ve::PartOfSpeech::Noun
+                end
               when SETSUZOKUSHITEKI
                 pos = Ve::PartOfSpeech::Conjunction
               when DOUSHIHIJIRITSUTEKI

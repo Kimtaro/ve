@@ -573,6 +573,19 @@ EOR
 EOS
 EOR
 
+    assert_parses_into_words(Ve::Parse::MecabIpadic, {:words => ['長光', 'さん'],
+                              :lemmas => ['長光', 'さん'],
+                              :pos => [Ve::PartOfSpeech::ProperNoun, Ve::PartOfSpeech::Suffix],
+                              :extra => [{:reading => 'ナガミツ', :transcription => 'ナガミツ', :grammar => nil},
+                                         {:reading => 'サン', :transcription => 'サン', :grammar => nil}],
+                              :tokens => [0..0, 1..1]},
+                             '長光さん', <<-EOR.split("\n"))
+長光	名詞,固有名詞,人名,名,*,*,長光,ナガミツ,ナガミツ,,
+さん	名詞,接尾,人名,*,*,*,さん,サン,サン,,
+EOS
+EOR
+    
+
     # Keiyoushi
     assert_parses_into_words(Ve::Parse::MecabIpadic, {:words => ['寒い'],
                               :lemmas => ['寒い'],
