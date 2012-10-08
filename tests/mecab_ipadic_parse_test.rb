@@ -551,6 +551,28 @@ EOR
 EOS
 EOR
 
+    assert_parses_into_words(Ve::Parse::MecabIpadic, {:words => ['食べてる'],
+                              :lemmas => ['食べる'],
+                              :pos => [Ve::PartOfSpeech::Verb],
+                              :extra => [{:reading => 'タベテル', :transcription => 'タベテル', :grammar => nil}],
+                              :tokens => [0..1]},
+                             '食べてる', <<-EOR.split("\n"))
+食べ	動詞,自立,*,*,一段,連用形,食べる,タベ,タベ,たべ/食/食べ,
+てる	動詞,非自立,*,*,一段,基本形,てる,テル,テル,,
+EOS
+EOR
+
+    assert_parses_into_words(Ve::Parse::MecabIpadic, {:words => ['食べず'],
+                              :lemmas => ['食べる'],
+                              :pos => [Ve::PartOfSpeech::Verb],
+                              :extra => [{:reading => 'タベズ', :transcription => 'タベズ', :grammar => nil}],
+                              :tokens => [0..1]},
+                             '食べず', <<-EOR.split("\n"))
+食べ	動詞,自立,*,*,一段,未然形,食べる,タベ,タベ,たべ/食/食べ,
+ず	助動詞,*,*,*,特殊・ヌ,連用ニ接続,ぬ,ズ,ズ,,
+EOS
+EOR
+
     # Keiyoushi
     assert_parses_into_words(Ve::Parse::MecabIpadic, {:words => ['寒い'],
                               :lemmas => ['寒い'],

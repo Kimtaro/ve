@@ -159,6 +159,7 @@ class Ve
       TOKUSHU_DESU = '特殊・デス'
       TOKUSHU_DA = '特殊・ダ'
       TOKUSHU_MASU = '特殊・マス'
+      TOKUSHU_NU = '特殊・ヌ'
       FUHENKAGATA = '不変化型'
 
       # Etc
@@ -263,7 +264,7 @@ class Ve
             when JODOUSHI
               pos = Ve::PartOfSpeech::Postposition
 
-              if [TOKUSHU_TA, TOKUSHU_NAI, TOKUSHU_TAI, TOKUSHU_MASU].include?(token[:inflection_type])
+              if [TOKUSHU_TA, TOKUSHU_NAI, TOKUSHU_TAI, TOKUSHU_MASU, TOKUSHU_NU].include?(token[:inflection_type])
                 attach_to_previous = true
               elsif token[:inflection_type] == FUHENKAGATA && token[:lemma] == NN
                 attach_to_previous = true
