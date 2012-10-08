@@ -322,13 +322,11 @@ EOS
 EOR
 
     # Meishi setsubi
-    # TODO: This should maybe be parsed as one noun instead
-    assert_parses_into_words(Ve::Parse::MecabIpadic, {:words => ['楽し', 'さ'],
-                              :lemmas => ['楽しい', 'さ'],
-                              :pos => [Ve::PartOfSpeech::Adjective, Ve::PartOfSpeech::Suffix],
-                              :extra => [{:reading => 'タノシ', :transcription => 'タノシ', :grammar => nil},
-                                         {:reading => 'サ', :transcription => 'サ', :grammar => nil}],
-                              :tokens => [0..0, 1..1]},
+    assert_parses_into_words(Ve::Parse::MecabIpadic, {:words => ['楽しさ'],
+                              :lemmas => ['楽しい'],
+                              :pos => [Ve::PartOfSpeech::Noun],
+                              :extra => [{:reading => 'タノシサ', :transcription => 'タノシサ', :grammar => nil}],
+                              :tokens => [0..1]},
                              '楽しさ', <<-EOR.split("\n"))
 楽し	形容詞,自立,*,*,形容詞・イ段,ガル接続,楽しい,タノシ,タノシ
 さ	名詞,接尾,特殊,*,*,*,さ,サ,サ

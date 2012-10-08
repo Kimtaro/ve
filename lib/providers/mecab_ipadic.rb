@@ -246,8 +246,9 @@ class Ve
                   also_attach_to_lemma = true
                 end
               when SETSUBI
-                # TODO: elaborate a bit?
-                pos = Ve::PartOfSpeech::Suffix
+                attach_to_previous = true
+                update_pos = true
+                pos = Ve::PartOfSpeech::Noun
               when SETSUZOKUSHITEKI
                 pos = Ve::PartOfSpeech::Conjunction
               when DOUSHIHIJIRITSUTEKI
@@ -301,6 +302,7 @@ class Ve
               words[-1].extra[:reading] << (token[:reading] || '')
               words[-1].extra[:transcription] << (token[:hatsuon] || '')
               words[-1].lemma << token[:lemma] if also_attach_to_lemma
+              words[-1].part_of_speech = pos if update_pos
             else
               pos = Ve::PartOfSpeech::TBD if pos.nil?
               word = Ve::Word.new(token[:literal], token[:lemma], pos, [token], {
