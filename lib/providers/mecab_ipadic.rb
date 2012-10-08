@@ -159,6 +159,7 @@ class Ve
       TOKUSHU_DESU = '特殊・デス'
       TOKUSHU_DA = '特殊・ダ'
       TOKUSHU_MASU = '特殊・マス'
+      FUHENKAGATA = '不変化型'
 
       # Etc
       NA = 'な'
@@ -166,6 +167,7 @@ class Ve
       TE = 'て'
       DE = 'で'
       BA = 'ば'
+      NN = 'ん'
 
       def words
         words = []
@@ -262,6 +264,8 @@ class Ve
               pos = Ve::PartOfSpeech::Postposition
 
               if [TOKUSHU_TA, TOKUSHU_NAI, TOKUSHU_TAI, TOKUSHU_MASU].include?(token[:inflection_type])
+                attach_to_previous = true
+              elsif token[:inflection_type] == FUHENKAGATA && token[:lemma] == NN
                 attach_to_previous = true
               elsif (token[:inflection_type] == TOKUSHU_DA || token[:inflection_type] == TOKUSHU_DESU) && token[:literal] != NA
                 pos = Ve::PartOfSpeech::Verb
