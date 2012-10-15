@@ -10,10 +10,17 @@ require 'pp'
 class Ve
   
   class Manager
+    @@config_for = {}
+    
+    def self.set_default_config_for(klass, config = {})
+      @@config_for[klass] = config
+    end
+    
     def self.provider_for(language, function)
       provider = @@provider_for[language.to_sym][function.to_sym]
       if provider.is_a?(Class)
-        provider = @@provider_for[language.to_sym][function.to_sym].new
+        config = @@config_for[provider] || {}
+        provider = @@provider_for[language.to_sym][function.to_sym].new(config)
         @@provider_for[language.to_sym][function.to_sym] = provider
       end
       provider

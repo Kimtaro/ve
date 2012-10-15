@@ -13,8 +13,8 @@ class Ve
         @config = {:app => 'mecab',
                    :path => '',
                    :flags => ''}.merge(config)
-    
-        @config[:app] = `which #{@config[:app]}`
+
+        @config[:app] = `which #{@config[:app]}`.chomp
         
         start!
       end
@@ -39,9 +39,9 @@ class Ve
           end
           output << line
         end
-        
+
         Ve::Parse::MecabIpadic.new(text, output)
-      rescue
+      rescue => e
         # TODO: No good to catch all errors like this
         # I need a backtrace when something unexpected fails
         Ve::Parse::MecabIpadic.new(text, [])
@@ -51,10 +51,10 @@ class Ve
   
       # TODO: Use Process.spawn/kill for process control?
       def start!
-        @stdin, @stdout, @stderr = Open3.popen3(@config[:app])
+        @stdin, @stdout, @stderr = Open3.popen3("#{@config[:app]} #{@config[:flags]}")
         @stdin.set_encoding('UTF-8')
         @stdout.set_encoding('UTF-8')
-      rescue Errno::ENOENT
+      rescue Errno::ENOENT => e
         # The parser couldn't be started. Probably not installed on this system
       end
   
