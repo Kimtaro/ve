@@ -11,22 +11,26 @@ class Ve
   
   class Manager
     def self.provider_for(language, function)
-      @@provider_for[language.to_sym][function.to_sym]
+      provider = @@provider_for[language.to_sym][function.to_sym]
+      if provider.is_a?(Class)
+        provider = @@provider_for[language.to_sym][function.to_sym].new
+        @@provider_for[language.to_sym][function.to_sym] = provider
+      end
+      provider
     end
 
     # TODO: Make a difference between what features are available locally
     # and what requires contacting external Ves
     def self.register(klass, language)
       @@provider_for ||= {}
-      provider = klass.new
       # This won't work if people start monkey patching the providers with public methods that arent abilities
       # It's also not pretty, but kinda nifty
-      provider_name = provider.class.to_s.split('::').last
+      provider_name = klass.to_s.split('::').last
       parse_class = Kernel.class_eval("Ve::Parse::#{provider_name}")
       abilities = parse_class.public_instance_methods - Object.public_instance_methods
       abilities.each do |a|
         @@provider_for[language.to_sym] ||= {}
-        @@provider_for[language.to_sym][a] = provider
+        @@provider_for[language.to_sym][a] = klass
       end
     end
   end
