@@ -584,7 +584,7 @@ EOR
 さん	名詞,接尾,人名,*,*,*,さん,サン,サン,,
 EOS
 EOR
-    
+
 
     # Keiyoushi
     assert_parses_into_words(Ve::Parse::MecabIpadic, {:words => ['寒い'],
@@ -730,6 +730,19 @@ EOR
 ある	動詞,自立,*,*,五段・ラ行,基本形,ある,アル,アル
 が	助詞,接続助詞,*,*,*,*,が,ガ,ガ
 、	記号,読点,*,*,*,*,、,、,、
+EOS
+EOR
+
+    # 教えてください
+    assert_parses_into_words(Ve::Parse::MecabIpadic, {:words => ["教えて", "ください",],
+                             :lemmas => ["教える", "くださる"],
+                             :pos => [Ve::PartOfSpeech::Verb, Ve::PartOfSpeech::Verb],
+                             :extra => [{:reading=>"オシエテ", :transcription=>"オシエテ", :grammar=>nil}, {:reading=>"クダサイ", :transcription=>"クダサイ", :grammar=>nil}],
+                             :tokens => [0..1, 2..2]},
+'教えてください', <<-EOR.split("\n"))
+教え	動詞,自立,*,*,一段,連用形,教える,オシエ,オシエ,おしえ/教え,
+て	助詞,接続助詞,*,*,*,*,て,テ,テ,,
+ください	動詞,非自立,*,*,五段・ラ行特殊,命令ｉ,くださる,クダサイ,クダサイ,,
 EOS
 EOR
 

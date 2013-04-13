@@ -7,7 +7,7 @@ class Ve
     class MecabIpadic < Ve::Provider
 
       BIT_STOP = 'VeEnd'
-  
+
       def initialize(config = {})
         # TODO: Make config handling better
         @config = {:app => 'mecab',
@@ -15,23 +15,23 @@ class Ve
                    :flags => ''}.merge(config)
 
         @config[:app] = `which #{@config[:app]}`.chomp
-        
+
         start!
       end
-  
+
       def works?
         (["だっ\t助動詞,*,*,*,特殊・ダ,連用タ接続,だ,ダッ,ダッ",
           "た\t助動詞,*,*,*,特殊・タ,基本形,た,タ,タ",
           "EOS"] == parse('だった').tokens.collect { |t| t[:raw] } )
       end
-  
+
       # Talks to the app and returns a parse object
       def parse(text, options = {})
         start! if @stdin.nil? # Restart if the provider crashed
-        
+
         @stdin.puts "#{text} #{BIT_STOP}"
         output = []
-        
+
         while line = @stdout.readline.force_encoding('UTF-8')
           if line =~ /#{BIT_STOP}/x
             output << @stdout.readline # Catch the EOS
@@ -48,7 +48,7 @@ class Ve
       end
 
       private
-  
+
       # TODO: Use Process.spawn/kill for process control?
       def start!
         @stdin, @stdout, @stderr = Open3.popen3("#{@config[:app]} #{@config[:flags]}")
@@ -57,7 +57,7 @@ class Ve
       rescue Errno::ENOENT => e
         # The parser couldn't be started. Probably not installed on this system
       end
-  
+
     end
   end
 end
@@ -65,15 +65,15 @@ end
 class Ve
   class Parse
     class MecabIpadic < Ve::Parse
-      
+
       PARSER = %r{^ (.+?) \t (.+) }x
       attr_reader :tokens, :text
-      
+
       def initialize(text, output)
         @tokens = []
         @text = text
         position = 0
-        
+
         output.each_with_index do |line, index|
           line.rstrip!
           token = {:raw => line}
@@ -87,7 +87,7 @@ class Ve
               @tokens << unparsed_token
             end
           end
-          
+
           if line =~ %r{^ EOS $}x
             token[:type] = :sentence_split
             token[:literal] = ''
@@ -99,7 +99,7 @@ class Ve
             [:pos, :pos2, :pos3, :pos4, :inflection_type, :inflection_form, :lemma, :reading, :hatsuon].each_with_index do |attr, i|
               token[attr] = info[i]
             end
-            
+
             # Anything unparsed preceding this token
             unparsed_md = %r{(.*?) #{Regexp.quote(token[:literal])}}mx.match(text, position)
             if unparsed_md[1].length > 0
@@ -108,7 +108,7 @@ class Ve
               @tokens << unparsed_token
               position += unparsed_token[:literal].length
             end
-            
+
             token[:characters] = (position..(position+token[:literal].length-1))
             position += token[:literal].length
           else
@@ -118,7 +118,7 @@ class Ve
           @tokens << token
         end
       end
-      
+
       # PoS
       MEISHI = '名詞'
       KOYUUMEISHI = '固有名詞'
@@ -162,6 +162,7 @@ class Ve
       TOKUSHU_NU = '特殊・ヌ'
       FUHENKAGATA = '不変化型'
       JINMEI = '人名'
+      MEIREI_I = '命令ｉ'
 
       # Etc
       NA = 'な'
@@ -282,7 +283,7 @@ class Ve
               pos = Ve::PartOfSpeech::Verb
               if token[:pos2] == SETSUBI
                 attach_to_previous = true
-              elsif token[:pos2] == HIJIRITSU
+              elsif token[:pos2] == HIJIRITSU && token[:inflection_form] != MEIREI_I
                 attach_to_previous = true
               end
             when KEIYOUSHI
@@ -343,12 +344,12 @@ class Ve
 
         return words
       end
-      
+
       def sentences
         # TODO: Sentence objects that keep track of the sentence's tokens
         sentences = []
         current = ''
-        
+
         @tokens.each do |token|
           if token[:type] == :sentence_split
             sentences << current
@@ -361,13 +362,13 @@ class Ve
             current << token[:literal]
           end
         end
-        
+
         # In case there is no :sentence_split at the end
         sentences << current if current.length > 0
-        
+
         sentences
       end
-      
+
     end
   end
 end
