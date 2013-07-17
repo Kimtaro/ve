@@ -739,10 +739,22 @@ EOR
                              :pos => [Ve::PartOfSpeech::Verb, Ve::PartOfSpeech::Verb],
                              :extra => [{:reading=>"オシエテ", :transcription=>"オシエテ", :grammar=>nil}, {:reading=>"クダサイ", :transcription=>"クダサイ", :grammar=>nil}],
                              :tokens => [0..1, 2..2]},
-'教えてください', <<-EOR.split("\n"))
+                             '教えてください', <<-EOR.split("\n"))
 教え	動詞,自立,*,*,一段,連用形,教える,オシエ,オシエ,おしえ/教え,
 て	助詞,接続助詞,*,*,*,*,て,テ,テ,,
 ください	動詞,非自立,*,*,五段・ラ行特殊,命令ｉ,くださる,クダサイ,クダサイ,,
+EOS
+EOR
+
+    # はない
+    assert_parses_into_words(Ve::Parse::MecabIpadic, {:words => ["は", "ない"],
+                             :lemmas => ["は", "ない"],
+                             :pos => [Ve::PartOfSpeech::Postposition, Ve::PartOfSpeech::Postposition],
+                             :extra => [{:reading=>"ハ", :transcription=>"ワ", :grammar=>nil}, {:reading=>"ナイ", :transcription=>"ナイ", :grammar=>nil}],
+                             :tokens => [0..0, 1..1]},
+                             'はない', <<-EOR.split("\n"))
+は	助詞,係助詞,*,*,*,*,は,ハ,ワ,,
+ない	助動詞,*,*,*,特殊・ナイ,基本形,ない,ナイ,ナイ,,
 EOS
 EOR
 

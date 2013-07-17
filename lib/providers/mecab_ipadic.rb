@@ -163,6 +163,7 @@ class Ve
       FUHENKAGATA = '不変化型'
       JINMEI = '人名'
       MEIREI_I = '命令ｉ'
+      KAKARIJOSHI = '係助詞'
 
       # Etc
       NA = 'な'
@@ -177,6 +178,7 @@ class Ve
         words = []
         tokens = @tokens.find_all { |t| t[:type] == :parsed }
         tokens = tokens.to_enum
+        previous = nil
 
         # This is becoming very big
         begin
@@ -272,7 +274,8 @@ class Ve
             when JODOUSHI
               pos = Ve::PartOfSpeech::Postposition
 
-              if [TOKUSHU_TA, TOKUSHU_NAI, TOKUSHU_TAI, TOKUSHU_MASU, TOKUSHU_NU].include?(token[:inflection_type])
+              if (previous.nil? || (!previous.nil? && previous[:pos2] != KAKARIJOSHI)) &&
+                 [TOKUSHU_TA, TOKUSHU_NAI, TOKUSHU_TAI, TOKUSHU_MASU, TOKUSHU_NU].include?(token[:inflection_type])
                 attach_to_previous = true
               elsif token[:inflection_type] == FUHENKAGATA && token[:lemma] == NN
                 attach_to_previous = true
@@ -338,6 +341,8 @@ class Ve
 
               words << word
             end
+            
+            previous = token
           end
         rescue StopIteration
         end
