@@ -5,6 +5,41 @@ A linguistic framework for anyone. No degree required.
 
 Read all about it on [kimtaro.github.com/ve](http://kimtaro.github.com/ve).
 
+Getting Started
+---------------
+
+Ve relies on the [FreeLing](http://nlp.lsi.upc.edu/freeling/) and [MeCab](http://mecab.googlecode.com/svn/trunk/mecab/doc/index.html)
+language parsers. You **must** install FreeLing for English or MeCab for Japanese or both.
+
+Installation instructions for FreeLing can be found [here](http://nlp.lsi.upc.edu/freeling/index.php?option=com_content&task=view&id=15&Itemid=44).
+
+Installation instruction for MeCab can be found [here](http://mecab.googlecode.com/svn/trunk/mecab/doc/index.html#install).
+
+### Installing with HomeBrew
+
+If you are using OSX, you can easily install FreeLing and MeCab with [HomeBrew](http://brew.sh/).
+
+```
+$ brew install freeling
+$ brew install mecab-ipadic
+```
+
+### Building the Gem
+
+You can build the Ve gem with the following:
+
+```
+$ gem build ve.gemspec
+```
+
+To install the newly built gem:
+
+```
+$ gem install ve-<version>.gem
+```
+
+Be sure to substitute `<version>` with the version of the newly built gem, for example `ve-0.0.3.gem`.
+
 Ruby
 ----
 
