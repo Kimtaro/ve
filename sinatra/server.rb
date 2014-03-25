@@ -27,10 +27,11 @@ def run
 #  Ve.source = Ve::Remote.new(:url => 'http://ve.kimtaro.com/', :access_token => 'XYZ')
 #  result = Ve.get(params[:text], params[:language], params[:function].to_sym)
   result = Ve.in(params[:language]).words(params[:text])
+  verbose = params[:verbose] == 'true'
 
   case params[:function].to_sym
   when :words
-    json = JSON.generate(result.collect(&:as_json))
+    json = JSON.generate(result.collect { |w| w.as_json(verbose) })
   else
     json = result
   end
