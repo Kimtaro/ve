@@ -32,13 +32,13 @@ class Ve
         :word => @word,
         :lemma => @lemma,
         :part_of_speech => @part_of_speech.name,
+        :extra => @extra
       }
 
       if verbose
         hash.merge!({
           :_class => 'Word',
           :tokens => @tokens,
-          :extra => @extra,
           :info => @info
         })
       end
