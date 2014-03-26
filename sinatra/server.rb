@@ -12,6 +12,10 @@ use Rack::Cors do
   end
 end
 
+get '/' do
+  "Usage /:language/:function?text=X"
+end
+
 get '/:language/:function' do
   run
 end
