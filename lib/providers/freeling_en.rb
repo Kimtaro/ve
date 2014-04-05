@@ -10,37 +10,39 @@ class Ve
     class FreelingEn < Ve::Provider
       # FIX: This class isn't tested
       BIT_STOP = 'VeEnd'
-  
+
       # TODO: Automatically set FREELINGSHARE if it's not set?
       def initialize(config = {})
         @config = {:app => 'analyzer',
                    :path => '',
                    :flags => ''}.merge(config)
-    
+
         @config[:app] = `which #{@config[:app]}`.strip!
         local = @config[:app] =~ /local/ ? '/local' : ''
-        @config[:flags] = "-f /usr#{local}/share/FreeLing/config/en.cfg --flush --nonumb --nodate"
-        
+        share_dir = "/usr#{local}/share"
+        @config[:freeling_dir_name] = Dir.exist?("#{share_dir}/FreeLing") ? 'FreeLing' : 'freeling'
+        @config[:flags] = "-f #{share_dir}/#{@config[:freeling_dir_name]}/config/en.cfg --flush --nonumb --nodate"
+
         start!
       end
-  
+
       # Interface methods
-  
+
       def works?
         p = parse('Wrote')
         ["Wrote write VBD 1", ""] == p.tokens.collect { |t| t[:raw] }
       end
-  
+
       # Talks to the app and returns a parse object
       def parse(text, options = {})
         start! if @stdin.nil?
         # Fix Unicode chars
         # TODO: These need to be converted back to the original char in the :literal attribute
         text = text.gsub('’', "'")
-        
+
         @stdin.puts "#{text}\n#{BIT_STOP}\n"
         output = []
-        
+
         while line = @stdout.readline
           puts line
           if line =~ /#{BIT_STOP}/x
@@ -56,17 +58,17 @@ class Ve
       end
 
       private
-  
+
       def start!
         @stdin, @stdout, @stderr = Open3.popen3("#{@config[:app]} #{@config[:flags]}")
-        
+
         # TODO: Also filter out non-iso-latin-1 characters
         @stdin.set_encoding('UTF-8', 'ISO-8859-1')
         @stdout.set_encoding('ISO-8859-1', 'UTF-8')
       rescue Errno::ENOENT
         # The parser couldn't be started. Probably not installed on this system
       end
-  
+
     end
   end
 end
@@ -74,14 +76,14 @@ end
 class Ve
   class Parse
     class FreelingEn < Ve::Parse
-      
+
       attr_reader :tokens, :text
-      
+
       def initialize(text, output)
         @tokens = []
         @text = text
         position = 0
-        
+
         output.each_with_index do |line, index|
           line.rstrip!
           token = {:raw => line}
@@ -98,7 +100,7 @@ class Ve
               @tokens << unparsed_token
             end
           end
-            
+
           # Sentence splits are just empty lines in Freeling
           if line.length == 0
             token[:type] = :sentence_split
@@ -106,7 +108,7 @@ class Ve
             @tokens << token
             next
           end
-          
+
           # The parsed token
           info = line.split(/\s+/)
           token[:type] = :parsed
@@ -116,7 +118,7 @@ class Ve
 
           token[:literal].gsub!('_', ' ')
           token[:lemma].gsub!('_', ' ')
-          
+
           # Anything unparsed preceding this token.
           # We need to do this complicated dance with _ since Freeling replaces spaces with it.
           # And so we need to be able to find the token with both spaces and _ in it since
@@ -137,7 +139,7 @@ class Ve
           @tokens << token
         end
       end
-      
+
       INTERNAL_INFO_FOR_PARSED_POS = {
         'CC' => [Ve::PartOfSpeech::Conjunction, nil],
         'CD' => [Ve::PartOfSpeech::Number, nil],
@@ -176,10 +178,10 @@ class Ve
         'WRB' => [Ve::PartOfSpeech::Adverb, nil],
         'Z' => [Ve::PartOfSpeech::Determiner, nil]
       }
-      
+
       def words
         words = []
-        
+
         @tokens.find_all { |t| t[:type] == :parsed }.each do |token|
           if token[:pos] == 'POS'
             # Possessive ending, add to previous token
@@ -199,14 +201,14 @@ class Ve
             words << word
           end
         end
-        
+
         words
       end
-      
+
       def sentences
         sentences = []
         current = ''
-        
+
         @tokens.each do |token|
           if token[:type] == :sentence_split
             sentences << current
@@ -215,14 +217,14 @@ class Ve
             current << token[:literal]
           end
         end
-        
+
         # In case there is no :sentence_split at the end
         sentences << current if current.length > 0
 
         sentences.collect { |s| s.strip! }
         sentences
       end
-        
+
     end
   end
 end
