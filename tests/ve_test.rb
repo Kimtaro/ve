@@ -20,5 +20,4 @@ class VeTest < MiniTest::Unit::TestCase
     Ve.config(Ve::HTTPInterface, :url => 'http://localhost:4567')
     assert_equal ['日本語', 'です'], Ve.in(:ja).words('日本語です').collect(&:word)
   end
-
 end
