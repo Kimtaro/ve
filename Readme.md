@@ -5,6 +5,8 @@ A linguistic framework for anyone. No degree required.
 
 Read all about it on [kimtaro.github.com/ve](http://kimtaro.github.com/ve).
 
+[![Build Status](https://travis-ci.org/Kimtaro/ve.svg?branch=master)](https://travis-ci.org/Kimtaro/ve)
+
 Getting Started
 ---------------
 
