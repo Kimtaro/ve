@@ -2,7 +2,7 @@ class Ve
   class PartOfSpeech
     
     def self.name
-      self.to_s.split('::').last.downcase
+      self.to_s.split('::').last.gsub(/(?<=[A-Za-z])(?=[A-Z])/, ' ').downcase # RegEx adds spaces before uppercase letters. Ex: Ve::PartOfSpeech::ProperNoun.name => "proper noun"
     end
     
     class Noun < PartOfSpeech; end

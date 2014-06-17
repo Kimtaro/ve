@@ -6,7 +6,6 @@ require 'minitest/autorun'
 require 'mocha'
 
 class MiniTest::Unit::TestCase
-
   private
 
   def assert_parses_into_words(parse_klass, expected, text, raw)
