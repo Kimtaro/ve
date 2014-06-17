@@ -758,6 +758,18 @@ EOR
 EOS
 EOR
 
+    # いじめっ子
+    assert_parses_into_words(Ve::Parse::MecabIpadic, {:words => ["いじめっ子"],
+                             :lemmas => ["いじめっ子"],
+                             :pos => [Ve::PartOfSpeech::Noun],
+                             :extra => [{:reading=>"イジメッコ", :transcription=>"イジメッコ", :grammar=>nil}],
+                             :tokens => [0..1]},
+                             'いじめっ子', <<-EOR.split("\n"))
+いじめ	名詞,一般,*,*,*,*,いじめ,イジメ,イジメ
+っ子	名詞,接尾,一般,*,*,*,っ子,ッコ,ッコ
+EOS
+EOR
+
     # TODO: xした should parse as adjective?
   end
 

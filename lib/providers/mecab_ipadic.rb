@@ -255,12 +255,16 @@ class Ve
                   also_attach_to_lemma = true
                 end
               when SETSUBI
-                if token[:pos3] == TOKUSHU && token[:lemma] == SA
-                  attach_to_previous = true
-                  update_pos = true
-                  pos = Ve::PartOfSpeech::Noun
-                else
+                if token[:pos3] == JINMEI
                   pos = Ve::PartOfSpeech::Suffix
+                else
+                  if token[:pos3] == TOKUSHU && token[:lemma] == SA
+                    update_pos = true
+                    pos = Ve::PartOfSpeech::Noun
+                  else
+                    also_attach_to_lemma = true
+                  end
+                  attach_to_previous = true
                 end
               when SETSUZOKUSHITEKI
                 pos = Ve::PartOfSpeech::Conjunction
