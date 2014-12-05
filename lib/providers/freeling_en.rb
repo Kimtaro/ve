@@ -30,7 +30,7 @@ class Ve
 
       def works?
         p = parse('Wrote')
-        ["Wrote write VBD 1", ""] == p.tokens.collect { |t| t[:raw] }
+        "Wrote write VBD 1" == p.tokens.collect { |t| t[:raw] }[0]
       end
 
       # Talks to the app and returns a parse object
