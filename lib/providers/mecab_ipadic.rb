@@ -41,10 +41,6 @@ class Ve
         end
 
         Ve::Parse::MecabIpadic.new(text, output)
-      rescue => e
-        # TODO: No good to catch all errors like this
-        # I need a backtrace when something unexpected fails
-        Ve::Parse::MecabIpadic.new(text, [])
       end
 
       private
@@ -345,7 +341,7 @@ class Ve
 
               words << word
             end
-            
+
             previous = token
           end
         rescue StopIteration
