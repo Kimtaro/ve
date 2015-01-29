@@ -44,7 +44,6 @@ class Ve
         output = []
 
         while line = @stdout.readline
-          puts line
           if line =~ /#{BIT_STOP}/x
             @stdout.readline
             break
