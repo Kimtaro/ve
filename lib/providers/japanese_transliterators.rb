@@ -25,7 +25,7 @@ class Ve
 
       H_SYLLABIC_N   = 'ん'
       H_SMALL_TSU    = 'っ'
-      
+
       HIRA_TO_LATN = {
         "あ"=>"a", "い"=>"i", "う"=>"u", "え"=>"e", "お"=>"o",
         "か"=>"ka", "き"=>"ki", "く"=>"ku", "け"=>"ke", "こ"=>"ko",
@@ -42,17 +42,17 @@ class Ve
         "や"=>"ya", "ゆ"=>"yu", "よ"=>"yo",
         "ら"=>"ra", "り"=>"ri", "る"=>"ru", "れ"=>"re", "ろ"=>"ro",
         "わ"=>"wa", "うぃ"=>"whi", "うぇ"=>"whe", "を"=>"wo",
-        "ゑ"=>"wye", "ゐ"=>"wyi", "ー"=>"-", "ん"=>"n",
+        "ゑ"=>"we", "ゐ"=>"wi", "ー"=>"-", "ん"=>"n",
 
         "きゃ"=>"kya", "きゅ"=>"kyu", "きょ"=>"kyo", "きぇ"=>"kye", "きぃ"=>"kyi",
         "ぎゃ"=>"gya", "ぎゅ"=>"gyu", "ぎょ"=>"gyo", "ぎぇ"=>"gye", "ぎぃ"=>"gyi",
         "くぁ"=>"kwa", "くぃ"=>"kwi", "くぅ"=>"kwu", "くぇ"=>"kwe", "くぉ"=>"kwo",
         "ぐぁ"=>"qwa", "ぐぃ"=>"gwi", "ぐぅ"=>"gwu", "ぐぇ"=>"gwe", "ぐぉ"=>"gwo",
         "しゃ"=>"sha", "しぃ"=>"syi", "しゅ"=>"shu", "しぇ"=>"she", "しょ"=>"sho",
-        "じゃ"=>"jya", "じゅ"=>"zyu", "じぇ"=>"zye", "じょ"=>"zyo", "じぃ"=>"zyi",
+        "じゃ"=>"ja", "じゅ"=>"ju", "じぇ"=>"jye", "じょ"=>"jo", "じぃ"=>"jyi",
         "すぁ"=>"swa", "すぃ"=>"swi", "すぅ"=>"swu", "すぇ"=>"swe", "すぉ"=>"swo",
-        "ちゃ"=>"tya", "ちゅ"=>"tyu", "ちぇ"=>"tye", "ちょ"=>"tyo", "ちぃ"=>"tyi",
-        "ぢゃ"=>"dya", "ぢぃ"=>"dyi", "ぢゅ"=>"dyu", "ぢぇ"=>"dye", "ぢょ"=>"dyo",
+        "ちゃ"=>"cha", "ちゅ"=>"chu", "ちぇ"=>"tye", "ちょ"=>"cho", "ちぃ"=>"tyi",
+        "ぢゃ"=>"ja", "ぢぃ"=>"dyi", "ぢゅ"=>"ju", "ぢぇ"=>"dye", "ぢょ"=>"jo",
         "つぁ"=>"tsa", "つぃ"=>"tsi", "つぇ"=>"tse", "つぉ"=>"tso", "てゃ"=>"tha",
         "てぃ"=>"thi", "てゅ"=>"thu", "てぇ"=>"the", "てょ"=>"tho", "とぁ"=>"twa",
         "とぃ"=>"twi", "とぅ"=>"twu", "とぇ"=>"twe", "とぉ"=>"two", "でゃ"=>"dha",
@@ -72,7 +72,7 @@ class Ve
         "ぁ"=>"xa", "ぃ"=>"xi", "ぅ"=>"xu", "ぇ"=>"xe", "ぉ"=>"xo",
         "ゕ"=>"xka", "ゖ"=>"xke", "ゎ"=>"xwa"
       }
-      
+
       LATN_TO_HIRA = {
         'a'   => 'あ', 'i'   => 'い',                'u'  => 'う',               'e'  => 'え',   'o'  => 'お',
         'ka'  => 'か', 'ki'  => 'き',                'ku' => 'く',               'ke' => 'け',   'ko' => 'こ',
@@ -196,7 +196,7 @@ class Ve
 
         return romaji
       end
-      
+
       def transliterate_from_latn_to_hrkt
         romaji = @text.dup
         kana = ''
@@ -221,7 +221,7 @@ class Ve
               # Generic cases
               mora = LATN_TO_HIRA[for_conversion]
             elsif for_conversion == 'tch' || ( length == 2 && for_conversion.match(/([kgsztdnbpmyrlwc])\1/))
-              # tch and double-consonants for small tsu 
+              # tch and double-consonants for small tsu
               mora = H_SMALL_TSU
               for_removal = 1
             end
@@ -237,7 +237,7 @@ class Ve
               else
                 kana << mora
               end
-              
+
               romaji[0, for_removal] = ''
               break
             elsif length == 1
@@ -250,7 +250,7 @@ class Ve
 
         return kana
       end
-      
+
       def transliterate_from_kana_to_hira
         transpose_codepoints_in_range(@text, -96, 12449..12534)
       end
@@ -268,7 +268,7 @@ class Ve
         res = transpose_codepoints_in_range(@text, 65248, 33..126)
         transpose_codepoints_in_range(res, 12256, 32..32)
       end
-      
+
       private
 
       def transpose_codepoints_in_range(text, distance, range)
@@ -284,7 +284,7 @@ class Ve
 
         return result
       end
-      
+
     end
   end
 end
