@@ -220,7 +220,7 @@ class Ve
             elsif LATN_TO_HIRA[for_conversion]
               # Generic cases
               mora = LATN_TO_HIRA[for_conversion]
-            elsif for_conversion == 'tch' || ( length == 2 && for_conversion.match(/([kgsztdnbpmyrlwc])\1/))
+            elsif for_conversion == 'tch' || ( length == 2 && for_conversion.match(/([kgsztdnbpmyrlwchf])\1/))
               # tch and double-consonants for small tsu
               mora = H_SMALL_TSU
               for_removal = 1

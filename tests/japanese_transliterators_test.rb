@@ -8,11 +8,11 @@ class JapaneseTransliteratorsTest < MiniTest::Unit::TestCase
   HIRAGANA = "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"
   HALFWIDTH = "!\"\#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ "
   FULLWIDTH = "！＂＃＄％＆＇（）＊＋，－．／０１２３４５６７８９：；＜＝＞？＠ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ［＼］＾＿｀ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ｛｜｝～　"
-  
+
   def setup
     @trans = Ve::Provider::JapaneseTransliterators.new
   end
-  
+
   def test_should_be_able_to_start
     assert @trans.works?
   end
@@ -25,7 +25,7 @@ class JapaneseTransliteratorsTest < MiniTest::Unit::TestCase
     assert_equal 'shinbun',   @trans.parse('しんぶん').transliterate_from_hira_to_latn
     assert_equal 'appa',      @trans.parse('あっぱ').transliterate_from_hira_to_latn
   end
-  
+
   def test_transliterate_from_latn_to_hrkt
     assert_equal('かなです',   @trans.parse('kanadesu').transliterate_from_latn_to_hrkt)
     assert_equal('こそあど',   @trans.parse('kosoado').transliterate_from_latn_to_hrkt)
@@ -53,6 +53,9 @@ class JapaneseTransliteratorsTest < MiniTest::Unit::TestCase
 
     # Non-Japanese
     assert_equal('てぃs いs そめ えんgりsh', @trans.parse('this is some english').transliterate_from_latn_to_hrkt)
+
+    assert_equal('ばっは', @trans.parse('bahha').transliterate_from_latn_to_hrkt)
+    assert_equal('すたっふ', @trans.parse('sutaffu').transliterate_from_latn_to_hrkt)
   end
 
   def test_transliterate_from_hira_to_kana
@@ -66,11 +69,11 @@ class JapaneseTransliteratorsTest < MiniTest::Unit::TestCase
   def test_transliterate_from_hrkt_to_latn
     assert_equal 'hiraganakatakana', @trans.parse('ひらがなカタカナ').transliterate_from_hrkt_to_latn
   end
-  
+
   def test_transliterate_from_fullwidth_to_halfwidth
     assert_equal HALFWIDTH, @trans.parse(FULLWIDTH).transliterate_from_fullwidth_to_halfwidth
   end
-  
+
   def test_transliterate_from_halfwidth_to_fullwidth
     assert_equal FULLWIDTH, @trans.parse(HALFWIDTH).transliterate_from_halfwidth_to_fullwidth
   end
