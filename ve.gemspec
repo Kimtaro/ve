@@ -5,6 +5,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Kim Ahlström"]
   s.email       = ["kim.ahlstrom@gmail.com"]
+  s.license     = 'MIT'
   s.homepage    = "http://github.com/kimtaro/ve"
   s.summary     = 'Ve is a linguistic framework for programmers'
   s.description = 'Ve is a linguistic framework for programmers.'
