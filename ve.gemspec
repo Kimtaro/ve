@@ -9,12 +9,12 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://github.com/kimtaro/ve'
   s.summary     = 'Ve is a linguistic framework for programmers'
   s.description = 'Ve is a linguistic framework for programmers.'
-  
+
   # The list of files to be contained in the gem
   s.files         = `git ls-files`.split("\n")
   # s.executables   = `git ls-files`.split("\n").map{|f| f =~ /^bin\/(.*)/ ? $1 : nil}.compact
   # s.extensions    = `git ls-files ext/extconf.rb`.split("\n")
-  
+
   s.require_paths = ['lib']
 
   # For C extensions
