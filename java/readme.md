@@ -43,7 +43,7 @@ Here's a line-by-line explanation of the `coreUsage` test I provided, detailing 
 
 ``` java
 // Some nonsense Japanese with interesting word boundaries.
-String stringOfJapanese = "金がなければくよくよします女に振られりゃなきまする";
+String stringOfJapanese = "お金がなければいけないです。";
 // Output the Kuromoji-style Tokens as a List
 List<Token> tokensList = Tokenizer.builder().build().tokenize(stringOfJapanese);
 // Convert to a basic Token array (I haven't adapted Ve to accept Lists of Tokens)
@@ -53,9 +53,11 @@ Parse parser = new Parse(tokensArray);
 // Get the Tokens out as 'Words'.
 List<Word> words = parser.words();
 // The .toString() method of each Word is generally the most useful. It shows the surface form of the Tokens.
-// Output: [金, が, なけれ, ば, くよくよ, します, 女に, 振られりゃなき, まする]
+// Output: [お金, が, なければいけない, です, 。]
 System.out.println(words);
 ```
+
+Note that each Word object stores all its constituent Tokens (unchanged from how they were passed in) losslessly, in order of their appearance in the Word! Think of the possibilities :D
 
 # How to run the tests (to prove that it works)
 
