@@ -81,5 +81,6 @@ These tests auto-pass; they purely exist to show you the command-line output of 
 
 # License
 
-Java port of Ve (C) 2017 Jamie Birch: [Github] shirakaba | [Twitter] LinguaBrowse
+Java port of Ve (C) 2017 Jamie Birch: [Github] [shirakaba](https://github.com/shirakaba) | [Twitter] [LinguaBrowse](https://twitter.com/LinguaBrowse)
+
 This is under the MIT license; a copy is provided at the root of this repository.
