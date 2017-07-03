@@ -25,7 +25,9 @@ No matter how you go about integrating it, please adhere to the rules of the sof
 
 Import via: `import uk.co.birchlabs.ve`
 
-There is a dependency on a tokenizer. The most convenience Mecab interface for Java is [kuromoji](https://github.com/atilika/kuromoji), but an older (not-to-be-released) version of this project was hooked up with [Sen](https://github.com/shirakaba/sen-mavenized).
+Ve has a dependency on a tokenizer. As [kuromoji](https://github.com/atilika/kuromoji) is the most convenient/portable Mecab interface for Java, I coded it to accept Tokens in the format of the Kuromoji Token class.
+
+*Fun fact: An older (not-to-be-released) version of this project was hooked up with [Sen](https://github.com/shirakaba/sen-mavenized), but its installation turned out to be much, much harder than kuromoji's. If you really want to use Sen (or any other non-Kuromoji Mecab interface) with Ve, I advise you to make a simple tool to convert those incompatible Tokens to Kuromoji-style ones for input into Ve.*
 
 In all, I import:
 
