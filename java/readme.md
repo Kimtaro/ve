@@ -1,4 +1,4 @@
-# How to use
+# Setup and usage
 
 ## Integrating into build
 
