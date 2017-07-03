@@ -41,7 +41,7 @@ import java.util.List;
 
 Here's a line-by-line explanation of the `coreUsage` test I provided:
 
-```
+``` java
 // Some nonsense Japanese with interesting word boundaries.
 String stringOfJapanese = "金がなければくよくよします女に振られりゃなきまする";
 // Output the Kuromoji-style Tokens as a List
@@ -55,6 +55,7 @@ List<Word> words = parser.words();
 // The .toString() method of each Word is generally the most useful. It shows the surface form of the Tokens.
 // Output: [金, が, なけれ, ば, くよくよ, します, 女に, 振られりゃなき, まする]
 System.out.println(words);
+```
 
 # How to run the tests (to prove that it works)
 
@@ -62,7 +63,7 @@ These tests auto-pass; they purely exist to show you the command-line output of 
 
 ## If using an IDE such as IntelliJ
 
-1. Open `ve/java` (the folder containing `pom.xml`)
+1. Open `ve/java` in the IDE (the folder containing `pom.xml`)
 
 2. Open `test/java/ve/VeTest.java`
 
