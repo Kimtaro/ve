@@ -33,8 +33,6 @@ In all, I import:
 import uk.co.birchlabs.ve
 import org.atilika.kuromoji.Token;
 import org.atilika.kuromoji.Tokenizer;
-
-import java.util.List;
 ```
 
 ## Usage
