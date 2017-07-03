@@ -39,7 +39,7 @@ import org.atilika.kuromoji.Tokenizer;
 
 ## Usage
 
-Here's a line-by-line explanation of the `coreUsage` test I provided:
+Here's a line-by-line explanation of the `coreUsage` test I provided, detailing `Ve`'s core feature: parsing collections of Tokens into Words (more lexically meaningful groupings of Tokens, using Kim's special recipe).
 
 ``` java
 // Some nonsense Japanese with interesting word boundaries.
@@ -50,7 +50,7 @@ List<Token> tokensList = Tokenizer.builder().build().tokenize(stringOfJapanese);
 Token[] tokensArray = tokensList.toArray(new Token[tokensList.size()]);
 // Create a parser instance from the array of Kuromoji-style Tokens.
 Parse parser = new Parse(tokensArray);
-// Get the Tokens out as - according to Kim - 'Words', which are more meaningful agglutinations of Tokens.
+// Get the Tokens out as 'Words'.
 List<Word> words = parser.words();
 // The .toString() method of each Word is generally the most useful. It shows the surface form of the Tokens.
 // Output: [金, が, なけれ, ば, くよくよ, します, 女に, 振られりゃなき, まする]
