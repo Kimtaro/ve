@@ -17,9 +17,7 @@ public class VeTest {
      */
     @Test
     public void coreUsage() {
-        String kanji = "金がなければくよくよします女に振られりゃなきまする\n"
-                + "腹が減ったらおまんま食べて命尽きればあの世行き\n"
-                + "有難や有難や\n";
+        String kanji = "お金がなければいけないです。";
         List<Token> tokensList = Tokenizer.builder().build().tokenize(kanji);
         Token[] tokensArray = tokensList.toArray(new Token[tokensList.size()]);
 
@@ -28,17 +26,16 @@ public class VeTest {
         System.out.println(words);
 
         /*  Prints out:
-            [金, が, なけれ, ば, くよくよ, します, 女に, 振られりゃなき, まする,
-            , 腹, が, 減ったら, お, まんま, 食べ, て, 命, 尽きれ, ば, あの世行き,
-            , 有難, や, 有難, や,
-            ]
+            [お金, が, なければいけない, です, 。]
         */
 
         /* Note: I have found that, depending on the MeCab dictionary/model, POS-tagging of tokens may vary.
-           ie: when tokenizing using net.java.sen:
+           ie: for a particular sentence, when tokenizing using net.java.sen:
                なけれ is labelled as a DOUSHI-JITATSU-*-*.
            However, when tokenizing using org.atilika.kuromoji:
                なけれ is labelled as a KEIYOUSHI-JITATSU-*-*.
+           So your mileage may vary (very slightly) if comparing to other tokenizer results..!
+           Not the Ve algorithm's fault, fortunately.
         */
     }
 }
