@@ -78,3 +78,8 @@ These tests auto-pass; they purely exist to show you the command-line output of 
 2. Run the command:
   * `mvn test` (whole test suite); or:
   * `mvn test -Dtest=VeTest,coreUsage` (single test)
+
+# License
+
+Java port of Ve (C) 2017 Jamie Birch: [Github] shirakaba | [Twitter] LinguaBrowse
+This is under the MIT license; a copy is provided at the root of this repository.
