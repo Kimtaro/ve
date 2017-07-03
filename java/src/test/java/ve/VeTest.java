@@ -13,7 +13,7 @@ import java.util.List;
   **/
 public class VeTest {
 
-    /** Based on https://hondou.homedns.org/pukiwiki/index.php?cmd=read&page=Java%20SEN%20%A4%C7%B7%C1%C2%D6%C1%C7%B2%F2%C0%CF
+    /** More hardcore test sentence at: https://hondou.homedns.org/pukiwiki/index.php?cmd=read&page=Java%20SEN%20%A4%C7%B7%C1%C2%D6%C1%C7%B2%F2%C0%CF
      */
     @Test
     public void coreUsage() {
