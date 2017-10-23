@@ -3,3 +3,5 @@
 *.gem
 .rvmrc
 
+java/target/classes
+java/target/test-classes
