@@ -15,7 +15,7 @@ language parsers. You **must** install FreeLing for English or MeCab for Japanes
 
 Installation instructions for FreeLing can be found [here](http://nlp.lsi.upc.edu/freeling/index.php?option=com_content&task=view&id=15&Itemid=44).
 
-Installation instruction for MeCab can be found [here](http://mecab.googlecode.com/svn/trunk/mecab/doc/index.html#install).
+Installation instruction for MeCab can be found [here](https://taku910.github.io/mecab/#install).
 
 ### Installing with HomeBrew
 
