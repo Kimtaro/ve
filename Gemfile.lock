@@ -6,7 +6,7 @@ GEM
     minitest (5.8.3)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
-    rack (1.6.11)
+    rack (1.6.12)
     rack-cors (1.0.5)
       rack (>= 1.6.0)
     rack-protection (1.1.4)
