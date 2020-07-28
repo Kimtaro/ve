@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'json', '~> 1.8'
+gem 'json', '~> 2.3'
 
 group :server do
   gem 'sinatra', '~> 1.3.1'
