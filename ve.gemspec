@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 've'
-  s.version     = '0.0.3'
+  s.version     = '0.0.4'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Kim Ahlström']
   s.email       = ['kim.ahlstrom@gmail.com']
