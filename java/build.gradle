@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id 'java-library'
+    id 'maven-publish'
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        url = uri('https://www.atilika.org/nexus/content/repositories/atilika')
+    }
+
+    maven {
+        url = uri('https://repo.maven.apache.org/maven2')
+    }
+}
+
+dependencies {
+    api 'org.atilika.kuromoji:kuromoji:0.7.7'
+    testImplementation 'junit:junit:4.12'
+}
+
+group = 'uk.co.birchlabs.ve'
+version = '1.0-SNAPSHOT'
+description = 'main source'
+sourceCompatibility = '1.8'
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}

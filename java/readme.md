@@ -14,7 +14,19 @@ You could either:
 
   * Install this to your global Maven repository (see [the instructions I wrote](https://github.com/shirakaba/sen-mavenized/blob/master/README.md) for a similar project if you don't already know how), and add the `ve` package as a `<dependency>` to your project; or...
 
-  * Give up on modularity and just drag the files straight into your project.
+  * ~~Give up on modularity and just drag the files straight into your project.~~
+  
+  * Add this project as a git submodule and import it using gradle
+    ```groovy
+    // settings.gradle
+    include ':ve'
+    project(':ve').projectDir = new File('ve/java')
+    ...
+    // build.gradle
+    dependencies {
+        implementation project(':ve')
+    }
+    ```
   
 No matter how you go about integrating it, please adhere to the rules of the software license.
 
