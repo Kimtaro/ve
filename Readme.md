@@ -70,6 +70,22 @@ Javascript
         // おいしい/adjective
       });
     </script>
+    
+.Net 5
+----------
+
+    dotnet add package luojunyuan.Ve.DotNet --version 5.0.0
+    Install-Package luojunyuan.Ve.DotNet -Version 5.0.0
+    
+    var tagger = MeCabTagger.Create();
+
+    foreach (var word in tagger.ParseToNodes("ビールがおいしかった").ParseVeWords())
+    {
+        Console.WriteLine($"{word.PartOfSpeech} {word.Lemma}");
+    }
+    // 名詞 ビール
+    // 助詞 が
+    // 形容詞 おいしい
 
 Structure
 ---------
