@@ -11,14 +11,14 @@ GEM
     rack (2.2.3)
     rack-cors (1.0.5)
       rack (>= 1.6.0)
-    rack-protection (2.0.8.1)
+    rack-protection (2.2.0)
       rack
     rake (12.3.3)
-    ruby2_keywords (0.0.2)
-    sinatra (2.0.8.1)
+    ruby2_keywords (0.0.5)
+    sinatra (2.2.0)
       mustermann (~> 1.0)
-      rack (~> 2.0)
-      rack-protection (= 2.0.8.1)
+      rack (~> 2.2)
+      rack-protection (= 2.2.0)
       tilt (~> 2.0)
     tilt (2.0.10)
 
@@ -32,7 +32,7 @@ DEPENDENCIES
   rack (>= 2.1.4)
   rack-cors (~> 1.0.5)
   rake (~> 12.3.3)
-  sinatra (~> 2.0.5)
+  sinatra (~> 2.2.0)
 
 BUNDLED WITH
    2.1.4
