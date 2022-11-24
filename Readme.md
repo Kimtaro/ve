@@ -70,13 +70,13 @@ Javascript
         // おいしい/adjective
       });
     </script>
-    
+
 [.Net 5](https://github.com/Eroge-Helper/Ve.DotNet)
 ----------
 
     dotnet add package luojunyuan.Ve.DotNet --version 5.0.0
     Install-Package luojunyuan.Ve.DotNet -Version 5.0.0
-    
+
     var tagger = MeCabTagger.Create();
 
     foreach (var word in tagger.ParseToNodes("ビールがおいしかった").ParseVeWords())
@@ -88,6 +88,9 @@ Javascript
     // 形容詞 おいしい
 
 [Dart](https://github.com/lrorpilla/ve_dart)
+------
+
+[Scala](https://github.com/megafarad/Ve-scala)
 ------
 
 Structure
