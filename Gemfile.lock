@@ -8,7 +8,7 @@ GEM
       metaclass (~> 0.0.1)
     mustermann (2.0.2)
       ruby2_keywords (~> 0.0.1)
-    rack (2.2.6.3)
+    rack (2.2.6.4)
     rack-cors (1.0.5)
       rack (>= 1.6.0)
     rack-protection (2.2.3)
