@@ -3,9 +3,21 @@ Ve
 
 A linguistic framework for anyone. No degree required.
 
-Read all about it on [kimtaro.github.com/ve](http://kimtaro.github.com/ve).
+Ve was originally created as a general wrapper for linguistic analyzer programs, to provide a unified interface and abstraction of linguistic concepts, so non-linguists could benefit from linguistic analysis.
 
-[![Build Status](https://travis-ci.org/Kimtaro/ve.svg?branch=master)](https://travis-ci.org/Kimtaro/ve)
+In reality what Ve has become most used for, is splitting Japanese text into words through the MeCab analyzer with the IPADIC dictionary.
+
+The Japanese word splitting part of Ve has been ported from Ruby into several other programming languages. I am immensely grateful to the folks who have written these ports 💚
+
+| Language  | Repository |
+| ------------- | ------------- |
+| Ruby  | This repo.  |
+| Javascript  | This repo. Must be used with Ruby HTTP server. |
+| Java | This repo. By https://github.com/shirakaba |
+| .Net 5 | https://github.com/luojunyuan/Ve.DotNet |
+| Dart | https://github.com/lrorpilla/ve_dart |
+| Scala | https://github.com/megafarad/Ve-scala |
+| Rust | https://github.com/jannisbecker/ve-rs |
 
 Getting Started
 ---------------
@@ -71,28 +83,6 @@ Javascript
       });
     </script>
 
-[.Net 5](https://github.com/Eroge-Helper/Ve.DotNet)
-----------
-
-    dotnet add package luojunyuan.Ve.DotNet --version 5.0.0
-    Install-Package luojunyuan.Ve.DotNet -Version 5.0.0
-
-    var tagger = MeCabTagger.Create();
-
-    foreach (var word in tagger.ParseToNodes("ビールがおいしかった").ParseVeWords())
-    {
-        Console.WriteLine($"{word.PartOfSpeech} {word.Lemma}");
-    }
-    // 名詞 ビール
-    // 助詞 が
-    // 形容詞 おいしい
-
-[Dart](https://github.com/lrorpilla/ve_dart)
-------
-
-[Scala](https://github.com/megafarad/Ve-scala)
-------
-
 Structure
 ---------
 
@@ -114,6 +104,6 @@ Todo
 License
 -------
 
-(c) Kim Ahlström 2011-2020
+(c) Kim Ahlström 2011-2023
 
 This is under the MIT license.
