@@ -6,21 +6,21 @@ GEM
     minitest (5.8.3)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
-    mustermann (1.1.1)
+    mustermann (2.0.2)
       ruby2_keywords (~> 0.0.1)
-    rack (2.2.3.1)
+    rack (2.2.6.4)
     rack-cors (1.0.5)
       rack (>= 1.6.0)
-    rack-protection (2.2.0)
+    rack-protection (2.2.3)
       rack
     rake (12.3.3)
     ruby2_keywords (0.0.5)
-    sinatra (2.2.0)
-      mustermann (~> 1.0)
+    sinatra (2.2.3)
+      mustermann (~> 2.0)
       rack (~> 2.2)
-      rack-protection (= 2.2.0)
+      rack-protection (= 2.2.3)
       tilt (~> 2.0)
-    tilt (2.0.10)
+    tilt (2.0.11)
 
 PLATFORMS
   ruby
@@ -32,7 +32,7 @@ DEPENDENCIES
   rack (>= 2.1.4)
   rack-cors (~> 1.0.5)
   rake (~> 12.3.3)
-  sinatra (~> 2.2.0)
+  sinatra (~> 2.2.3)
 
 BUNDLED WITH
    2.1.4
