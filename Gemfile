@@ -4,7 +4,7 @@ gem 'json', '~> 2.3'
 
 group :server do
   gem 'rack', '>= 2.1.4'
-  gem 'sinatra', '~> 2.2.3'
+  gem 'sinatra', '~> 4.1.0'
   gem 'rack-cors', '~> 1.0.5'
 end
 
