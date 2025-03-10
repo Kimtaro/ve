@@ -123,6 +123,7 @@ end
 # TODO: Autoload this shit
 require 'providers/fallbacks'
 require 'providers/mecab_ipadic'
+require 'providers/mecab_unidic'
 require 'providers/freeling_en'
 require 'providers/japanese_transliterators'
 
