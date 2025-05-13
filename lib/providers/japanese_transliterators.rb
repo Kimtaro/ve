@@ -158,7 +158,7 @@ class Ve
       def transliterate_from_hira_to_latn
         # Hepburn style romaji
         kana = @text.dup
-        romaji = ''
+        romaji = String.new
         geminate = false
 
         while kana.length > 0
@@ -199,7 +199,7 @@ class Ve
 
       def transliterate_from_latn_to_hrkt
         romaji = @text.dup
-        kana = ''
+        kana = String.new
 
         romaji.gsub!(/m([BbPp])/, 'n\1')
         romaji.gsub!(/M([BbPp])/, 'N\1')
@@ -272,7 +272,7 @@ class Ve
       private
 
       def transpose_codepoints_in_range(text, distance, range)
-        result = ''
+        result = String.new
 
         text.each_codepoint do |c|
           if c >= range.first and c <= range.last
