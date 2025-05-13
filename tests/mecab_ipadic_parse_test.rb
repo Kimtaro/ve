@@ -770,7 +770,46 @@ EOR
 EOS
 EOR
 
-    # TODO: xした should parse as adjective?
+  # TODO: xした should parse as adjective?
+  end
+
+  focus
+  def test_hounetsuyou
+    # Ensure that reading/hatsuon from later token is not coped onto earlier
+    parse = Ve::Parse::MecabIpadic.new("放熱用", <<~EOR.split("\n"))
+      放熱	名詞,サ変接続,*,*,*,*,放熱,ホウネツ,ホーネツ
+      用	名詞,接尾,一般,*,*,*,用,ヨウ,ヨー
+      EOS
+    EOR
+
+    assert_equal(
+      [{:raw=>"放熱\t名詞,サ変接続,*,*,*,*,放熱,ホウネツ,ホーネツ",
+        :type=>:parsed,
+        :literal=>"放熱",
+        :pos=>"名詞",
+        :pos2=>"サ変接続",
+        :pos3=>"*",
+        :pos4=>"*",
+        :inflection_type=>"*",
+        :inflection_form=>"*",
+        :lemma=>"放熱",
+        :reading=>"ホウネツ",
+        :hatsuon=>"ホーネツ",
+        :characters=>0..1},
+       {:raw=>"用\t名詞,接尾,一般,*,*,*,用,ヨウ,ヨー",
+        :type=>:parsed,
+        :literal=>"用",
+        :pos=>"名詞",
+        :pos2=>"接尾",
+        :pos3=>"一般",
+        :pos4=>"*",
+        :inflection_type=>"*",
+        :inflection_form=>"*",
+        :lemma=>"用",
+        :reading=>"ヨウ",
+        :hatsuon=>"ヨー",
+        :characters=>2..2}
+      ], parse.words.first.tokens)
   end
 
   def test_word_transliteration

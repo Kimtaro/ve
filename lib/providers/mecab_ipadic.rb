@@ -321,9 +321,9 @@ class Ve
               words[-1].part_of_speech = pos if update_pos
             else
               pos = Ve::PartOfSpeech::TBD if pos.nil?
-              word = Ve::Word.new(token[:literal], token[:lemma], pos, [token], {
-                :reading => token[:reading] || '',
-                :transcription => token[:hatsuon] || '',
+              word = Ve::Word.new(token[:literal].dup, token[:lemma].dup, pos, [token], {
+                :reading => token[:reading].dup || String.new,
+                :transcription => token[:hatsuon].dup || String.new,
                 :grammar => grammar
               }, {
                 :reading_script => :kata,
